@@ -1,0 +1,53 @@
+{
+  "core": {
+    "css": {
+      "bower_components/build/css/dist.min.css": [
+        "bower_components/angular/angular-csp.css",
+        "bower_components/angular-ui-select/dist/select.min.css",
+
+        "assets/css/bootstrap.min.css",
+        "assets/css/main.css" ,
+        "assets/css/green.css",
+        "assets/css/owl.carousel.css",
+        "assets/css/owl.transitions.css",
+        "assets/css/animate.min.css",
+        "assets/fonts/fontello.css",
+        "assets/images/favicon.ico"
+      ]
+    },
+    "js": {
+      "bower_components/build/js/dist.min.js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/angular/angular.min.js",
+        "bower_components/angular-mocks/angular-mocks.js",
+        "bower_components/angular-cookies/angular-cookies.min.js",
+        "bower_components/angular-resource/angular-resource.min.js",
+        "bower_components/angular-sanitize/angular-sanitize.min.js",
+        "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+        "bower_components/angular-jwt/dist/angular-jwt.min.js",
+        "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+        "bower_components/angular-ui-select/dist/select.min.js",
+        "bower_components/web-bootstrap/index.js",
+        "assets/js/jquery.min.js",
+        "assets/js/jquery.easing.1.3.min.js",
+        "assets/js/jquery.form.js",
+        "assets/js/jquery.validate.min.js",
+        "assets/js/bootstrap.min.js",
+        "assets/js/bootstrap-hover-dropdown.min.js",
+        "assets/js/skrollr.min.js",
+        "assets/js/skrollr.stylesheets.min.js",
+        "assets/js/waypoints.min.js",
+        "assets/js/waypoints-sticky.min.js",
+        "assets/js/owl.carousel.min.js",
+        "assets/js/jquery.isotope.min.js",
+        "assets/js/jquery.easytabs.min.js",
+        "assets/js/google.maps.api.v3.js",
+        "assets/js/viewport-units-buggyfill.js",
+        "assets/js/scripts.js"
+      ]
+    }
+  }
+}
+
+
+
