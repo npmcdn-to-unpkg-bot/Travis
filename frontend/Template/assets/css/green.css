@@ -88,9 +88,9 @@ a:hover, a:focus, .bordered .info h3 a:hover, .bordered .info h4 a:hover, .icon 
 }
 
 ::selection {
-	background: #AAF2E4; /* Safari */
+	background: #FFE0E7; /* Safari */
 }
 
 ::-moz-selection {
-	background: #AAF2E4; /* Firefox */
+	background: #FFE0E7; /* Firefox */
 }
