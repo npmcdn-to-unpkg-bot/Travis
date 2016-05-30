@@ -64,6 +64,9 @@ a:hover, a:focus, .bordered .info h3 a:hover, .bordered .info h4 a:hover, .icon 
 .tabs-top .tab a:hover {
 	border-color: #13988b;
 }
+.btn-google {
+	background-color: #e42c29;
+}
 
 .tooltip.top .tooltip-arrow,
 .tooltip.top-left .tooltip-arrow,

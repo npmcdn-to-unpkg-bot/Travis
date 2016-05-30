@@ -43,11 +43,11 @@ iframe {
 	margin-bottom: 0 !important;
 }
 ::selection {
-    background: #fff5fa; /* Safari */
+    background: #eff2f5; /* Safari */
     color: #083330;
 }
 ::-moz-selection {
-    background: #fff5fa; /* Firefox */
+    background: #eff2f5; /* Firefox */
     color: #083330;
 }
 html:not(.no-csstransitions) main [class*="col-"] {
@@ -311,7 +311,8 @@ h1.post-title {
     margin-bottom: 5px;
 }
 main header + * {
-	margin-top: 35px !important;
+	margin-top: 10px !important;
+	margin-bottom: 20px !important;
 }
 .inner {
 	padding-top: 120px;
@@ -1059,11 +1060,11 @@ footer p {
 	margin-bottom: 0;
 }
 .bordered {
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	border-radius: 3px;
     padding: 25px;
-    background: #fff5fa;
+    background: #eff2f5;
 }
 .light-bg .bordered {
 	background: #FFF;
@@ -1348,8 +1349,8 @@ aside .thumb figure {
 .navbar-header {
     float: none !important;
 	position: relative;
-	background: #fff5fa;
-	border-bottom: 1px solid #fff5fa;
+	background: #eff2f5;
+	border-bottom: 1px solid #eff2f5;
 	z-index: 0;
 }
 .navbar-header li,
@@ -1364,7 +1365,7 @@ aside .thumb figure {
 	width: 100%;
 	padding-top: 30px;
 	padding-bottom: 30px;
-	border-bottom: 1px solid #fff5fa;
+	border-bottom: 1px solid #eff2f5;
 }
 .navbar-collapse.collapse.stuck {
 	position: fixed;
@@ -1414,17 +1415,17 @@ aside .thumb figure {
     border-color: transparent;
 }
 .nav > li > a:hover {
-    background-color: #fff5fa;
-    border-color: #fff5fa;
+    background-color: #eff2f5;
+    border-color: #eff2f5;
     color: #19a69c;
 }
 .navbar .dropdown-menu {
     padding: 0;
     margin: 0;
     width: 210px;
-    background: #fff5fa;
+    background: #eff2f5;
 	border: none;
-	border: 1px solid #fff5fa;
+	border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	border-bottom-color: #CED2D6;
     -webkit-border-radius: 3px !important;
@@ -1441,7 +1442,7 @@ aside .thumb figure {
 .navbar .dropdown-menu:not(.yamm-dropdown-menu) li {
     background: transparent;
     border: none;
-    border-top: 1px solid #fff5fa;
+    border-top: 1px solid #eff2f5;
 }
 .navbar .dropdown-menu:not(.yamm-dropdown-menu) li:first-child {
     border: none;
@@ -1457,14 +1458,14 @@ aside .thumb figure {
 .navbar .dropdown-menu:not(.yamm-dropdown-menu) li a:hover,
 .navbar .dropdown-menu:not(.yamm-dropdown-menu) li a.active {
     filter: none;
-    background-color: #fff5fa;
+    background-color: #eff2f5;
     color: #19a69c;
 }
 .navbar .nav .open > a,
 .navbar .nav .open > a:hover,
 .navbar .nav .open > a:focus {
-    background-color: #fff5fa;
-    border-color: #fff5fa;
+    background-color: #eff2f5;
+    border-color: #eff2f5;
 }
 .navbar .nav > li > .dropdown-menu:not(.yamm-dropdown-menu):after {
     display: none;
@@ -2026,14 +2027,14 @@ p .btn {
 }
 .tabs-side .tab a {
     display: block;
-	background: #fff5fa;
+	background: #eff2f5;
     color: #0F6660;
 	font-size: 14px;
 	line-height: 130%;
 	font-weight: 700;
     text-transform: uppercase;
 	padding: 15px;
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
 	border-right-color: #CED7E0;
     border-bottom: none;
 	overflow: hidden;
@@ -2042,7 +2043,7 @@ p .btn {
 	border-top-left-radius: 3px;
 }
 .tabs-side .tab:last-child a {
-    border-bottom: 1px solid #fff5fa;
+    border-bottom: 1px solid #eff2f5;
 	border-bottom-left-radius: 3px;
 }
 .tabs-side .tab a:hover {
@@ -2078,7 +2079,7 @@ p .btn {
 	z-index: 1;
 	overflow: hidden;
 	padding-left: 70px;
-    border-left: 1px solid #CED7E0;
+    border: none;
 }
 .tabs-side.tab-container .panel-container p {
     margin: 0;
@@ -2112,14 +2113,14 @@ p .btn {
 .tabs-top .tab a {
     display: inline-block;
 	vertical-align: bottom;
-	background: #fff5fa;
+	background: #eff2f5;
     color: #0F6660;
 	font-size: 14px;
 	line-height: 130%;
 	font-weight: 700;
     text-transform: uppercase;
 	padding: 15px;
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
     border-bottom: none;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
@@ -2207,7 +2208,7 @@ p .btn {
 }
 .tabs-circle-top .tab a:hover {
 	/*border: 4px solid #19a69c;*/
-	background-color: #fff5fa;
+	background-color: #eff2f5;
 	border-color: #CED7E0 !important;
 }
 .tabs-circle-top .tab.active {
@@ -2431,17 +2432,17 @@ blockquote:before {
 	margin-top: 20px;
 }
 .panel-group .panel {
-    background: #fff5fa;
-    border: 1px solid #fff5fa;
+    background: #eff2f5;
+    border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
-    border-radius: 3px;
+    border: none;
     box-shadow: none;
 }
 .panel-group .panel + .panel {
 	margin-top: 10px;
 }
 .panel-group .panel-heading + .panel-collapse .panel-body {
-	border-top-color: #fff5fa;
+	border-top-color: #eff2f5;
 }
 .panel-body {
 	padding: 25px;
@@ -2464,7 +2465,7 @@ blockquote:before {
     padding: 15px 25px 15px;
 }
 .panel-title > a.collapsed {
-	background: #fff5fa;
+	background: #eff2f5;
 	color: #0F6660;
 }
 .panel-title > a,
@@ -2546,7 +2547,7 @@ blockquote:before {
 .light-bg .blank .panel-title > a,
 .light-bg .panel-title > a:hover,
 .light-bg .blank .panel-title > a:hover {
-	/*background: #fff5fa;*/
+	/*background: #eff2f5;*/
 	background: #FFF;
 }
 
@@ -2562,7 +2563,7 @@ blockquote:before {
 }
 .dark-bg .panel-title > a,
 .dark-bg .panel-title > a:hover {
-	/*background: #fff5fa;*/
+	/*background: #eff2f5;*/
 	background: #485867;
 }
 .dark-bg .panel-title > a,
@@ -2592,11 +2593,11 @@ blockquote:before {
 }
 .blank .panel-title > a.collapsed,
 .blank .panel-title > a {
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
 }
 .blank .panel-title > a,
 .blank .panel-title > a:hover {
-	background: #fff5fa;
+	background: #eff2f5;
 }
 .blank .panel-heading,
 .blank .panel-title > a {
@@ -2611,7 +2612,7 @@ blockquote:before {
 .blank.panel-group .bordered,
 .light-bg .panel-group .bordered,
 .dark-bg .panel-group .bordered {
-	background: #fff5fa;
+	background: #eff2f5;
 }
 .light-bg .blank.panel-group .bordered {
 	background: #FFF;
@@ -3485,9 +3486,9 @@ blockquote:before {
 	text-transform: uppercase;
 }
 .pricing .plan .features {
-    background: #fff5fa;
+    background: #eff2f5;
     padding: 25px 35px;
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
     border-top: none;
 	border-bottom-width: 2px;
 	border-bottom-left-radius: 3px;
@@ -3579,8 +3580,8 @@ input[type="color"],
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    background-color: #fff5fa;
-    border: 1px solid #fff5fa;
+    background-color: #eff2f5;
+    border: 1px solid #eff2f5;
     -webkit-border-radius: 0;
     border-radius: 0;
     -webkit-transition: all 200ms ease-out;
@@ -3857,23 +3858,24 @@ input:focus:-ms-input-placeholder {
     float: left;
     margin-right: 20px;
 }
+
 .classic-blog .post .date {
     display: table-cell;
     vertical-align: middle;
+    text-align: center;
     line-height: 1;
-    width: 60px;
-    height: 60px;
-    border: 1px solid #19a69c;
+    width: 40px;
+    height: 40px;
+    border: 0px solid #19a69c;
     -webkit-border-radius: 50%;
     border-radius: 50%;
     background: #19a69c;
-    font-weight: bold;
     color: #FFF;
     line-height: 1;
     text-transform: uppercase;
 }
 .classic-blog .post .date .day {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 1px;
     display: block;
 }
@@ -3927,7 +3929,7 @@ input:focus:-ms-input-placeholder {
     position: relative;
 	background: #FFF;
     padding-bottom: 60px;
-	border: 1px solid #fff5fa;
+	border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	border-radius: 3px;
 	margin-bottom: 40px;
@@ -4105,8 +4107,6 @@ input:focus:-ms-input-placeholder {
 .post-author,
 #comments {
 	background: #FFF;
-    padding: 40px;
-	border: 1px solid #fff5fa;
 	border-bottom-width: 2px;
 	border-radius: 3px;
 	margin-bottom: 40px;
@@ -4177,16 +4177,16 @@ input:focus:-ms-input-placeholder {
     margin: 0;
 }
 .sidenav {
-	background: #fff5fa;
+	background: #eff2f5;
     padding: 0;
-	border: 1px solid #fff5fa;
+	border: 1px solid #eff2f5;
 	-webkit-border-radius: 3px;
 	   -moz-border-radius: 3px;
 	        border-radius: 3px;
     margin: 0;
 }
 .sidenav li {
-	border-bottom: 1px solid #fff5fa;
+	border-bottom: 1px solid #eff2f5;
 }
 .sidenav li a {
 	display: block;
@@ -4314,7 +4314,7 @@ input:focus:-ms-input-placeholder {
 }
 #comments .commentlist > .comment {
     padding-top: 40px;
-    border-top: 1px solid #fff5fa;
+    border-top: 1px solid #eff2f5;
     margin-top: 40px;
 }
 #comments .commentlist > .comment:first-child {
@@ -4338,8 +4338,8 @@ input:focus:-ms-input-placeholder {
 }
 #comments .avatar img {
 	border-radius: 50%;
-    width: 60px;
-    height: 60px;
+	width: 40px;
+	height: 40px;
 }
 #comments .commentbody {
 	padding-left: 22px;
@@ -4445,23 +4445,23 @@ input:focus:-ms-input-placeholder {
     background: none;
 }
 .table-bordered {
-    border: 1px solid #fff5fa;
+    border: 1px solid #eff2f5;
     border-left: none;
     background: #FFF;
 }
 .table-bordered th,
 .table-bordered td {
-    border-left: 1px solid #fff5fa;
+    border-left: 1px solid #eff2f5;
 }
 .table th,
 .table td {
-    border-top: 1px solid #fff5fa;
+    border-top: 1px solid #eff2f5;
 }
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-	background-color: #fff5fa;
+	background-color: #eff2f5;
 }
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
-	border-color: #fff5fa;
+	border-color: #eff2f5;
 }
 
 
@@ -4559,7 +4559,7 @@ input:focus:-ms-input-placeholder {
 	height: 70px;
 	padding: 22px 25px;
 	background-color: #FFF;
-	border-bottom: 1px solid #fff5fa;
+	border-bottom: 1px solid #eff2f5;
 }
 .modal-header .close {
 	float: right;
@@ -4618,7 +4618,7 @@ input:focus:-ms-input-placeholder {
 	width: 100%; /* Can use left: 0; right: 0; as well */
 	height: 75px;
 	background-color: #FFF;
-	border-top: 1px solid #fff5fa;
+	border-top: 1px solid #eff2f5;
 }
 .modal-footer .btn {
 	margin: 0;
@@ -4630,9 +4630,9 @@ input:focus:-ms-input-placeholder {
 	opacity: 0;
 }
 .btn-modal {
-	background: #fff5fa !important;
+	background: #eff2f5 !important;
 	color: #0F6660 !important;
-	border: 1px solid #fff5fa;
+	border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	box-shadow: none !important;
 }
@@ -4672,6 +4672,7 @@ input:focus:-ms-input-placeholder {
     color: #fff;
     background-color:#3b5998;
 }
+
 .btn-fb:hover{
     color: #fff;
     background-color:#496ebc 
@@ -5261,7 +5262,7 @@ input:focus:-ms-input-placeholder {
 	}
 	.navbar-collapse {
 	    position: static !important;
-		background: #fff5fa;
+		background: #eff2f5;
 	    max-height: inherit;
 		padding-top: 0;
 		padding-bottom: 0;
@@ -5302,7 +5303,7 @@ input:focus:-ms-input-placeholder {
 		display: block;
 	}
 	.navbar-nav > li + li {
-		border-top: 1px solid #fff5fa;
+		border-top: 1px solid #eff2f5;
 	}
 	.navbar-nav > li > a {
 		padding-left: 0;
@@ -5524,6 +5525,9 @@ input:focus:-ms-input-placeholder {
 	.inner-bottom-xs {
 		padding-bottom: 40px;
 	}
+	.column-sm-10 {
+		width: 100%;
+	}
 	
 	.height-xs,
 	.height-sm,
@@ -5597,7 +5601,7 @@ input:focus:-ms-input-placeholder {
 	}
 	
 	.tabs-side .tab a {
-		border-right-color: #fff5fa;
+		border-right-color: #eff2f5;
 	}
 	
 	.tabs-side .tab:first-child a {
@@ -5636,7 +5640,7 @@ input:focus:-ms-input-placeholder {
 		border-top-right-radius: 3px;
 	}
 	.tabs-top .tab:last-child a {
-		border-bottom: 1px solid #fff5fa;
+		border-bottom: 1px solid #eff2f5;
 		border-bottom-left-radius: 3px;
 		border-bottom-right-radius: 3px;
 	}
