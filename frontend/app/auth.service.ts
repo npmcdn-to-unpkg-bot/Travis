@@ -184,4 +184,8 @@ export class AuthService {
         this.locationWatcher.emit({success: success, authenticated: this.user.authenticated,
             token: this.user.accessToken, expires: this.user.expires});
     }
+
+    public socialLogin(socialObject:Object){
+        console.log(socialObject);
+    }
 }

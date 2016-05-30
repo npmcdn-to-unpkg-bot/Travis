@@ -172,6 +172,9 @@ var AuthService = (function () {
         this.locationWatcher.emit({ success: success, authenticated: this.user.authenticated,
             token: this.user.accessToken, expires: this.user.expires });
     };
+    AuthService.prototype.socialLogin = function (socialObject) {
+        console.log(socialObject);
+    };
     AuthService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http])
