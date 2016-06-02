@@ -10,34 +10,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
-var dashboard_component_1 = require('./dashboard.component');
-var heroes_component_1 = require('./heroes.component');
-var hero_detail_component_1 = require('./hero-detail.component');
 var auth_service_1 = require('./auth.service');
 var navbar_component_1 = require("./navbar.component");
 var login_component_1 = require("./login.component");
 var logged_out_component_1 = require("./logged-out.component");
+var poll_component_1 = require("./poll/poll.component");
 var AppComponent = (function () {
     function AppComponent() {
-        this.title = 'Tour of Heroes';
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             template: "\n    <header></header>\n    <router-outlet></router-outlet>\n  ",
             styleUrls: ['app/app.component.css'],
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar],
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, poll_component_1.PollComponent],
             providers: [
                 router_deprecated_1.ROUTER_PROVIDERS,
                 auth_service_1.AuthService,
             ]
         }),
         router_deprecated_1.RouteConfig([
-            { path: '/dashboard', name: 'Dashboard', component: dashboard_component_1.DashboardComponent },
-            { path: '/detail/:id', name: 'HeroDetail', component: hero_detail_component_1.HeroDetailComponent },
-            { path: '/heroes', name: 'Heroes', component: heroes_component_1.HeroesComponent },
             { path: '/login', name: 'Login', component: login_component_1.LoginComponent },
             { path: '/loggedout', name: 'LoggedoutPage', component: logged_out_component_1.LoggedoutPage },
+            { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
         ]), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

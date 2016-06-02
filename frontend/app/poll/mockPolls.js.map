@@ -1,0 +1,1 @@
+{"version":3,"file":"mockPolls.js","sourceRoot":"","sources":["mockPolls.ts"],"names":[],"mappings":"AAAA;;GAEG;;AAGQ,aAAK,GAAW;IACvB;QACI,QAAQ,EAAE,MAAM;QAChB,UAAU,EAAE,oBAAoB;QAChC,SAAS,EAAE,CAAC;gBACR,MAAM,EAAE,MAAM,EAAE;YAChB,EAAC,MAAM,EAAE,QAAQ;aAChB,CAAC;QACN,UAAU,EAAE,CAAC,EAAE,CAAC;KACnB;CACJ,CAAC"}
