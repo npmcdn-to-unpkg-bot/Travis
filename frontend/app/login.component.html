@@ -2,10 +2,10 @@
     <button id="single-button" type="button" class="btn btn-primary" dropdownToggle [disabled]="disabled">
         Login <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
-    <li>
-                <div class="row">
-                    <div class="col-md-12 text-center">
+    <ul id="login-dp" class="dropdown-menu">
+        <li>
+            <div class="row">
+                <div class="col-md-12 text-center">
                         Login via
                         <div class="social-buttons center">
                             <button  class="btn btn-fb" (click)="facebookLogin()">Facebook</button>
@@ -18,7 +18,7 @@
                                 <input type="email" class="form-control" id="#email" placeholder="Email address" required>
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="#password">Password</label>
+                                <label class="sr-only" for="#password">Email address</label>
                                 <input type="password" class="form-control" id="#password" placeholder="Password" required>
                                 <div class="help-block text-center"><a href="">Forgotten password?</a></div>
                             </div>
@@ -38,4 +38,4 @@
                 </div>
             </li>
         </ul>
-    </div>
+</div>
