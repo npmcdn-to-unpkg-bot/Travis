@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 import { AuthService }         from './auth.service';
 import {Navbar} from "./navbar.component";
@@ -26,5 +26,8 @@ import {PollComponent} from "./poll/poll.component";
 
 ])
 export class AppComponent {
-
+    public constructor(viewContainerRef:ViewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
+    }
 }

@@ -16,7 +16,9 @@ var login_component_1 = require("./login.component");
 var logged_out_component_1 = require("./logged-out.component");
 var poll_component_1 = require("./poll/poll.component");
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(viewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({
@@ -34,7 +36,7 @@ var AppComponent = (function () {
             { path: '/loggedout', name: 'LoggedoutPage', component: logged_out_component_1.LoggedoutPage },
             { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
         ]), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);
     return AppComponent;
 }());

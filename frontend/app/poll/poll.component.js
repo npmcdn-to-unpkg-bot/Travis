@@ -12,6 +12,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
+//
+// export class Poll {
+//     id: number;
+//     user: string;
+//     question: string;
+// }
+//
+// poll: Poll = {
+//     id: 1,
+//     user: 'Emma',
+//     question: 'WWED'
+// };
+// import { POLLS } from './poll/mockPolls';
 var PollComponent = (function () {
     function PollComponent() {
     }
@@ -19,6 +33,8 @@ var PollComponent = (function () {
         core_1.Component({
             selector: 'pollItem',
             templateUrl: 'app/poll/poll.component.html',
+            viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
+            directives: [ng2_bootstrap_1.MODAL_DIRECTVES],
             styleUrls: ['app/poll/poll.component.css']
         }), 
         __metadata('design:paramtypes', [])
@@ -26,18 +42,13 @@ var PollComponent = (function () {
     return PollComponent;
 }());
 exports.PollComponent = PollComponent;
-polls: Poll[];
-var PollService = (function () {
-    function PollService() {
-    }
-    PollService.prototype.getPolls = function () {
-        return polls;
-    };
-    PollService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], PollService);
-    return PollService;
-}());
-exports.PollService = PollService;
+//
+// polls: Poll[];
+//
+// @Injectable()
+// export class PollService {
+//     getPolls() {
+//         return polls;
+//     }
+// } 
 //# sourceMappingURL=poll.component.js.map
