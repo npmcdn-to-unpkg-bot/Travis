@@ -16,6 +16,7 @@ var core_1 = require("@angular/core");
 var router_deprecated_1 = require("@angular/router-deprecated");
 var common_1 = require("@angular/common");
 var auth_service_1 = require('./auth.service');
+var login_component_1 = require('./login.component');
 var Navbar = (function () {
     function Navbar(location, router, authService) {
         this.location = location;
@@ -51,11 +52,11 @@ var Navbar = (function () {
     });
     Navbar = __decorate([
         core_1.Component({
-            selector: 'navbar',
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES],
+            selector: 'header',
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES, login_component_1.LoginComponent],
             providers: [],
             pipes: [],
-            template: "\n    <nav class=\"navbar navbar-fixed-top navbar-dark bg-success navbar-static-top\">\n        <button class=\"navbar-toggler hidden-sm-up\" type=\"button\" data-toggle=\"collapse\" data-target=\"#collapsingNavbar\">\n            &#9776;\n        </button>\n        <div class=\"collapse navbar-toggleable-xs\" id=\"collapsingNavbar\">\n            <ul class=\"nav navbar-nav pull-xs-right\">\n                <li class=\"nav-item\">\n                    <button *ngIf=\"!authenticated\" (click)=\"doLogin()\" class=\"nav-link btn btn-danger-outline\" href=\"#\">Login</button>\n                    <button *ngIf=\"authenticated\" (click)=\"doLogout()\" class=\"nav-link btn btn-success-outline\" href=\"#\">Logout {{userName}}</button>\n                </li>\n            </ul>\n        </div>\n    </nav>\n    "
+            templateUrl: 'app/navbar.component.html',
         }), 
         __metadata('design:paramtypes', [common_1.Location, router_deprecated_1.Router, auth_service_1.AuthService])
     ], Navbar);

@@ -7,28 +7,15 @@ import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
 import {Location} from "@angular/common";
 import {AuthService} from './auth.service';
-
+import {LoginComponent} from './login.component';
 
 @Component({
-    selector: 'navbar',
-    directives: [ROUTER_DIRECTIVES],
+    selector: 'header',
+    directives: [ROUTER_DIRECTIVES, LoginComponent],
     providers: [],
     pipes: [],
-    template: `
-    <nav class="navbar navbar-fixed-top navbar-dark bg-success navbar-static-top">
-        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            &#9776;
-        </button>
-        <div class="collapse navbar-toggleable-xs" id="collapsingNavbar">
-            <ul class="nav navbar-nav pull-xs-right">
-                <li class="nav-item">
-                    <button *ngIf="!authenticated" (click)="doLogin()" class="nav-link btn btn-danger-outline" href="#">Login</button>
-                    <button *ngIf="authenticated" (click)="doLogout()" class="nav-link btn btn-success-outline" href="#">Logout {{userName}}</button>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    `
+    templateUrl: 'app/navbar.component.html',
+
 })
 export class Navbar {
     constructor(private location:Location, private router:Router, private authService:AuthService) {

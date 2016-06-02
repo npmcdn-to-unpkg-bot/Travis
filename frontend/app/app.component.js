@@ -13,7 +13,6 @@ var router_deprecated_1 = require('@angular/router-deprecated');
 var dashboard_component_1 = require('./dashboard.component');
 var heroes_component_1 = require('./heroes.component');
 var hero_detail_component_1 = require('./hero-detail.component');
-var hero_service_1 = require('./hero.service');
 var auth_service_1 = require('./auth.service');
 var navbar_component_1 = require("./navbar.component");
 var login_component_1 = require("./login.component");
@@ -25,17 +24,16 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: "\n    <h1>{{title}}</h1>\n    <nav>\n      <a [routerLink]=\"['Dashboard']\">Dashboard</a>\n      <a [routerLink]=\"['Heroes']\">Heroes</a>\n    </nav>\n    <router-outlet></router-outlet>\n  ",
+            template: "\n    <header></header>\n    <router-outlet></router-outlet>\n  ",
             styleUrls: ['app/app.component.css'],
             directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar],
             providers: [
                 router_deprecated_1.ROUTER_PROVIDERS,
-                hero_service_1.HeroService,
                 auth_service_1.AuthService,
             ]
         }),
         router_deprecated_1.RouteConfig([
-            { path: '/dashboard', name: 'Dashboard', component: dashboard_component_1.DashboardComponent, useAsDefault: true },
+            { path: '/dashboard', name: 'Dashboard', component: dashboard_component_1.DashboardComponent },
             { path: '/detail/:id', name: 'HeroDetail', component: hero_detail_component_1.HeroDetailComponent },
             { path: '/heroes', name: 'Heroes', component: heroes_component_1.HeroesComponent },
             { path: '/login', name: 'Login', component: login_component_1.LoginComponent },

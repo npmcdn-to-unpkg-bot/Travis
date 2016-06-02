@@ -1,6 +1,4 @@
-/**
- * Created by Arash on 22-May-16.
- */
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 import { Hero } from './hero';

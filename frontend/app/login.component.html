@@ -1,23 +1,47 @@
-<login>
+<div class="btn-group" dropdown [(isOpen)]="status.isopen">
+    <button id="single-button" type="button" class="btn btn-primary" dropdownToggle [disabled]="disabled">
+        Login <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
 
-<div id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-    <div class="modal-dialog">
-        <div class="loginmodal-container">
-            <h1>Login to Your Account</h1><br>
-            <form>
-                <input type="text" name="user" placeholder="Username">
-                <input type="password" name="pass" placeholder="Password">
-                <button class="btn-lg btn-block" (click)="doLogin()" name="login" >Login</button>
-                <button class="btn-lg btn-block" (click)="doLogin()" name="login" >Login with google</button>
-                <button class="btn-lg btn-block" (click)="facebookLogin()" name="login" >Login with facebook</button>
-            </form>
-
-            <div class="login-help">
-                <a href="#">Register</a> - <a href="#">Forgot Password</a>
-            </div>
-        </div>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+        <ul id="login-dp" class="dropdown-menu">
+            <li>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        Login via
+                        <div class="social-buttons center">
+                            <a href="#" class="btn btn-fb" (click)="facebookLogin()">Facebook</a>
+                            <a href="#" class="btn btn-google" (click)="doLogin()">Google</a>
+                        </div>
+                        or
+                        <form class="form" role="form" method="post" action="/" accept-charset="UTF-8" id="login-nav">
+                            <div class="form-group">
+                                <label class="sr-only" for="#email">Email address</label>
+                                <input type="email" class="form-control" id="#email" placeholder="Email address" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="#password">Password</label>
+                                <input type="password" class="form-control" id="#password" placeholder="Password" required>
+                                <div class="help-block text-center"><a href="">Forgotten password?</a></div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> keep me logged-in
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bottom text-center">
+                        New here? <a href="#register"><b>Sign up</b></a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+ </li>
+        </ul>
     </div>
-</div>
-
-
-</login>

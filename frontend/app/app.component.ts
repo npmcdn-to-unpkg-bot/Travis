@@ -12,23 +12,18 @@ import {LoggedoutPage} from "./logged-out.component";
 @Component({
     selector: 'my-app',
     template: `
-    <h1>{{title}}</h1>
-    <nav>
-      <a [routerLink]="['Dashboard']">Dashboard</a>
-      <a [routerLink]="['Heroes']">Heroes</a>
-    </nav>
+    <header></header>
     <router-outlet></router-outlet>
   `,
     styleUrls: ['app/app.component.css'],
     directives: [ROUTER_DIRECTIVES, Navbar],
     providers: [
         ROUTER_PROVIDERS,
-        HeroService,
         AuthService,
     ]
 })
 @RouteConfig([
-    { path: '/dashboard',  name: 'Dashboard',  component: DashboardComponent, useAsDefault: true },
+    { path: '/dashboard',  name: 'Dashboard',  component: DashboardComponent},
     { path: '/detail/:id', name: 'HeroDetail', component: HeroDetailComponent },
     { path: '/heroes',     name: 'Heroes',     component: HeroesComponent },
     { path: '/login',     name: 'Login',     component: LoginComponent },

@@ -10,14 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
-var navbar_component_1 = require('./navbar.component');
 var auth_service_1 = require('./auth.service');
+var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var LoginComponent = (function () {
     function LoginComponent(_router, authService) {
         this._router = _router;
         this.authService = authService;
+        this.disabled = false;
+        this.status = { isopen: false };
         this.fb = FB;
     }
+    LoginComponent.prototype.toggled = function (open) {
+        console.log('Dropdown is now: ', open);
+    };
+    LoginComponent.prototype.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
+    };
     Object.defineProperty(LoginComponent.prototype, "authenticated", {
         get: function () {
             return this.authService.isAuthenticated();
@@ -80,9 +90,9 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
+            directives: [ng2_bootstrap_1.DROPDOWN_DIRECTIVES],
             templateUrl: 'app/login.component.html',
-            styleUrls: ['app/login.component.css'],
-            directives: [navbar_component_1.Navbar]
+            styleUrls: ['app/login.component.css']
         }), 
         __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService])
     ], LoginComponent);

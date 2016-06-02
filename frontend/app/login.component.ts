@@ -2,22 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router-deprecated';
 import { Navbar } from './navbar.component';
 import {AuthService} from './auth.service'
+import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 declare var FB: any;
 
 @Component({
     selector: 'login',
+    directives: [DROPDOWN_DIRECTIVES],
     templateUrl: 'app/login.component.html',
-    styleUrls:  ['app/login.component.css'],
-    directives: [Navbar]
+    styleUrls:  ['app/login.component.css']
 })
 export class LoginComponent{
+    public disabled:boolean = false;
+    public status:{isopen:boolean} = {isopen: false};
     error: any;
     fb:any;
     constructor(
         private _router: Router,
         private authService: AuthService) {
         this.fb = FB;
+    }
+
+    public toggled(open:boolean):void {
+        console.log('Dropdown is now: ', open);
+    }
+
+    public toggleDropdown($event:MouseEvent):void {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
     }
 
     get authenticated() {
