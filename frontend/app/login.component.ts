@@ -76,6 +76,7 @@ export class LoginComponent{
     }
 
     doLogin() {
+        console.log("login is called");
         this.authService.doLogin();
     }
 

@@ -30,26 +30,6 @@ var Navbar = (function () {
         enumerable: true,
         configurable: true
     });
-    Navbar.prototype.doLogin = function () {
-        this.authService.doLogin();
-    };
-    Navbar.prototype.doLogout = function () {
-        this.authService.doLogout();
-    };
-    Object.defineProperty(Navbar.prototype, "userName", {
-        get: function () {
-            return this.authService.getUserName();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Navbar.prototype, "page", {
-        get: function () {
-            return this.location.path().split('/')[1];
-        },
-        enumerable: true,
-        configurable: true
-    });
     Navbar = __decorate([
         core_1.Component({
             selector: 'header',

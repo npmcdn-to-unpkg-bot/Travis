@@ -26,7 +26,7 @@ var WindowService = (function () {
         }
         var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top + ",location=yes";
         console.log(url);
-        // console.log("Window options: ", options);
+        console.log("returning window!!!!!!!!!!!!");
         return window.open(url, name, options);
     };
     WindowService = __decorate([

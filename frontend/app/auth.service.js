@@ -41,7 +41,7 @@ var AuthService = (function () {
         this.expires = 0;
         this.expiresTimerId = null;
         this.loopCount = 600;
-        this.intervalLength = 500;
+        this.intervalLength = 1000;
         this.windowHandle = null;
         this.locationWatcher = new core_1.EventEmitter(); // @TODO: switch to RxJS Subject instead of EventEmitter
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
@@ -50,20 +50,17 @@ var AuthService = (function () {
     AuthService.prototype.doLogin = function () {
         var _this = this;
         var loopCount = this.loopCount;
-        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuth Login Travis');
+        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(function () {
-            if (loopCount-- < 0) {
-                clearInterval(_this.intervalId);
-                // this.emitAuthStatus(false);
-                _this.windowHandle.close();
-            }
-            else {
+            setTimeout(function () {
+                console.log("I am fucking here!!!!!");
                 var href;
                 try {
                     href = _this.windowHandle.location.href;
                 }
                 catch (e) {
                     console.log('Error:', e);
+                    return;
                 }
                 if (href != null) {
                     // got this code from google to extract token information
@@ -90,7 +87,8 @@ var AuthService = (function () {
                     _this.windowHandle.close();
                     _this.validateAccessToken();
                 }
-            }
+            }, 500);
+            //}
         }, this.intervalLength);
     };
     AuthService.prototype.doLogout = function () {
