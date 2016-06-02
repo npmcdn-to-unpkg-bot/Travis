@@ -38,7 +38,7 @@ export class AuthService {
     private expires:any = 0;
     private expiresTimerId:any = null;
     private loopCount = 600;
-    private intervalLength = 500;
+    private intervalLength = 1000;
     private windowHandle:any=null;
     private locationWatcher = new EventEmitter();  // @TODO: switch to RxJS Subject instead of EventEmitter
 
@@ -50,19 +50,16 @@ export class AuthService {
 
     public doLogin() {
         var loopCount = this.loopCount;
-        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuth Login Travis');
-
+        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(() => {
-            if (loopCount-- < 0) {
-                clearInterval(this.intervalId);
-                // this.emitAuthStatus(false);
-                this.windowHandle.close();
-            } else {
+            setTimeout(() =>{
+                console.log("I am fucking here!!!!!");
                 var href:string;
                 try {
                     href = this.windowHandle.location.href;
                 } catch (e) {
                     console.log('Error:', e);
+                    return;
                 }
 
                 if (href != null) {
@@ -92,7 +89,9 @@ export class AuthService {
                     this.windowHandle.close();
                     this.validateAccessToken();
                 }
-            }
+            },500);
+
+            //}
             }, this.intervalLength);
 
     }

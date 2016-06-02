@@ -75,6 +75,7 @@ var LoginComponent = (function () {
         });
     };
     LoginComponent.prototype.doLogin = function () {
+        console.log("login is called");
         this.authService.doLogin();
     };
     LoginComponent.prototype.doLogout = function () {

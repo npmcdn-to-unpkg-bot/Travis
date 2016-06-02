@@ -25,19 +25,4 @@ export class Navbar {
         return this.authService.isAuthenticated();
     }
 
-    doLogin() {
-        this.authService.doLogin();
-    }
-
-    doLogout() {
-        this.authService.doLogout();
-    }
-
-    get userName() {
-        return this.authService.getUserName();
-    }
-
-    get page() {
-        return this.location.path().split('/')[1];
-    }
 }
