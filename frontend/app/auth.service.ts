@@ -12,7 +12,7 @@ import {WindowService} from './window.service';
 import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
 import {Observable} from "rxjs/Observable";
-
+import localStorage from 'localStorage';
 import {GoogleUser} from './auth_user';
 
 @Injectable()
@@ -34,7 +34,6 @@ export class AuthService {
 
     private user:GoogleUser;
     private intervalId:any=null;
-    private authenticated:boolean = false;
     private expires:any = 0;
     private expiresTimerId:any = null;
     private loopCount = 600;
@@ -49,11 +48,9 @@ export class AuthService {
     }
 
     public doLogin() {
-        var loopCount = this.loopCount;
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(() => {
             setTimeout(() =>{
-                console.log("I am fucking here!!!!!");
                 var href:string;
                 try {
                     href = this.windowHandle.location.href;
@@ -63,13 +60,14 @@ export class AuthService {
                 }
 
                 if (href != null) {
+                    clearInterval(this.intervalId);
+
                     // got this code from google to extract token information
                     var params = {}, queryString = href.substring(1),
                         regex = /([^&=]+)=([^&]*)/g, m;
                     while (m = regex.exec(queryString)) {
                         params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                     }
-                    clearInterval(this.intervalId);
 
                     var key:any;
                     for (key in params) {
@@ -87,7 +85,7 @@ export class AuthService {
                         this.user.expires = now.setSeconds(now.getSeconds() + Number(params['expires_in']));
                     }
                     this.windowHandle.close();
-                    this.validateAccessToken();
+                    this.validateOAuthToken();
                 }
             },500);
 
@@ -97,7 +95,8 @@ export class AuthService {
     }
 
     public doLogout() {
-        this.authenticated = false;
+        this.user.authenticated = false;
+        localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
@@ -105,11 +104,7 @@ export class AuthService {
         console.log('Session has been cleared');
     }
 
-    public getSession() {
-        return {authenticated: this.authenticated, token: this.user.accessToken, expires: this.expires};
-    }
-
-    private validateAccessToken(){
+    private validateOAuthToken(){
         var validationAccToken = this.validationUrl + this.user.accessToken;
         if (this.user.accessToken != null) {
             this.http.get(validationAccToken)
@@ -117,8 +112,12 @@ export class AuthService {
                 {
                     // getting the id of the user
                     this.user.userId = res.json()['sub'];
+
+                    //TODO
                     //query the database to get users info from ther
                     //if there is none fetch necessary info from google
+                    // localstorage.setItem('token_id', 'Token from the server')
+                    this.user.authenticated = true;
                     this.fetchUserInfo();
                     // register the user?
                 }).
@@ -152,27 +151,30 @@ export class AuthService {
     }
 
     public getUserInfo() {
-        return this.user;
-    }
-
-
-    public getUserName() {
-        return this.user ? this.user : null;
-    }
-
-    private startExpiresTimer(seconds:number) {
-        if (this.expiresTimerId != null) {
-            clearTimeout(this.expiresTimerId);
+        if (this.user && this.user.authenticated)
+            return this.user;
+        else if (localStorage.getItem('token_id')){
+            let token = localStorage.getItem('token_id');
+            return this.validateToken(token);
         }
-        this.expiresTimerId = setTimeout(() => {
-            console.log('Session has expired');
-            this.doLogout();
-        }, seconds * 1000); // seconds * 1000
-        console.log('Token expiration timer set for', seconds, "seconds");
+    }
+
+    private getUserFromServer(token){
+        return {}
     }
 
     public isAuthenticated() {
-        return this.user.authenticated;
+        if (this.user && this.user.authenticated)
+            return true;
+        else if (localStorage.getItem('token_id')){
+            let token = localStorage.getItem('token_id');
+            return this.validateToken(token);
+        }
+        return false;
+    }
+
+    public validateToken(token){
+        return this.getUserFromServer(token);
     }
 
     public subscribe(onNext:(value:any) => void, onThrow?:(exception:any) => void, onReturn?:() => void) {

@@ -1,7 +1,6 @@
 /**
  * Created by Arash on 27-May-16.
  */
-"use strict";
 var GoogleUser = (function () {
     function GoogleUser() {
         this._authenticated = false;
@@ -78,6 +77,6 @@ var GoogleUser = (function () {
         configurable: true
     });
     return GoogleUser;
-}());
+})();
 exports.GoogleUser = GoogleUser;
 //# sourceMappingURL=auth_user.js.map

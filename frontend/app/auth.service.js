@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -21,6 +20,7 @@ var core_1 = require("@angular/core");
 var window_service_1 = require('./window.service');
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
+var localStorage_1 = require('localStorage');
 var auth_user_1 = require('./auth_user');
 var AuthService = (function () {
     function AuthService(windows, http) {
@@ -37,7 +37,6 @@ var AuthService = (function () {
         this.facebookURL = "https://www.facebook.com/dialog/oauth?client_id=598800500273094&redirect_uri=" +
             "http://localhost:3000&response_type=token";
         this.intervalId = null;
-        this.authenticated = false;
         this.expires = 0;
         this.expiresTimerId = null;
         this.loopCount = 600;
@@ -49,11 +48,9 @@ var AuthService = (function () {
     }
     AuthService.prototype.doLogin = function () {
         var _this = this;
-        var loopCount = this.loopCount;
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(function () {
             setTimeout(function () {
-                console.log("I am fucking here!!!!!");
                 var href;
                 try {
                     href = _this.windowHandle.location.href;
@@ -63,12 +60,12 @@ var AuthService = (function () {
                     return;
                 }
                 if (href != null) {
+                    clearInterval(_this.intervalId);
                     // got this code from google to extract token information
                     var params = {}, queryString = href.substring(1), regex = /([^&=]+)=([^&]*)/g, m;
                     while (m = regex.exec(queryString)) {
                         params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                     }
-                    clearInterval(_this.intervalId);
                     var key;
                     for (key in params) {
                         if (key.indexOf('access_token') >= 0) {
@@ -85,24 +82,22 @@ var AuthService = (function () {
                         _this.user.expires = now.setSeconds(now.getSeconds() + Number(params['expires_in']));
                     }
                     _this.windowHandle.close();
-                    _this.validateAccessToken();
+                    _this.validateOAuthToken();
                 }
             }, 500);
             //}
         }, this.intervalLength);
     };
     AuthService.prototype.doLogout = function () {
-        this.authenticated = false;
+        this.user.authenticated = false;
+        localStorage_1.default.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
         //this.emitAuthStatus(true);
         console.log('Session has been cleared');
     };
-    AuthService.prototype.getSession = function () {
-        return { authenticated: this.authenticated, token: this.user.accessToken, expires: this.expires };
-    };
-    AuthService.prototype.validateAccessToken = function () {
+    AuthService.prototype.validateOAuthToken = function () {
         var _this = this;
         var validationAccToken = this.validationUrl + this.user.accessToken;
         if (this.user.accessToken != null) {
@@ -110,8 +105,11 @@ var AuthService = (function () {
                 .map(function (res) {
                 // getting the id of the user
                 _this.user.userId = res.json()['sub'];
+                //TODO
                 //query the database to get users info from ther
                 //if there is none fetch necessary info from google
+                // localstorage.setItem('token_id', 'Token from the server')
+                _this.user.authenticated = true;
                 _this.fetchUserInfo();
                 // register the user?
             }).
@@ -144,24 +142,27 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.getUserInfo = function () {
-        return this.user;
-    };
-    AuthService.prototype.getUserName = function () {
-        return this.user ? this.user : null;
-    };
-    AuthService.prototype.startExpiresTimer = function (seconds) {
-        var _this = this;
-        if (this.expiresTimerId != null) {
-            clearTimeout(this.expiresTimerId);
+        if (this.user && this.user.authenticated)
+            return this.user;
+        else if (localStorage_1.default.getItem('token_id')) {
+            var token = localStorage_1.default.getItem('token_id');
+            return this.validateToken(token);
         }
-        this.expiresTimerId = setTimeout(function () {
-            console.log('Session has expired');
-            _this.doLogout();
-        }, seconds * 1000); // seconds * 1000
-        console.log('Token expiration timer set for', seconds, "seconds");
+    };
+    AuthService.prototype.getUserFromServer = function (token) {
+        return {};
     };
     AuthService.prototype.isAuthenticated = function () {
-        return this.user.authenticated;
+        if (this.user && this.user.authenticated)
+            return true;
+        else if (localStorage_1.default.getItem('token_id')) {
+            var token = localStorage_1.default.getItem('token_id');
+            return this.validateToken(token);
+        }
+        return false;
+    };
+    AuthService.prototype.validateToken = function (token) {
+        return this.getUserFromServer(token);
     };
     AuthService.prototype.subscribe = function (onNext, onThrow, onReturn) {
         return this.locationWatcher.subscribe(onNext, onThrow, onReturn);
@@ -178,6 +179,6 @@ var AuthService = (function () {
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http])
     ], AuthService);
     return AuthService;
-}());
+})();
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

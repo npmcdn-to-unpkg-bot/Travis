@@ -1,7 +1,6 @@
 /**
  * Created by Arash on 23-May-16.
  */
-"use strict";
 var InMemoryDataService = (function () {
     function InMemoryDataService() {
     }
@@ -21,6 +20,6 @@ var InMemoryDataService = (function () {
         return { heroes: heroes };
     };
     return InMemoryDataService;
-}());
+})();
 exports.InMemoryDataService = InMemoryDataService;
 //# sourceMappingURL=in-memory-data.service.js.map
