@@ -18,11 +18,19 @@ import {LoginComponent} from './login.component';
 
 })
 export class Navbar {
+
+    user:any;
+
     constructor(private location:Location, private router:Router, private authService:AuthService) {
     }
 
-    get authenticated() {
+    public authenticated() {
         return this.authService.isAuthenticated();
+    }
+
+    public getuserInfo(){
+        let user = this.authService.getUserInfo();
+        this.user = {"image": user.image, "name": user.name};
     }
 
 }

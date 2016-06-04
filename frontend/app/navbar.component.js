@@ -22,13 +22,13 @@ var Navbar = (function () {
         this.router = router;
         this.authService = authService;
     }
-    Object.defineProperty(Navbar.prototype, "authenticated", {
-        get: function () {
-            return this.authService.isAuthenticated();
-        },
-        enumerable: true,
-        configurable: true
-    });
+    Navbar.prototype.authenticated = function () {
+        return this.authService.isAuthenticated();
+    };
+    Navbar.prototype.getuserInfo = function () {
+        var user = this.authService.getUserInfo();
+        this.user = { "image": user.image, "name": user.name };
+    };
     Navbar = __decorate([
         core_1.Component({
             selector: 'header',
