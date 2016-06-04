@@ -1,15 +1,5 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-exports.POLLS = [
-    {
-        "issuer": "Emma",
-        "question": "Where should I go?",
-        "answers": [{
-                "item": "Rome" },
-            { "item": "Venice"
-            }],
-        "comments": [{}]
-    }
-];
+"use strict";
 //# sourceMappingURL=mockPolls.js.map

@@ -85,7 +85,7 @@ export class LoginComponent{
     }
 
     get userName() {
-        return this.authService.getUserName();
+        return this.authService.getUserInfo();
     }
 
     /*

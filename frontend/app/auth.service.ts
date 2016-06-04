@@ -12,7 +12,6 @@ import {WindowService} from './window.service';
 import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
 import {Observable} from "rxjs/Observable";
-import localStorage from 'localStorage';
 import {GoogleUser} from './auth_user';
 
 @Injectable()
@@ -151,16 +150,19 @@ export class AuthService {
     }
 
     public getUserInfo() {
+        console.log("inside user info");
+        console.log(this.user);
         if (this.user && this.user.authenticated)
             return this.user;
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
             return this.validateToken(token);
         }
+        return false;
     }
 
     private getUserFromServer(token){
-        return {}
+        return null;
     }
 
     public isAuthenticated() {

@@ -16,7 +16,7 @@ export class PollComponent{
    
 
 }
-polls: Poll[];
+var polls =  POLLS;
 
 @Injectable()
 export class PollService {

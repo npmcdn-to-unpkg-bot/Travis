@@ -17,7 +17,7 @@ import {LoginComponent} from './login.component';
     templateUrl: 'app/navbar.component.html',
 
 })
-export class Navbar {
+export class Navbar implements OnInit{
 
     user:any;
 
@@ -28,9 +28,19 @@ export class Navbar {
         return this.authService.isAuthenticated();
     }
 
-    public getuserInfo(){
+    ngOnInit() {
+        console.log(`OnInit`);
+        if (this.authenticated())
+            this.getUserInfo();
+        console.log(this.user)
+    }
+
+    public getUserInfo(){
         let user = this.authService.getUserInfo();
-        this.user = {"image": user.image, "name": user.name};
+        console.log("inside navbar " + user);
+        if (user != undefined)
+            this.user = {"image": user.image, "name": user.name};
+        else return null;
     }
 
 }

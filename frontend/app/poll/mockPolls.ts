@@ -2,8 +2,7 @@
  * Created by Nadine on 6/2/16.
  */
 
-import { Poll } from './poll';
-export var POLLS: Poll[] = [
+export var POLLS:  [
     {
         "issuer": "Emma",
         "question": "Where should I go?",

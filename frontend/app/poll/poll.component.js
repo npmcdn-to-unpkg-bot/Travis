@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,6 +12,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var mockPolls_1 = require('./mockPolls');
 var PollComponent = (function () {
     function PollComponent() {
     }
@@ -23,9 +25,9 @@ var PollComponent = (function () {
         __metadata('design:paramtypes', [])
     ], PollComponent);
     return PollComponent;
-})();
+}());
 exports.PollComponent = PollComponent;
-polls: Poll[];
+var polls = mockPolls_1.POLLS;
 var PollService = (function () {
     function PollService() {
     }
@@ -37,6 +39,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [])
     ], PollService);
     return PollService;
-})();
+}());
 exports.PollService = PollService;
 //# sourceMappingURL=poll.component.js.map

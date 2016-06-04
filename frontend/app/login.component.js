@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -82,7 +83,7 @@ var LoginComponent = (function () {
     };
     Object.defineProperty(LoginComponent.prototype, "userName", {
         get: function () {
-            return this.authService.getUserName();
+            return this.authService.getUserInfo();
         },
         enumerable: true,
         configurable: true
@@ -97,6 +98,6 @@ var LoginComponent = (function () {
         __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService])
     ], LoginComponent);
     return LoginComponent;
-})();
+}());
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

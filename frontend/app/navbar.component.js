@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,9 +26,19 @@ var Navbar = (function () {
     Navbar.prototype.authenticated = function () {
         return this.authService.isAuthenticated();
     };
-    Navbar.prototype.getuserInfo = function () {
+    Navbar.prototype.ngOnInit = function () {
+        console.log("OnInit");
+        if (this.authenticated())
+            this.getUserInfo();
+        console.log(this.user);
+    };
+    Navbar.prototype.getUserInfo = function () {
         var user = this.authService.getUserInfo();
-        this.user = { "image": user.image, "name": user.name };
+        console.log("inside navbar " + user);
+        if (user != undefined)
+            this.user = { "image": user.image, "name": user.name };
+        else
+            return null;
     };
     Navbar = __decorate([
         core_1.Component({
@@ -40,6 +51,6 @@ var Navbar = (function () {
         __metadata('design:paramtypes', [common_1.Location, router_deprecated_1.Router, auth_service_1.AuthService])
     ], Navbar);
     return Navbar;
-})();
+}());
 exports.Navbar = Navbar;
 //# sourceMappingURL=navbar.component.js.map

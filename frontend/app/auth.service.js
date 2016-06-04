@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,7 +21,6 @@ var core_1 = require("@angular/core");
 var window_service_1 = require('./window.service');
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
-var localStorage_1 = require('localStorage');
 var auth_user_1 = require('./auth_user');
 var AuthService = (function () {
     function AuthService(windows, http) {
@@ -90,7 +90,7 @@ var AuthService = (function () {
     };
     AuthService.prototype.doLogout = function () {
         this.user.authenticated = false;
-        localStorage_1.default.removeItem('token_id');
+        localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
@@ -142,21 +142,24 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.getUserInfo = function () {
+        console.log("inside user info");
+        console.log(this.user);
         if (this.user && this.user.authenticated)
             return this.user;
-        else if (localStorage_1.default.getItem('token_id')) {
-            var token = localStorage_1.default.getItem('token_id');
+        else if (localStorage.getItem('token_id')) {
+            var token = localStorage.getItem('token_id');
             return this.validateToken(token);
         }
+        return false;
     };
     AuthService.prototype.getUserFromServer = function (token) {
-        return {};
+        return null;
     };
     AuthService.prototype.isAuthenticated = function () {
         if (this.user && this.user.authenticated)
             return true;
-        else if (localStorage_1.default.getItem('token_id')) {
-            var token = localStorage_1.default.getItem('token_id');
+        else if (localStorage.getItem('token_id')) {
+            var token = localStorage.getItem('token_id');
             return this.validateToken(token);
         }
         return false;
@@ -179,6 +182,6 @@ var AuthService = (function () {
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http])
     ], AuthService);
     return AuthService;
-})();
+}());
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map
