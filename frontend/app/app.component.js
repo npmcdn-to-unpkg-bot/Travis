@@ -18,7 +18,7 @@ var poll_component_1 = require("./poll/poll.component");
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
         // You need this small hack in order to catch application root view container ref
-        this.viewContainerRef = viewContainerRef;
+        // this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({

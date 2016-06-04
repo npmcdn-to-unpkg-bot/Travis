@@ -23,13 +23,23 @@ var Navbar = (function () {
         this.router = router;
         this.authService = authService;
     }
-    Object.defineProperty(Navbar.prototype, "authenticated", {
-        get: function () {
-            return this.authService.isAuthenticated();
-        },
-        enumerable: true,
-        configurable: true
-    });
+    Navbar.prototype.authenticated = function () {
+        return this.authService.isAuthenticated();
+    };
+    Navbar.prototype.ngOnInit = function () {
+        console.log("OnInit");
+        if (this.authenticated())
+            this.getUserInfo();
+        console.log(this.user);
+    };
+    Navbar.prototype.getUserInfo = function () {
+        var user = this.authService.getUserInfo();
+        console.log("inside navbar " + user);
+        if (user != undefined)
+            this.user = { "image": user.image, "name": user.name };
+        else
+            return null;
+    };
     Navbar = __decorate([
         core_1.Component({
             selector: 'header',

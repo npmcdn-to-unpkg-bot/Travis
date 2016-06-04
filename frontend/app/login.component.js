@@ -83,7 +83,7 @@ var LoginComponent = (function () {
     };
     Object.defineProperty(LoginComponent.prototype, "userName", {
         get: function () {
-            return this.authService.getUserName();
+            return this.authService.getUserInfo();
         },
         enumerable: true,
         configurable: true
