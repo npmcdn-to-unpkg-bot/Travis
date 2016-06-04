@@ -4,6 +4,7 @@ import { AuthService }         from './auth.service';
 import {Navbar} from "./navbar.component";
 import {LoginComponent} from "./login.component";
 import {LoggedoutPage} from "./logged-out.component";
+import {PollComponent} from "./poll/poll.component";
 
 @Component({
     selector: 'my-app',
@@ -12,7 +13,7 @@ import {LoggedoutPage} from "./logged-out.component";
     <router-outlet></router-outlet>
   `,
     styleUrls: ['app/app.component.css'],
-    directives: [ROUTER_DIRECTIVES, Navbar],
+    directives: [ROUTER_DIRECTIVES, Navbar, PollComponent],
     providers: [
         ROUTER_PROVIDERS,
         AuthService,
@@ -20,8 +21,10 @@ import {LoggedoutPage} from "./logged-out.component";
 })
 @RouteConfig([
     { path: '/login',     name: 'Login',     component: LoginComponent },
-    {path: '/loggedout', name: 'LoggedoutPage', component: LoggedoutPage},
+    { path: '/loggedout', name: 'LoggedoutPage', component: LoggedoutPage},
+    { path: '/poll', name: 'Poll', component: PollComponent},
+
 ])
 export class AppComponent {
-    title = 'Tour of Heroes';
+
 }

@@ -5,7 +5,6 @@
 import { provide }    from '@angular/core';
 import { XHRBackend } from '@angular/http';
 
-import { InMemoryDataService }               from './in-memory-data.service';
 
 // The usual bootstrapping imports
 import { bootstrap }      from '@angular/platform-browser-dynamic';

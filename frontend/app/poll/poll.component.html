@@ -1,0 +1,85 @@
+<section id="pollItem" class="light-bg">
+    <div class="container inner-top-sm">
+        <div class="row inner-bottom-xs">
+            <div class="column-sm-10">
+                <ul class="format-filter text-center">
+                    <li><a href="" class="active icon-th"></a></li>
+                    <li><a href="#openModal" class="icon-edit"></a>
+                    <li><a href="" class="icon-quote"></a></li>
+                </ul><!-- /.format-filter -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+
+        <div class="row">
+            <div class="posts sidemeta">
+                <div class="post format-gallery">
+                    <div class="format-wrapper">
+                        <div class="date">
+                            <div id="pollDate" class="pollDate"></div>
+                            <span class="day">21</span>
+                            <span class="month">May</span>
+                        </div><!-- /.date -->
+                    </div><!-- /.format-wrapper -->
+
+                    <div class="date-wrapper">
+                        <div class="date">
+                            <div id="profilepicture" class="cropcircle"></div>
+                        </div><!-- /.date -->
+                    </div><!-- /.date-wrapper -->
+
+
+
+                    <div class="row inner-bottom-xs">
+                        <div class="colmn-sm-8">
+                            <fieldset>
+                                <legend>Where should <b>Person2</b> go?</legend>
+                                <div class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="Poll" value="paris" id="Poll_0"/>
+                                                Paris
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="Poll" value="rome" id="Poll_0"/>
+                                                Rome
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="Poll" value="venice" id="Poll_0"/>
+                                                Venice
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <input type="submit" class="btn btn-default btn-submit" name="submit" id="submit"
+                                           value="Vote"/>
+                                    <input type="hidden" name="id" value="form1"/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="openModal" class="modalDialog">
+    <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <h2>Create a poll</h2>
+        <p>Please enter a question:</p>
+        <input type="text" placeholder="Where should I go?">
+        <p>Enter a list of items, one item per line</p>
+        <textarea name="textarea"></textarea>
+        <input type="submit" class="btn btn-default btn-submit" name="submit" id="submit" value="Submit"/>
+
+    </div>
+</div>
