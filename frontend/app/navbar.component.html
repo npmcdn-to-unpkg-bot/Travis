@@ -13,10 +13,7 @@
                             <li><a href="../UI/poll.html">Poll</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <div *ngIf="authenticated()">
-                                <span>Hi {{user.name}}</span>
-                            </div>
-                            <login *ngIf="!authenticated()"></login>
+                            <login></login>
                         </ul>
                     </div>
                 </div><!-- /.row -->

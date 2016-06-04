@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,9 +22,13 @@ var Navbar = (function () {
         this.router = router;
         this.authService = authService;
     }
-    Navbar.prototype.authenticated = function () {
-        return this.authService.isAuthenticated();
-    };
+    Object.defineProperty(Navbar.prototype, "authenticated", {
+        get: function () {
+            return this.authService.isAuthenticated();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Navbar.prototype.ngOnInit = function () {
         console.log("OnInit");
         if (this.authenticated())
@@ -51,6 +54,6 @@ var Navbar = (function () {
         __metadata('design:paramtypes', [common_1.Location, router_deprecated_1.Router, auth_service_1.AuthService])
     ], Navbar);
     return Navbar;
-}());
+})();
 exports.Navbar = Navbar;
 //# sourceMappingURL=navbar.component.js.map
