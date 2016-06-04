@@ -231,53 +231,7 @@ footer ul.contacts li {
 	height: 80px;
 	font-size: 20px;
 }
-#hero h1 {
-	font-size: 78px;
-	line-height: 110%;
-	font-weight: 900;
-	letter-spacing: .05em;
-	text-transform: uppercase;
-	margin-bottom: 0;
-	-webkit-transition: font 200ms ease-out;
-	   -moz-transition: font 200ms ease-out;
-		 -o-transition: font 200ms ease-out;
-			transition: font 200ms ease-out;
-}
-#hero #owl-main .caption h1.light-bg,
-#hero #owl-main .caption h1.medium-bg,
-#hero #owl-main .caption h1.dark-bg,
-#hero #owl-main .caption h1.tint-bg {
-	font-size: 73px;
-}
-#hero h4 {
-	font-size: 33px;
-	line-height: 120%;
-}
-#hero p {
-	font-size: 24px;
-	line-height: 150%;
-	font-weight: 400;
-	letter-spacing: .015em;
-	text-transform: none;
-	margin-top: 20px;
-	margin-bottom: 0;
-	-webkit-transition: font 200ms ease-out, margin 200ms ease-out;
-	   -moz-transition: font 200ms ease-out, margin 200ms ease-out;
-		 -o-transition: font 200ms ease-out, margin 200ms ease-out;
-			transition: font 200ms ease-out, margin 200ms ease-out;
-}
-#hero .btn {
-	margin-top: 60px;
-	margin-bottom: 0;
-	-webkit-transition: background 200ms ease-out, font 200ms ease-out, padding 200ms ease-out, margin 200ms ease-out;
-	   -moz-transition: background 200ms ease-out, font 200ms ease-out, padding 200ms ease-out, margin 200ms ease-out;
-		 -o-transition: background 200ms ease-out, font 200ms ease-out, padding 200ms ease-out, margin 200ms ease-out;
-			transition: background 200ms ease-out, font 200ms ease-out, padding 200ms ease-out, margin 200ms ease-out;
-}
-#hero .btn-large {
-	font-size: 18px;
-	padding: 18px 70px 20px;
-}
+
 header p {
 	font-size: 22px;
 	line-height: 150%;
