@@ -1,7 +1,13 @@
+"use strict";
 /**
  * Created by Arash on 27-May-16.
  */
-"use strict";
+var TravisUser = (function () {
+    function TravisUser() {
+    }
+    return TravisUser;
+}());
+exports.TravisUser = TravisUser;
 var GoogleUser = (function () {
     function GoogleUser() {
         this._authenticated = false;

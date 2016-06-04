@@ -36,6 +36,7 @@ var LoginComponent = (function () {
         configurable: true
     });
     LoginComponent.prototype.facebookLogin = function () {
+        var a_router = this._router;
         var a_Service = this.authService;
         var temp_facebook_obj = {};
         FB.login(function (response) {
@@ -53,6 +54,7 @@ var LoginComponent = (function () {
                         temp_facebook_obj['last_name'] = response['last_name'];
                         console.log(temp_facebook_obj);
                         a_Service.socialLogin(temp_facebook_obj);
+                        a_router.navigate(['Home']);
                     }
                     catch (err) {
                         console.log(err);
@@ -77,6 +79,7 @@ var LoginComponent = (function () {
     LoginComponent.prototype.doLogin = function () {
         console.log("login is called");
         this.authService.doLogin();
+        this._router.navigate(['Home']);
     };
     LoginComponent.prototype.doLogout = function () {
         this.authService.doLogout();

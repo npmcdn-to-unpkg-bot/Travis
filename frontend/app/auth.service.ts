@@ -12,7 +12,7 @@ import {WindowService} from './window.service';
 import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
 import {Observable} from "rxjs/Observable";
-import {GoogleUser} from './auth_user';
+import {GoogleUser, TravisUser} from './auth_user';
 import {Router} from '@angular/router-deprecated';
 
 @Injectable()
@@ -37,17 +37,20 @@ export class AuthService {
     private intervalId:any=null;
     private expires:any = 0;
     private expiresTimerId:any = null;
-    private loopCount = 600;
     private intervalLength = 1000;
     private windowHandle:any=null;
-    private locationWatcher = new EventEmitter();  // @TODO: switch to RxJS Subject instead of EventEmitter
 
     constructor(private windows:WindowService, private http:Http, private router: Router) {
+        console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-
+        this.user = new GoogleUser();
     }
 
     public doLogin() {
+        if (this.isAuthenticated()){
+            console.log("Already authenticated");
+            return;
+        }
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(() => {
             setTimeout(() =>{
@@ -70,7 +73,6 @@ export class AuthService {
                     }
 
                     var key:any;
-                    this.user = new GoogleUser();
 
                     for (key in params) {
                         if (key.indexOf('access_token') >= 0) {
@@ -144,10 +146,13 @@ export class AuthService {
                     this.user.name = google_user['name'];
                     this.user.gender = google_user['gender'];
                     this.user.image = google_user['image']['url'];
-                    console.log("logging user in auth service");
-                    console.log(this.user);
 
-                    console.log("redirecting user!!!!!");
+                    //storign in session
+                    let travisUser = new TravisUser();
+                    travisUser.name = google_user['name']['givenName'];
+                    travisUser.image = google_user['image']['url'];
+
+                    sessionStorage.setItem('user', JSON.stringify(travisUser));
                     this.router.navigate(['Home']);
                 })
                 .subscribe(info => {
@@ -158,48 +163,52 @@ export class AuthService {
     }
 
     public getUserInfo() {
-        console.log("inside user info auth service");
-        console.log(this.authenticated);
-        console.log(this.user);
-        if (this.user.authenticated)
+        let user = sessionStorage.getItem('user');
+        console.log("getting user from session");
+        console.log(user);
+        user = JSON.parse(user);
+        if (user != null)
+            return Promise.resolve(user);
+        else if (this.user.authenticated)
             return Promise.resolve(this.user);
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
-            return this.validateToken(token);
-        }
-        return null;
+            return this.getUserFromServer(token);
+        }else
+            return null;
     }
 
     private getUserFromServer(token){
+        //TODO implement!
         return null;
     }
 
     public isAuthenticated() {
+        if (sessionStorage.getItem("user")!= null)
+            return true;
         console.log("service inside isAuthenticated");
-        console.log(this.user);
         if (this.user.authenticated)
             return true;
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
-            return this.validateToken(token);
+            return this.getUserFromServer(token);
         }
         return false;
     }
 
-    public validateToken(token){
-        return this.getUserFromServer(token);
-    }
-
-    public subscribe(onNext:(value:any) => void, onThrow?:(exception:any) => void, onReturn?:() => void) {
-        return this.locationWatcher.subscribe(onNext, onThrow, onReturn);
-    }
-
-    private emitAuthStatus(success:boolean) {
-        this.locationWatcher.emit({success: success, authenticated: this.user.authenticated,
-            token: this.user.accessToken, expires: this.user.expires});
-    }
 
     public socialLogin(socialObject:Object){
         console.log(socialObject);
+        this.user.name = socialObject['first_name'];
+        this.user.gender = socialObject['gender'];
+        this.user.image = socialObject['picture'];
+
+        //storign in session
+        let travisUser = new TravisUser();
+        travisUser.name = socialObject['first_name'];
+        travisUser.image = socialObject['picture'];
+
+        sessionStorage.setItem('user', JSON.stringify(travisUser));
+        this.router.navigate(['Home']);
     }
 }

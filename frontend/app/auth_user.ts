@@ -1,6 +1,12 @@
 /**
  * Created by Arash on 27-May-16.
  */
+export class TravisUser{
+    public image:string;
+    public gender:string;
+    public name:string;
+
+}
 
 export class GoogleUser{
     private _authenticated:boolean = false;

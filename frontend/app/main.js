@@ -4,6 +4,7 @@
  */
 // Imports for loading & configuring the in-memory web api
 var core_1 = require('@angular/core');
+var router_deprecated_1 = require('@angular/router-deprecated');
 // The usual bootstrapping imports
 var platform_browser_dynamic_1 = require('@angular/platform-browser-dynamic');
 var http_1 = require('@angular/http');
@@ -15,6 +16,7 @@ require('rxjs/add/operator/map');
 var app_component_1 = require('./app.component');
 platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     http_1.HTTP_PROVIDERS,
+    router_deprecated_1.ROUTER_PROVIDERS,
     auth_service_1.AuthService,
     window_service_1.WindowService,
     common_2.COMMON_DIRECTIVES,

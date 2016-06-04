@@ -38,6 +38,7 @@ export class LoginComponent{
     }
 
     facebookLogin(){
+        var a_router = this._router;
         var a_Service = this.authService;
         var temp_facebook_obj = {};
         FB.login(function(response){
@@ -56,6 +57,7 @@ export class LoginComponent{
                         temp_facebook_obj['last_name'] = response['last_name'];
                         console.log(temp_facebook_obj);
                         a_Service.socialLogin(temp_facebook_obj);
+                        a_router.navigate(['Home']);
                     }catch (err){
                         console.log(err);
                         if (! temp_facebook_obj['id'])
@@ -78,6 +80,7 @@ export class LoginComponent{
     doLogin() {
         console.log("login is called");
         this.authService.doLogin();
+        this._router.navigate(['Home']);
     }
 
     doLogout() {

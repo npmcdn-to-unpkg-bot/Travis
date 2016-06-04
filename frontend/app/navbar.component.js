@@ -27,21 +27,26 @@ var Navbar = (function () {
         return this.authService.isAuthenticated();
     };
     Navbar.prototype.ngOnInit = function () {
+        this.user = "salam";
         console.log("OnInit");
         if (this.authenticated())
             this.getUserInfo();
     };
     Navbar.prototype.getUserInfo = function () {
         var _this = this;
-        var user = this.authService.getUserInfo().then(function (user) { return _this.user = user; });
-        console.log("inside navbar " + user);
-        this.user = { "image": user.image, "name": user.name };
+        console.log("calling get user info from navbar");
+        this.authService.getUserInfo().then(function (user) {
+            console.log("THen getting user from service");
+            console.log(user);
+            _this.user = user;
+            console.log(_this.user);
+        });
+        console.log("inside navbar " + this.user);
     };
     Navbar = __decorate([
         core_1.Component({
             selector: 'header',
             directives: [router_deprecated_1.ROUTER_DIRECTIVES, login_component_1.LoginComponent],
-            providers: [],
             pipes: [],
             templateUrl: 'app/navbar.component.html',
         }), 
