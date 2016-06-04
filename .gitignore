@@ -13,6 +13,8 @@ npm-debug.log*
 /frontend/bower_components/*
 /frontend/typings/*
 /frontend/app/*.js
+/frontend/app/*.map
+
 
 
 # generated files
