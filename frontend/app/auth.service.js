@@ -22,10 +22,12 @@ var window_service_1 = require('./window.service');
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
 var auth_user_1 = require('./auth_user');
+var router_deprecated_1 = require('@angular/router-deprecated');
 var AuthService = (function () {
-    function AuthService(windows, http) {
+    function AuthService(windows, http, router) {
         this.windows = windows;
         this.http = http;
+        this.router = router;
         this.oAuthTokenUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
             "scope=https://www.googleapis.com/auth/plus.me&" +
             "redirect_uri=http://localhost:3000&" +
@@ -36,6 +38,8 @@ var AuthService = (function () {
         this.userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
         this.facebookURL = "https://www.facebook.com/dialog/oauth?client_id=598800500273094&redirect_uri=" +
             "http://localhost:3000&response_type=token";
+        //TODO server side facebook
+        this.authenticated = false;
         this.intervalId = null;
         this.expires = 0;
         this.expiresTimerId = null;
@@ -44,7 +48,6 @@ var AuthService = (function () {
         this.windowHandle = null;
         this.locationWatcher = new core_1.EventEmitter(); // @TODO: switch to RxJS Subject instead of EventEmitter
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.user = new auth_user_1.GoogleUser();
     }
     AuthService.prototype.doLogin = function () {
         var _this = this;
@@ -67,6 +70,7 @@ var AuthService = (function () {
                         params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                     }
                     var key;
+                    _this.user = new auth_user_1.GoogleUser();
                     for (key in params) {
                         if (key.indexOf('access_token') >= 0) {
                             console.log(params[key]);
@@ -76,6 +80,7 @@ var AuthService = (function () {
                     }
                     if (_this.user.accessToken) {
                         _this.user.authenticated = true;
+                        _this.authenticated = true;
                         var now = new Date();
                         // we dont need it if user has been registered with our platform
                         //just is needed to do a login
@@ -133,7 +138,10 @@ var AuthService = (function () {
                 _this.user.name = google_user['name'];
                 _this.user.gender = google_user['gender'];
                 _this.user.image = google_user['image']['url'];
+                console.log("logging user in auth service");
                 console.log(_this.user);
+                console.log("redirecting user!!!!!");
+                _this.router.navigate(['Home']);
             })
                 .subscribe(function (info) {
             }, function (err) {
@@ -142,21 +150,24 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.getUserInfo = function () {
-        console.log("inside user info");
+        console.log("inside user info auth service");
+        console.log(this.authenticated);
         console.log(this.user);
-        if (this.user && this.user.authenticated)
-            return this.user;
+        if (this.user.authenticated)
+            return Promise.resolve(this.user);
         else if (localStorage.getItem('token_id')) {
             var token = localStorage.getItem('token_id');
             return this.validateToken(token);
         }
-        return false;
+        return null;
     };
     AuthService.prototype.getUserFromServer = function (token) {
         return null;
     };
     AuthService.prototype.isAuthenticated = function () {
-        if (this.user && this.user.authenticated)
+        console.log("service inside isAuthenticated");
+        console.log(this.user);
+        if (this.user.authenticated)
             return true;
         else if (localStorage.getItem('token_id')) {
             var token = localStorage.getItem('token_id');
@@ -179,7 +190,7 @@ var AuthService = (function () {
     };
     AuthService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http])
+        __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
 }());

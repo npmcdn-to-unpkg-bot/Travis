@@ -2,7 +2,7 @@
  * Created by Arash on 25-May-16.
  */
 //These first 3 lines will be deprecated by the final release
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
 import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
 import {Location} from "@angular/common";
@@ -18,7 +18,6 @@ import {LoginComponent} from './login.component';
 
 })
 export class Navbar implements OnInit{
-
     user:any;
 
     constructor(private location:Location, private router:Router, private authService:AuthService) {
@@ -32,15 +31,12 @@ export class Navbar implements OnInit{
         console.log(`OnInit`);
         if (this.authenticated())
             this.getUserInfo();
-        console.log(this.user)
     }
 
     public getUserInfo(){
-        let user = this.authService.getUserInfo();
+        let user = this.authService.getUserInfo().then(user => this.user = user);
         console.log("inside navbar " + user);
-        if (user != undefined)
-            this.user = {"image": user.image, "name": user.name};
-        else return null;
+        this.user = {"image": user.image, "name": user.name};
     }
 
 }

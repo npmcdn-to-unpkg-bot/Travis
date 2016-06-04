@@ -13,6 +13,7 @@ import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
 import {Observable} from "rxjs/Observable";
 import {GoogleUser} from './auth_user';
+import {Router} from '@angular/router-deprecated';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +32,7 @@ export class AuthService {
 
     //TODO server side facebook
 
+    private authenticated = false;
     private user:GoogleUser;
     private intervalId:any=null;
     private expires:any = 0;
@@ -40,10 +42,9 @@ export class AuthService {
     private windowHandle:any=null;
     private locationWatcher = new EventEmitter();  // @TODO: switch to RxJS Subject instead of EventEmitter
 
-    constructor(private windows:WindowService, private http:Http) {
+    constructor(private windows:WindowService, private http:Http, private router: Router) {
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
 
-        this.user = new GoogleUser();
     }
 
     public doLogin() {
@@ -69,6 +70,8 @@ export class AuthService {
                     }
 
                     var key:any;
+                    this.user = new GoogleUser();
+
                     for (key in params) {
                         if (key.indexOf('access_token') >= 0) {
                             console.log(params[key]);
@@ -78,6 +81,7 @@ export class AuthService {
                     }
                     if (this.user.accessToken) {
                         this.user.authenticated = true;
+                        this.authenticated = true;
                         let now = new Date();
                         // we dont need it if user has been registered with our platform
                         //just is needed to do a login
@@ -140,7 +144,11 @@ export class AuthService {
                     this.user.name = google_user['name'];
                     this.user.gender = google_user['gender'];
                     this.user.image = google_user['image']['url'];
+                    console.log("logging user in auth service");
                     console.log(this.user);
+
+                    console.log("redirecting user!!!!!");
+                    this.router.navigate(['Home']);
                 })
                 .subscribe(info => {
                 }, err => {
@@ -150,15 +158,16 @@ export class AuthService {
     }
 
     public getUserInfo() {
-        console.log("inside user info");
+        console.log("inside user info auth service");
+        console.log(this.authenticated);
         console.log(this.user);
-        if (this.user && this.user.authenticated)
-            return this.user;
+        if (this.user.authenticated)
+            return Promise.resolve(this.user);
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
             return this.validateToken(token);
         }
-        return false;
+        return null;
     }
 
     private getUserFromServer(token){
@@ -166,7 +175,9 @@ export class AuthService {
     }
 
     public isAuthenticated() {
-        if (this.user && this.user.authenticated)
+        console.log("service inside isAuthenticated");
+        console.log(this.user);
+        if (this.user.authenticated)
             return true;
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
