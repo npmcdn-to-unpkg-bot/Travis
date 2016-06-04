@@ -18,11 +18,11 @@ var home_component_1 = require("./home.component");
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
         // You need this small hack in order to catch application root view container ref
-        this.viewContainerRef = viewContainerRef;
+        // this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
+            selector: 'travis',
             template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
             styleUrls: ['app/app.component.css'],
             directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, poll_component_1.PollComponent],

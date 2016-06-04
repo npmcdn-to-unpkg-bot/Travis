@@ -26,4 +26,4 @@ var CommentComponent = (function () {
     return CommentComponent;
 }());
 exports.CommentComponent = CommentComponent;
-//# sourceMappingURL=comment.component.js.map
+//# sourceMappingURL=share.component.js.map

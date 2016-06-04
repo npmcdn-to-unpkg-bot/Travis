@@ -368,7 +368,7 @@ $(document).ready(function () {
 	
 	$(".slider-next").click(function () {
 		owl.trigger('owl.next');
-	})
+	});
 	
 	$(".slider-prev").click(function () {
 		owl.trigger('owl.prev');
@@ -774,7 +774,7 @@ $(document).ready(function () {
 			center: new google.maps.LatLng(40.7902778, -73.9597222),
 			disableDefaultUI: true,
 			scrollwheel: false
-		}
+		};
 		var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	}
 	

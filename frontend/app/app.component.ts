@@ -1,15 +1,15 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 import { AuthService }         from './auth.service';
-import {Navbar} from "./navbar.component";
-import {LoginComponent} from "./login.component";
-import {LoggedoutPage} from "./logged-out.component";
-import {PollComponent} from "./poll/poll.component";
-import {HomeComponent} from "./home.component";
+import { Navbar } from "./navbar.component";
+import { LoginComponent } from "./login.component";
+import { LoggedoutPage } from "./logged-out.component";
+import { PollComponent } from "./poll/poll.component";
+import { HomeComponent } from "./home.component";
 
 
 @Component({
-    selector: 'my-app',
+    selector: 'travis',
     template: `
     <header></header>
     <main-comp></main-comp>
@@ -31,6 +31,6 @@ import {HomeComponent} from "./home.component";
 export class AppComponent {
     public constructor(viewContainerRef:ViewContainerRef) {
         // You need this small hack in order to catch application root view container ref
-        this.viewContainerRef = viewContainerRef;
+        // this.viewContainerRef = viewContainerRef;
     }
 }
