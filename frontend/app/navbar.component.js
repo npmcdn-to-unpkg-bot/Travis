@@ -30,15 +30,12 @@ var Navbar = (function () {
         console.log("OnInit");
         if (this.authenticated())
             this.getUserInfo();
-        console.log(this.user);
     };
     Navbar.prototype.getUserInfo = function () {
-        var user = this.authService.getUserInfo();
+        var _this = this;
+        var user = this.authService.getUserInfo().then(function (user) { return _this.user = user; });
         console.log("inside navbar " + user);
-        if (user != undefined)
-            this.user = { "image": user.image, "name": user.name };
-        else
-            return null;
+        this.user = { "image": user.image, "name": user.name };
     };
     Navbar = __decorate([
         core_1.Component({

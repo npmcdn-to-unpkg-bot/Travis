@@ -5,11 +5,14 @@ import {Navbar} from "./navbar.component";
 import {LoginComponent} from "./login.component";
 import {LoggedoutPage} from "./logged-out.component";
 import {PollComponent} from "./poll/poll.component";
+import {HomeComponent} from "./home.component";
+
 
 @Component({
     selector: 'my-app',
     template: `
     <header></header>
+    <main-comp></main-comp>
     <router-outlet></router-outlet>
   `,
     styleUrls: ['app/app.component.css'],
@@ -20,7 +23,7 @@ import {PollComponent} from "./poll/poll.component";
     ]
 })
 @RouteConfig([
-    { path: '/login',     name: 'Login',     component: LoginComponent },
+    { path: '/',     name: 'Home',     component: HomeComponent, useAsDefault: true },
     { path: '/loggedout', name: 'LoggedoutPage', component: LoggedoutPage},
     { path: '/poll', name: 'Poll', component: PollComponent},
 
