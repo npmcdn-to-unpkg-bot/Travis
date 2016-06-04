@@ -31,13 +31,14 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-
+app.use('/', express.static(__dirname + '/frontend'));
 //passport
 
 var passport = require('passport');
 var jwtConfig = require('./passport/jwtConfig');
 
 app.use(passport.initialize());
+app.use(passport.session());
 jwtConfig(passport);
 
 
@@ -49,7 +50,7 @@ var userRoutes = require("./user/userRoutes");
 var movieRoutes = require("./movie/movieRoutes");
 
 app.use('/api', movieRoutes(passport));
-app.use('/', userRoutes(passport));
+app.use('/user', userRoutes(passport));
 
 
 module.exports = app;
