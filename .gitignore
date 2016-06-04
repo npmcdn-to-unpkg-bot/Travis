@@ -12,6 +12,7 @@ npm-debug.log*
 /frontend/node_modules/*
 /frontend/bower_components/*
 /frontend/typings/*
+/frontend/app/*.js
 
 
 # generated files

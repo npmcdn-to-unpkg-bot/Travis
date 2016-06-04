@@ -22,13 +22,9 @@ var Navbar = (function () {
         this.router = router;
         this.authService = authService;
     }
-    Object.defineProperty(Navbar.prototype, "authenticated", {
-        get: function () {
-            return this.authService.isAuthenticated();
-        },
-        enumerable: true,
-        configurable: true
-    });
+    Navbar.prototype.authenticated = function () {
+        return this.authService.isAuthenticated();
+    };
     Navbar.prototype.ngOnInit = function () {
         console.log("OnInit");
         if (this.authenticated())
