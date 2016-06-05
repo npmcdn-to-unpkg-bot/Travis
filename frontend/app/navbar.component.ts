@@ -36,6 +36,7 @@ export class Navbar implements OnInit{
     }
 
     public authenticated() {
+        console.log("inside navbar");
         return this.authService.isAuthenticated();
     }
 

@@ -112,6 +112,7 @@ var AuthService = (function () {
         this.expires = 0;
         this.user.accessToken = null;
         console.log('Session has been cleared');
+        window.location.reload();
     };
     AuthService.prototype.validateOAuthToken = function () {
         var _this = this;

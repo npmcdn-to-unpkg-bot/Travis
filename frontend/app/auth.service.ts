@@ -118,6 +118,7 @@ export class AuthService {
         this.expires = 0;
         this.user.accessToken = null;
         console.log('Session has been cleared');
+        window.location.reload();
     }
 
     private validateOAuthToken(){
