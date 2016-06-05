@@ -12,12 +12,12 @@ declare var FB: any;
 @Component({
     selector: 'main-comp',
     directives: [DROPDOWN_DIRECTIVES],
-    templateUrl: 'app/home.component.html'
+    templateUrl: 'app/home.component.html',
+    styleUrls:  ['app/app.component.css']
 })
 export class HomeComponent{
     constructor(
         private _router: Router,
         private authService: AuthService) {
     }
-
 }
