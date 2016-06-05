@@ -15,8 +15,9 @@
                         <ul class="nav navbar-nav navbar-right">
                             <login *ngIf="!authenticated()"></login>
                             <mydiv *ngIf="authenticated()">
-                                <span>Welcome {{user['name']}} !</span>
-                                <img class="img-circle" src="{{user['image']}}"/>
+                                <span>Welcome {{user?.name}} !</span>
+                                <img class="img-circle" src="{{user?.image}}"/>
+                                <button role="link" (click)="logout()" class="btn-link">Logout !</button>
                             </mydiv>
                         </ul>
                     </div>

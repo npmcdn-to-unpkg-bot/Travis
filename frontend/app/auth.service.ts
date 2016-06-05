@@ -11,6 +11,7 @@ import {Injectable, EventEmitter} from "@angular/core";
 import {WindowService} from './window.service';
 import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
+import { Subject }    from 'rxjs/Subject';
 import {Observable} from "rxjs/Observable";
 import {GoogleUser, TravisUser} from './auth_user';
 import {Router} from '@angular/router-deprecated';
@@ -27,9 +28,6 @@ export class AuthService {
     private validationUrl  = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=";
     private userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
 
-    private facebookURL = "https://www.facebook.com/dialog/oauth?client_id=598800500273094&redirect_uri=" +
-        "http://localhost:3000&response_type=token";
-
     //TODO server side facebook
 
     private authenticated = false;
@@ -39,11 +37,21 @@ export class AuthService {
     private expiresTimerId:any = null;
     private intervalLength = 1000;
     private windowHandle:any=null;
+    authMsg:any;
+
+    authChange: Subject<any> = new Subject<any>();
+
+    notify(name, image){
+        this.authMsg.name = name;
+        this.authMsg.image = image;
+        this.authChange.next(this.authMsg);
+    }
 
     constructor(private windows:WindowService, private http:Http, private router: Router) {
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
         this.user = new GoogleUser();
+        this.authMsg = {'image':'', 'name':''};
     }
 
     public doLogin() {
@@ -101,11 +109,13 @@ export class AuthService {
 
     public doLogout() {
         this.user.authenticated = false;
-        localStorage.removeItem('token_id');
+        sessionStorage.removeItem('user');
+        this.authenticated = false;
+
+        //localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
-        //this.emitAuthStatus(true);
         console.log('Session has been cleared');
     }
 
@@ -140,7 +150,6 @@ export class AuthService {
             console.log(tempUrl);
             this.http.get(tempUrl)
                 .map(res => {
-                    console.log(res);
                     let google_user = res.json();
                     console.log(google_user);
                     this.user.name = google_user['name'];
@@ -153,7 +162,7 @@ export class AuthService {
                     travisUser.image = google_user['image']['url'];
 
                     sessionStorage.setItem('user', JSON.stringify(travisUser));
-                    this.router.navigate(['Home']);
+                    this.notify(google_user['name']['givenName'],google_user['image']['url']);
                 })
                 .subscribe(info => {
                 }, err => {
@@ -199,6 +208,9 @@ export class AuthService {
 
     public socialLogin(socialObject:Object){
         console.log(socialObject);
+        this.user.authenticated = true;
+        this.authenticated = true;
+
         this.user.name = socialObject['first_name'];
         this.user.gender = socialObject['gender'];
         this.user.image = socialObject['picture'];
@@ -209,6 +221,6 @@ export class AuthService {
         travisUser.image = socialObject['picture'];
 
         sessionStorage.setItem('user', JSON.stringify(travisUser));
-        this.router.navigate(['Home']);
+        this.notify(socialObject['first_name'],socialObject['picture']);
     }
 }
