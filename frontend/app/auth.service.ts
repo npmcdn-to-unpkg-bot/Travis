@@ -32,7 +32,7 @@ export class AuthService {
     //TODO server side facebook
 
     private authenticated = false;
-    private user:GoogleUser;
+    private user = new GoogleUser();
     private intervalId:any=null;
     private expires:any = 0;
     private expiresTimerId:any = null;
@@ -51,7 +51,6 @@ export class AuthService {
     constructor(private windows:WindowService, private http:Http, private router: Router) {
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.user = new GoogleUser();
         this.authMsg = {'image':'', 'name':''};
     }
 
@@ -111,9 +110,9 @@ export class AuthService {
     public doLogout() {
         this.user.authenticated = false;
         sessionStorage.removeItem('user');
+        localStorage.removeItem('token');
         this.authenticated = false;
 
-        //localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
@@ -166,7 +165,6 @@ export class AuthService {
                     sessionStorage.setItem('user', JSON.stringify(travisUser));
                     this.notify(google_user['name']['givenName'],google_user['image']['url']);
                     this.sendTOServer(google_user,'Google');
-
                 })
                 .subscribe(info => {
                 }, err => {
@@ -175,13 +173,13 @@ export class AuthService {
         }
     }
 
-    public sendTOServer(socialObj, type){
+    public sendTOServer(socialObj, type:string){
         socialObj['imageURL'] = socialObj['image']['url'];
         socialObj['lastName'] = socialObj['lastName'];
         socialObj['fisrtName'] = socialObj['givenName'];
         socialObj['userID'] = socialObj['id'];
         socialObj['email'] = socialObj['emails'][0]['value'];
-        socialObj['type'] = 'Google';
+        socialObj['type'] = type;
         let body = JSON.stringify(socialObj);
         console.log(socialObj);
         var headers = new Headers();
@@ -189,6 +187,10 @@ export class AuthService {
         this.http.post("http://localhost:3000/user/signup", body, {'headers':headers})
             .map(res => {
                 console.log(res);
+                let response = res.json();
+                console.log(response);
+                let token = response.token;
+                localStorage.setItem('token',token);
             })
             .subscribe(info => {
             }, err => {
@@ -205,16 +207,28 @@ export class AuthService {
             return Promise.resolve(user);
         else if (this.user.authenticated)
             return Promise.resolve(this.user);
-        else if (localStorage.getItem('token_id')){
-            let token = localStorage.getItem('token_id');
-            return this.getUserFromServer(token);
+        else if (localStorage.getItem('token')){
+            let token = localStorage.getItem('token');
+            return Promise.resolve(this.getUserFromServer(token));
         }else
-            return null;
+            return Promise.resolve(null);
     }
 
     private getUserFromServer(token){
-        //TODO implement!
-        return null;
+        let body = JSON.stringify({"token":token});
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/lookup", body, {'headers':headers})
+            .map(res => {
+                console.log(res);
+                let response = res.json();
+                let user = response['user'];
+                return user;
+            })
+            .subscribe(info => {
+            }, err => {
+                console.error("Failed to get user info:", err);
+            });
     }
 
     public isAuthenticated() {
@@ -223,9 +237,19 @@ export class AuthService {
         console.log("service inside isAuthenticated");
         if (this.user.authenticated)
             return true;
-        else if (localStorage.getItem('token_id')){
-            let token = localStorage.getItem('token_id');
-            return this.getUserFromServer(token);
+        else if (localStorage.getItem('token')){
+            let token = localStorage.getItem('token');
+            let user = this.getUserFromServer(token);
+
+            //storign in session
+            if (user != undefined){
+                let travisUser = new TravisUser();
+                travisUser.name = user['firstName'];
+                travisUser.image = user['imageURL'];
+                sessionStorage.setItem('user', JSON.stringify(travisUser));
+                this.notify(user['firstName'],user['imageURL']);
+                return true;
+            }else return false;
         }
         return false;
     }
@@ -247,5 +271,6 @@ export class AuthService {
 
         sessionStorage.setItem('user', JSON.stringify(travisUser));
         this.notify(socialObject['first_name'],socialObject['picture']);
+        this.sendTOServer(socialObject, 'Facebook');
     }
 }

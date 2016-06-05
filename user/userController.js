@@ -57,7 +57,7 @@ module.exports.signup = function(req, res){
     user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
     user.imageURL = req.body.imageURL;
-    user.gender = req.body.email;
+    user.gender = req.body.gender;
     user.birthDate = req.body.birthDate;
     user.country = req.body.country;
     user.city = req.body.city;
@@ -152,6 +152,42 @@ module.exports.unregister = function(req, res) {
     }, function(err){
         res.status(500).send(err);
     });
+};
+
+
+module.exports.lookup = function(req, res){
+
+    if(!req.body.token){
+        res.status(400).send('token required');
+        return;
+    }
+
+    var token = req.body.token;
+    console.log(token);
+	
+	var decoded =  jwt.decode(token, Config.auth.jwtSecret);
+	console.log(decoded);
+	var user_id = decoded.user._id;
+	if (user_id != undefined){
+		
+		User.findOne({_id: user_id}, function(err, user){
+			if (user) {
+                var temp_user = {};
+                temp_user['imageURL'] = user.imageURL;
+                temp_user['email'] = user.email;
+                temp_user['name'] = user.firstName;
+                temp_user['gender'] = user.gender;
+                temp_user['birthDate'] = user.birthDate;
+                temp_user['country'] = user.country;
+                temp_user['city'] = user.city;
+                res.status(200).json({'user': temp_user});
+				return;
+			}
+		});
+	}else{
+		res.status(500).send("token is invalid");
+	    return;
+	}
 };
 
 
