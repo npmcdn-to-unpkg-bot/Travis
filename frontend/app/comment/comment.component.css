@@ -52,7 +52,6 @@ textarea {
     height: 60px;
     line-height: 1;
     border-radius:1px;
-    border:1px solid #ddd;
     font-smoothing:subpixel-antialiased;
     margin-bottom: 5px;
 }

@@ -26,3 +26,105 @@ nav a:hover {
 nav a.router-link-active {
     color: #039be5;
 }
+
+.search-section {
+    height: 650px;
+}
+
+@media (max-height: 768px) {
+    .search-section {
+        height: 625px;
+    }
+}
+
+@media (min-height: 1080px) {
+    .search-section {
+        height: 725px;
+    }
+}
+
+@media (max-height: 767px) {
+    .search-section {
+        height: 400px;
+    }
+}
+
+
+input,
+textarea,
+.uneditable-input,
+.form-inline .form-control,
+.navbar-form .form-control {
+    width: 100%;
+}
+select,
+textarea,
+textarea.form-control,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    height: 40px;
+    padding: 10 15px;
+    margin-bottom: 5px;
+    /* margin-left: 5px; */
+    /* margin-right: 5px; */
+    font-size: 14px;
+    /* line-height: 40px; */
+    color: #083330;
+    resize: none;
+    vertical-align: middle;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #eff2f5;
+    border: 1px solid #eff2f5;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-transition: all 200ms ease-out;
+    -o-transition: all 200ms ease-out;
+    -moz-transition: all 200ms ease-out;
+}
+textarea:focus,
+textarea.form-control:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border: 1px solid #BCC7D1;
+    box-shadow: none;
+}
+textarea {
+    height: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    min-height: 150px;
+    resize: vertical;
+}
+textarea.form-control {
+    padding: 10px;
+}

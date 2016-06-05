@@ -1,6 +1,6 @@
     <div class="navbar center">
         <div class="yamm">
-            <div class="navbar-collapse collapse">
+            <div class="navbar-static-top">
                 <div class="container">
                     <a href="index.html">
                         <img src="../UI/assets/images/art/travis_logo_small.png" width="50" height="58">
@@ -9,8 +9,8 @@
                     <div class="navbar-inner center">
                         <ul class="nav navbar-nav center">
                             <li class="active"><a href="index.html">Search</a></li>
-                            <li><a href="../UI/share.html">Share</a></li>
-                            <li><a href="./poll">Poll</a></li>
+                            <li *ngIf="authenticated()"><a href="../share">Share</a></li>
+                            <li *ngIf="authenticated()"><a href="./poll">Poll</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <login *ngIf="!authenticated()"></login>

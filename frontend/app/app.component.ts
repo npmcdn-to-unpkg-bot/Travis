@@ -5,6 +5,7 @@ import {Navbar} from "./navbar.component";
 import {LoginComponent} from "./login.component";
 import {PollComponent} from "./poll/poll.component";
 import {HomeComponent} from "./home.component";
+import {ShareComponent} from "./share/share.component";
 
 
 @Component({
@@ -22,7 +23,7 @@ import {HomeComponent} from "./home.component";
 @RouteConfig([
     { path: '/',     name: 'Home',     component: HomeComponent, useAsDefault: true },
     { path: '/poll', name: 'Poll', component: PollComponent},
-
+    { path: '/share', name: 'Share', component: ShareComponent}
 ])
 
 export class AppComponent {
