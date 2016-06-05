@@ -115,9 +115,25 @@
 #login-dp{
     min-width: 250px;
     padding: 14px 14px 0;
+    margin-top: 14px;
     overflow:hidden;
     background-color:rgba(255,255,255,.8);
 }
+
+.btn-primary {
+    margin-top: 3px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    /* Safari and Chrome */
+    .btn-primary:not(:root:root) {
+        margin-top: 3px;
+    }
+    .btn-primary {
+        margin-top: 7px;
+    }
+}
+
 ul#login-dp.dropdown-menu{
     top: 44px;
 }

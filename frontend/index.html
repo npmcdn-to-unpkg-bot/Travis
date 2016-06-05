@@ -40,7 +40,9 @@
 
 
     <script>
-        System.import('app').catch(function(err){ console.error(err); });
+        System.import('app').catch(function (err) {
+            console.error(err);
+        });
     </script>
 </head>
 <!-- 3. Display the application -->
@@ -59,7 +61,8 @@
             <div class="col-md-3 col-sm-6 inner">
                 <h4>Who we are</h4>
                 <a href="index.html">TRAVIS</a>
-                <p>Magnis modipsae voloratati andigen daepeditem quiate re porem que aut labor. Laceaque eictemperum quiae sitiorem rest non restibusaes maio es dem tumquam.</p>
+                <p>Magnis modipsae voloratati andigen daepeditem quiate re porem que aut labor. Laceaque eictemperum
+                    quiae sitiorem rest non restibusaes maio es dem tumquam.</p>
             </div><!-- /.col -->
 
             <div class="col-md-3 col-sm-6 inner">
@@ -77,7 +80,8 @@
                 <p>Conecus iure posae volor remped modis aut lor volor accabora incim resto explabo.</p>
                 <form id="newsletter" class="form-inline newsletter" role="form">
                     <label class="sr-only" for="exampleInputEmail">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail" placeholder="Enter your email address">
+                    <input type="email" class="form-control" id="exampleInputEmail"
+                           placeholder="Enter your email address">
                     <button type="submit" class="btn btn-default btn-submit">Subscribe</button>
                 </form>
             </div><!-- /.col -->
@@ -97,7 +101,6 @@
 </footer>
 
 
-
 <!-- For demo purposes – can be removed on production -->
 <link href="/UI/assets/css/green.css" rel="alternate stylesheet" title="Green color">
 <link href="/UI/assets/css/blue.css" rel="alternate stylesheet" title="Blue color">
@@ -112,18 +115,21 @@
 
 <script>
     /* facebook SDK initialization */
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
         FB.init({
-            appId      : '598800500273094',
-            xfbml      : false,
-            version    : 'v2.6'
+            appId: '598800500273094',
+            xfbml: false,
+            version: 'v2.6'
         });
     };
 
-    (function(d, s, id){
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
