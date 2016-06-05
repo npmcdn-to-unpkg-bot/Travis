@@ -12,9 +12,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var Comment = (function () {
+    function Comment() {
+    }
+    return Comment;
+}());
+exports.Comment = Comment;
 var CommentComponent = (function () {
     function CommentComponent() {
     }
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], CommentComponent.prototype, "comments", void 0);
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'comment',

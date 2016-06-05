@@ -14,6 +14,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var comment_component_1 = require('../comment/comment.component');
+var poll_service_1 = require('./poll.service');
+var auth_service_1 = require('../auth.service');
 var Poll = (function () {
     function Poll() {
     }
@@ -21,16 +23,18 @@ var Poll = (function () {
 }());
 exports.Poll = Poll;
 var PollComponent = (function () {
-    function PollComponent() {
-        this.poll = {
-            id: 1,
-            user: 'Emma',
-            question: 'WWED',
-            answers: ['Paris', 'Rome'],
-            date: 'June 6',
-            comments: []
-        };
+    function PollComponent(authService, pollService) {
+        this.authService = authService;
+        this.pollService = pollService;
     }
+    PollComponent.prototype.ngOnInit = function () {
+        console.log("OnInit poll component");
+        this.getPolls();
+    };
+    PollComponent.prototype.getPolls = function () {
+        var _this = this;
+        this.pollService.getLatestPolls().then(function (polls) { return _this.polls = polls; });
+    };
     PollComponent = __decorate([
         core_1.Component({
             selector: 'pollItem',
@@ -39,7 +43,7 @@ var PollComponent = (function () {
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, comment_component_1.CommentComponent],
             styleUrls: ['app/poll/poll.component.css'],
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService])
     ], PollComponent);
     return PollComponent;
 }());

@@ -1,17 +1,19 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable,OnInit } from '@angular/core';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import { CommentComponent } from '../comment/comment.component';
+import {PollService} from './poll.service'
+import {AuthService} from '../auth.service';
 
 export class Poll {
     id: number;
     user: string;
     question: string;
-    answers: string[];
+    options: string[];
     date: string;
-    comments: string[];
+    comments: Object[];
 }
 
 
@@ -23,13 +25,20 @@ export class Poll {
     styleUrls:  ['app/poll/poll.component.css'],
 })
 
-export class PollComponent{
-    poll: Poll = {
-        id: 1,
-        user: 'Emma',
-        question: 'WWED',
-        answers: ['Paris', 'Rome'],
-        date: 'June 6',
-        comments: []
-    };
+export class PollComponent implements OnInit{
+    polls:Poll[];
+
+    constructor(private authService: AuthService, private pollService: PollService) {
+    }
+
+
+    ngOnInit() {
+        console.log(`OnInit poll component`);
+        this.getPolls();
+    }
+
+    private getPolls(){
+            this.pollService.getLatestPolls().then(polls => this.polls = polls);
+    }
+
 }

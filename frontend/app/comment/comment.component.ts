@@ -1,7 +1,16 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-import { Component, Injectable } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+
+export class Comment{
+    name:string;
+    text:string;
+    date:string;
+    imageURL:string;
+}
+
 
 @Component({
     selector: 'comment',
@@ -10,5 +19,7 @@ import { Component, Injectable } from '@angular/core';
 })
 
 export class CommentComponent{
+    @Input()
+    comments: Comment[];
 
 }
