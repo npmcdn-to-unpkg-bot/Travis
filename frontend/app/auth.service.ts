@@ -20,7 +20,8 @@ import {Router} from '@angular/router-deprecated';
 export class AuthService {
     private oAuthCallbackUrl:string;
     private oAuthTokenUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
-        "scope=https://www.googleapis.com/auth/plus.me&" +
+        "scope=https://www.googleapis.com/auth/plus.me " +
+        "https://www.googleapis.com/auth/userinfo.email&" +
         "redirect_uri=http://localhost:3000&" +
         "response_type=token&client_id=393670407860-jmlf11bfh5eu404k5tuoi2lsok89uqqd.apps.googleusercontent.com" +
         "&prompt=consent&" +
@@ -163,12 +164,33 @@ export class AuthService {
 
                     sessionStorage.setItem('user', JSON.stringify(travisUser));
                     this.notify(google_user['name']['givenName'],google_user['image']['url']);
+                    this.sendTOServer(google_user,'Google');
+
                 })
                 .subscribe(info => {
                 }, err => {
                     console.error("Failed to fetch user info:", err);
                 });
         }
+    }
+
+    public sendTOServer(socialObj, type){
+        socialObj['imageURL'] = socialObj['image']['url'];
+        socialObj['lastName'] = socialObj['lastName'];
+        socialObj['fisrtName'] = socialObj['givenName'];
+        socialObj['userID'] = socialObj['id'];
+        socialObj['email'] = socialObj['emails'][0]['value'];
+        socialObj['type'] = 'Google';
+        let body = JSON.stringify(socialObj);
+        console.log(socialObj);
+        this.http.post("http://localhost:3000/user/signup", body)
+            .map(res => {
+                console.log(res);
+            })
+            .subscribe(info => {
+            }, err => {
+                console.error("Failed to fetch user info:", err);
+            });
     }
 
     public getUserInfo() {

@@ -61,7 +61,7 @@ module.exports.signup = function(req, res){
     user.birthDate = req.body.birthDate;
     user.country = req.body.country;
     user.city = req.body.city;
-   
+    console.log(user);
 if(user.type !== "travis")
 	{
     User.findOne({userID: req.body.userID}, function(err, user){
