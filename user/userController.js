@@ -42,7 +42,7 @@ module.exports.signup = function(req, res){
         res.status(400).send('email required');
         return;
     }
-    if(!req.body.password){
+    if( req.body.type == "Travis" && !req.body.password ){
         res.status(400).send('password required');
         return;
     }
@@ -72,16 +72,17 @@ if(user.type !== "travis")
         	return;
         }
     });
-	}else{
+	}
+
+
 	    user.save(function(err) {
 	        if (err) {
 	            res.status(500).send(err);
 	            return;
 	        }
-
+	        console.log("req 2");
 	        res.status(201).json({token: createToken(user)});
 	    });		
-	}
 
 };
 
