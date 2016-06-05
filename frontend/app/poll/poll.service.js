@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,6 +26,16 @@ require('rxjs/Rx');
 var router_deprecated_1 = require('@angular/router-deprecated');
 var polls = [
     {
+        id: 4,
+        user: 'Roy',
+        question: 'WTD in Winter',
+        options: ['Moscow', 'London'],
+        date: 'June 1',
+        comments: [{ name: 'Jen', imageURL: 'http://static.tvtropes.org/pmwiki/pub/images/jenit_545.jpg', text: "You should visit me if you come to London!", date: 'June 2, 2016' },
+            { name: 'Moss', imageURL: 'http://static.bips.channel4.com/bips/520x390/the-it-crowd/characters/f2e6d121-d965-4a09-ab66-dbaa41290467.jpg', text: "Go to Moscow and drink a White Russian. I want to know how to make one.", date: 'June 2, 2016' }
+        ]
+    },
+    {
         id: 1,
         user: 'Emma',
         question: 'WWED',
@@ -51,6 +62,16 @@ var polls = [
             { name: 'Bob', imageURL: 'https://pbs.twimg.com/profile_images/671726314504622082/0PqgkSEK.jpg', text: "Where is my Money!!", date: '20 June' }
         ]
     },
+    {
+        id: 4,
+        user: 'Rupert',
+        question: 'WTD in Winter',
+        options: ['Moscow', 'Munich'],
+        date: 'March 2014',
+        comments: [{ name: 'Arash', imageURL: 'https://pbs.twimg.com/profile_images/671726314504622082/0PqgkSEK.jpg', text: "Great Trip!", date: '01 June 2015' },
+            { name: 'Bob', imageURL: 'https://pbs.twimg.com/profile_images/671726314504622082/0PqgkSEK.jpg', text: "Where is my Money!!", date: '20 June' }
+        ]
+    },
 ];
 var PollService = (function () {
     function PollService(http, router) {
@@ -69,6 +90,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-})();
+}());
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map
