@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -30,7 +29,8 @@ var AuthService = (function () {
         this.http = http;
         this.router = router;
         this.oAuthTokenUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
-            "scope=https://www.googleapis.com/auth/plus.me&" +
+            "scope=https://www.googleapis.com/auth/plus.me " +
+            "https://www.googleapis.com/auth/userinfo.email&" +
             "redirect_uri=http://localhost:3000&" +
             "response_type=token&client_id=393670407860-jmlf11bfh5eu404k5tuoi2lsok89uqqd.apps.googleusercontent.com" +
             "&prompt=consent&" +
@@ -153,12 +153,33 @@ var AuthService = (function () {
                 travisUser.image = google_user['image']['url'];
                 sessionStorage.setItem('user', JSON.stringify(travisUser));
                 _this.notify(google_user['name']['givenName'], google_user['image']['url']);
+                _this.sendTOServer(google_user, 'Google');
             })
                 .subscribe(function (info) {
             }, function (err) {
                 console.error("Failed to fetch user info:", err);
             });
         }
+    };
+    AuthService.prototype.sendTOServer = function (socialObj, type) {
+        socialObj['imageURL'] = socialObj['image']['url'];
+        socialObj['lastName'] = socialObj['lastName'];
+        socialObj['fisrtName'] = socialObj['givenName'];
+        socialObj['userID'] = socialObj['id'];
+        socialObj['email'] = socialObj['emails'][0]['value'];
+        socialObj['type'] = 'Google';
+        var body = JSON.stringify(socialObj);
+        console.log(socialObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/signup", body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to fetch user info:", err);
+        });
     };
     AuthService.prototype.getUserInfo = function () {
         var user = sessionStorage.getItem('user');
@@ -211,6 +232,6 @@ var AuthService = (function () {
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-}());
+})();
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map
