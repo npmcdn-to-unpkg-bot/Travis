@@ -183,7 +183,9 @@ export class AuthService {
         socialObj['type'] = 'Google';
         let body = JSON.stringify(socialObj);
         console.log(socialObj);
-        this.http.post("http://localhost:3000/user/signup", body)
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/signup", body, {'headers':headers})
             .map(res => {
                 console.log(res);
             })
