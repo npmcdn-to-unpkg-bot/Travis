@@ -11,8 +11,9 @@ import {Injectable, EventEmitter} from "@angular/core";
 import {WindowService} from './window.service';
 import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
+import { Subject }    from 'rxjs/Subject';
 import {Observable} from "rxjs/Observable";
-import {GoogleUser} from './auth_user';
+import {GoogleUser, TravisUser} from './auth_user';
 import {Router} from '@angular/router-deprecated';
 
 @Injectable()
@@ -27,9 +28,6 @@ export class AuthService {
     private validationUrl  = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=";
     private userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
 
-    private facebookURL = "https://www.facebook.com/dialog/oauth?client_id=598800500273094&redirect_uri=" +
-        "http://localhost:3000&response_type=token";
-
     //TODO server side facebook
 
     private authenticated = false;
@@ -37,17 +35,30 @@ export class AuthService {
     private intervalId:any=null;
     private expires:any = 0;
     private expiresTimerId:any = null;
-    private loopCount = 600;
     private intervalLength = 1000;
     private windowHandle:any=null;
-    private locationWatcher = new EventEmitter();  // @TODO: switch to RxJS Subject instead of EventEmitter
+    authMsg:any;
+
+    authChange: Subject<any> = new Subject<any>();
+
+    notify(name, image){
+        this.authMsg.name = name;
+        this.authMsg.image = image;
+        this.authChange.next(this.authMsg);
+    }
 
     constructor(private windows:WindowService, private http:Http, private router: Router) {
+        console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-
+        this.user = new GoogleUser();
+        this.authMsg = {'image':'', 'name':''};
     }
 
     public doLogin() {
+        if (this.isAuthenticated()){
+            console.log("Already authenticated");
+            return;
+        }
         this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(() => {
             setTimeout(() =>{
@@ -70,7 +81,6 @@ export class AuthService {
                     }
 
                     var key:any;
-                    this.user = new GoogleUser();
 
                     for (key in params) {
                         if (key.indexOf('access_token') >= 0) {
@@ -99,11 +109,13 @@ export class AuthService {
 
     public doLogout() {
         this.user.authenticated = false;
-        localStorage.removeItem('token_id');
+        sessionStorage.removeItem('user');
+        this.authenticated = false;
+
+        //localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
-        //this.emitAuthStatus(true);
         console.log('Session has been cleared');
     }
 
@@ -138,17 +150,19 @@ export class AuthService {
             console.log(tempUrl);
             this.http.get(tempUrl)
                 .map(res => {
-                    console.log(res);
                     let google_user = res.json();
                     console.log(google_user);
                     this.user.name = google_user['name'];
                     this.user.gender = google_user['gender'];
                     this.user.image = google_user['image']['url'];
-                    console.log("logging user in auth service");
-                    console.log(this.user);
 
-                    console.log("redirecting user!!!!!");
-                    this.router.navigate(['Home']);
+                    //storign in session
+                    let travisUser = new TravisUser();
+                    travisUser.name = google_user['name']['givenName'];
+                    travisUser.image = google_user['image']['url'];
+
+                    sessionStorage.setItem('user', JSON.stringify(travisUser));
+                    this.notify(google_user['name']['givenName'],google_user['image']['url']);
                 })
                 .subscribe(info => {
                 }, err => {
@@ -158,48 +172,55 @@ export class AuthService {
     }
 
     public getUserInfo() {
-        console.log("inside user info auth service");
-        console.log(this.authenticated);
-        console.log(this.user);
-        if (this.user.authenticated)
+        let user = sessionStorage.getItem('user');
+        console.log("getting user from session");
+        console.log(user);
+        user = JSON.parse(user);
+        if (user != null)
+            return Promise.resolve(user);
+        else if (this.user.authenticated)
             return Promise.resolve(this.user);
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
-            return this.validateToken(token);
-        }
-        return null;
+            return this.getUserFromServer(token);
+        }else
+            return null;
     }
 
     private getUserFromServer(token){
+        //TODO implement!
         return null;
     }
 
     public isAuthenticated() {
+        if (sessionStorage.getItem("user")!= null)
+            return true;
         console.log("service inside isAuthenticated");
-        console.log(this.user);
         if (this.user.authenticated)
             return true;
         else if (localStorage.getItem('token_id')){
             let token = localStorage.getItem('token_id');
-            return this.validateToken(token);
+            return this.getUserFromServer(token);
         }
         return false;
     }
 
-    public validateToken(token){
-        return this.getUserFromServer(token);
-    }
-
-    public subscribe(onNext:(value:any) => void, onThrow?:(exception:any) => void, onReturn?:() => void) {
-        return this.locationWatcher.subscribe(onNext, onThrow, onReturn);
-    }
-
-    private emitAuthStatus(success:boolean) {
-        this.locationWatcher.emit({success: success, authenticated: this.user.authenticated,
-            token: this.user.accessToken, expires: this.user.expires});
-    }
 
     public socialLogin(socialObject:Object){
         console.log(socialObject);
+        this.user.authenticated = true;
+        this.authenticated = true;
+
+        this.user.name = socialObject['first_name'];
+        this.user.gender = socialObject['gender'];
+        this.user.image = socialObject['picture'];
+
+        //storign in session
+        let travisUser = new TravisUser();
+        travisUser.name = socialObject['first_name'];
+        travisUser.image = socialObject['picture'];
+
+        sessionStorage.setItem('user', JSON.stringify(travisUser));
+        this.notify(socialObject['first_name'],socialObject['picture']);
     }
 }

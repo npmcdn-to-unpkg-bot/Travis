@@ -4,6 +4,7 @@
 // Imports for loading & configuring the in-memory web api
 import { provide }    from '@angular/core';
 import { XHRBackend } from '@angular/http';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router-deprecated';
 
 
 // The usual bootstrapping imports
@@ -23,6 +24,7 @@ import { AppComponent }   from './app.component';
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
+    ROUTER_PROVIDERS,
     AuthService,
     WindowService,
     COMMON_DIRECTIVES,

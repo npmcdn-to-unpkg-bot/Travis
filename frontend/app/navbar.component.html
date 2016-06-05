@@ -1,22 +1,27 @@
-<div class="navbar center">
-    <div class="yamm">
-        <div class="navbar-collapse collapse">
-            <div class="container">
-                <a href="index.html">
-                    <img src="../UI/assets/images/art/travis_logo_small.png" width="50" height="58">
-                </a>
-                <a class="navbar-brand" href="#"></a>
-                <div class="navbar-inner center">
-                    <ul class="nav navbar-nav center">
-                        <li class="active"><a href="index.html">Search</a></li>
-                        <li><a href="../share">Share</a></li>
-                        <li><a href="./poll">Poll</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <login></login>
-                    </ul>
-                </div>
-            </div><!-- /.row -->
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.yamm -->
-</div><!-- /.navbar center -->
+    <div class="navbar center">
+        <div class="yamm">
+            <div class="navbar-collapse collapse">
+                <div class="container">
+                    <a href="index.html">
+                        <img src="../UI/assets/images/art/travis_logo_small.png" width="50" height="58">
+                    </a>
+                    <a class="navbar-brand" href="#"></a>
+                    <div class="navbar-inner center">
+                        <ul class="nav navbar-nav center">
+                            <li class="active"><a href="index.html">Search</a></li>
+                            <li><a href="../UI/share.html">Share</a></li>
+                            <li><a href="./poll">Poll</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <login *ngIf="!authenticated()"></login>
+                            <mydiv *ngIf="authenticated()">
+                                <span>Welcome {{user?.name}} !</span>
+                                <img class="img-circle" src="{{user?.image}}"/>
+                                <button role="link" (click)="logout()" class="btn-link">Logout !</button>
+                            </mydiv>
+                        </ul>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.yamm -->
+    </div><!-- /.navbar center -->

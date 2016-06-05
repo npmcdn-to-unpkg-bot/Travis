@@ -18,8 +18,8 @@ var CommentComponent = (function () {
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'comment',
-            templateUrl: 'app/comment/share.component.html',
-            styleUrls: ['app/comment/share.component.css']
+            templateUrl: 'app/comment/comment.component.html',
+            styleUrls: ['app/comment/comment.component.css']
         }), 
         __metadata('design:paramtypes', [])
     ], CommentComponent);

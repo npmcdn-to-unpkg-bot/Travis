@@ -17,14 +17,29 @@ var router_deprecated_1 = require("@angular/router-deprecated");
 var common_1 = require("@angular/common");
 var auth_service_1 = require('./auth.service');
 var login_component_1 = require('./login.component');
+var auth_user_1 = require("./auth_user");
 var Navbar = (function () {
     function Navbar(location, router, authService) {
+        var _this = this;
         this.location = location;
         this.router = router;
         this.authService = authService;
+        this.newUser = authService.authMsg;
+        this._subscription = authService.authChange.subscribe(function (value) {
+            _this.newUser = value;
+            console.log("notified!");
+            console.log(value);
+            _this.user = new auth_user_1.TravisUser();
+            _this.user.name = _this.newUser.name;
+            _this.user.image = _this.newUser.image;
+            _this.authenticated();
+        });
     }
     Navbar.prototype.authenticated = function () {
         return this.authService.isAuthenticated();
+    };
+    Navbar.prototype.logout = function () {
+        this.authService.doLogout();
     };
     Navbar.prototype.ngOnInit = function () {
         console.log("OnInit");
@@ -33,15 +48,18 @@ var Navbar = (function () {
     };
     Navbar.prototype.getUserInfo = function () {
         var _this = this;
-        var user = this.authService.getUserInfo().then(function (user) { return _this.user = user; });
-        console.log("inside navbar " + user);
-        this.user = { "image": user.image, "name": user.name };
+        console.log("calling get user info from navbar");
+        this.authService.getUserInfo().then(function (user) {
+            console.log("THen getting user from service");
+            _this.user = user;
+            console.log(_this.user);
+        });
+        console.log("inside navbar " + this.user);
     };
     Navbar = __decorate([
         core_1.Component({
             selector: 'header',
             directives: [router_deprecated_1.ROUTER_DIRECTIVES, login_component_1.LoginComponent],
-            providers: [],
             pipes: [],
             templateUrl: 'app/navbar.component.html',
         }), 

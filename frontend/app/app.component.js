@@ -10,33 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
-var auth_service_1 = require('./auth.service');
 var navbar_component_1 = require("./navbar.component");
-var logged_out_component_1 = require("./logged-out.component");
+var login_component_1 = require("./login.component");
 var poll_component_1 = require("./poll/poll.component");
-var share_component_1 = require("./share/share.component");
 var home_component_1 = require("./home.component");
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
         // You need this small hack in order to catch application root view container ref
-        // this.viewContainerRef = viewContainerRef;
+        this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'travis',
             template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
+            providers: [router_deprecated_1.ROUTER_PROVIDERS,
+            ],
             styleUrls: ['app/app.component.css'],
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, share_component_1.ShareComponent, poll_component_1.PollComponent],
-            providers: [
-                router_deprecated_1.ROUTER_PROVIDERS,
-                auth_service_1.AuthService,
-            ]
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, poll_component_1.PollComponent, login_component_1.LoginComponent],
         }),
         router_deprecated_1.RouteConfig([
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
-            { path: '/loggedout', name: 'LoggedoutPage', component: logged_out_component_1.LoggedoutPage },
             { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
-            { path: '/share', name: 'Share', component: share_component_1.ShareComponent },
         ]), 
         __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);
