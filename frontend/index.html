@@ -47,7 +47,45 @@
 </head>
 <!-- 3. Display the application -->
 <body>
-<travis>Loading...</travis>
+<travis>
+    <header>
+        <div class="navbar center" style="height: 58px;">
+            <div class="yamm">
+                <div class="navbar-collapse collapse">
+                    <div class="container">
+                        <a href="index.html">
+                            <img src="/UI/assets/images/art/travis_logo_small.png" width="50" height="58">
+                        </a>
+                        <a class="navbar-brand" href="#"></a>
+                        <div class="navbar-inner center">
+                            <ul class="nav navbar-nav center">
+                                <li class="active"><a href="index.html">Search</a></li>
+                                <li><a href="share.html">Share</a></li>
+                                <li><a href="poll.html">Poll</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <button id="single-button" type="button" class="btn btn-primary" dropdownToggle [disabled]="disabled">
+                                    Login <span class="caret"></span>
+                                </button>
+                            </ul>
+                        </div>
+                    </div><!-- /.row -->
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.yamm -->
+        </div><!-- /.navbar center -->
+    </header>
+    <section id="searchSection" class="light-bg img-bg-softer search-section" style="background-image: url(/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg)
+        ;height: 400px;;">
+        <div class="container inner">
+            <div class="col-md-5 col-sm-10 center-block text-center">
+                <h3>Loading... Please wait</h3>
+            </div><!-- /.col -->
+
+        </div><!-- /.container -->
+
+    </section>
+
+</travis>
 
 <!-- ============================================================= MAIN : END ============================================================= -->
 
