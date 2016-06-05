@@ -15,11 +15,13 @@ var login_component_1 = require("./login.component");
 var poll_component_1 = require("./poll/poll.component");
 var home_component_1 = require("./home.component");
 var AppComponent = (function () {
-    function AppComponent() {
+    function AppComponent(viewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({
-            selector: 'my-app',
+            selector: 'travis',
             template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
             providers: [router_deprecated_1.ROUTER_PROVIDERS,
             ],
@@ -30,7 +32,7 @@ var AppComponent = (function () {
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
             { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
         ]), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);
     return AppComponent;
 }());

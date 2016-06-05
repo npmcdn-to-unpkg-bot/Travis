@@ -3,9 +3,9 @@
         <div class="row inner-bottom-xs">
             <div class="column-sm-10">
                 <ul class="format-filter text-center">
-                    <li><a href="" class="active icon-th"></a></li>
+                    <li><a class="active icon-th"></a></li>
                     <li><a (click)="createPollModal.show()" class="icon-edit"></a>
-                    <li><a href="" class="icon-quote"></a></li>
+                    <li><a class="icon-quote"></a></li>
                 </ul><!-- /.format-filter -->
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -16,8 +16,7 @@
                     <div class="format-wrapper">
                         <div class="date">
                             <div id="pollDate" class="pollDate"></div>
-                            <span class="day">21</span>
-                            <span class="month">May</span>
+                            <span class="day">{{poll.date}}</span>
                         </div><!-- /.date -->
                     </div><!-- /.format-wrapper -->
 
@@ -28,33 +27,24 @@
                     </div><!-- /.date-wrapper -->
 
 
-
                     <div class="row inner-bottom-xs">
                         <div class="colmn-sm-8">
                             <fieldset>
-                                <legend>Where should <b>Person2</b> go?</legend>
+                                <legend>{{poll.question}}</legend>
                                 <div class="list-group">
                                     <li class="list-group-item">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value="paris" id="Poll_0"/>
-                                                Paris
+                                                <input type="radio" name="Poll" value={{poll.answers[0]}} id="Poll_0"/>
+                                                {{poll.answers[0]}}
                                             </label>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value="rome" id="Poll_0"/>
-                                                Rome
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="Poll" value="venice" id="Poll_0"/>
-                                                Venice
+                                                <input type="radio" name="Poll" value={{poll.answers[0]}} id="Poll_0"/>
+                                                {{poll.answers[1]}}
                                             </label>
                                         </div>
                                     </li>
@@ -62,6 +52,8 @@
                                            value="Vote"/>
                                     <input type="hidden" name="id" value="form1"/>
                                 </div>
+                                <comment></comment>
+
                             </fieldset>
                         </div>
                     </div>
@@ -91,4 +83,5 @@
         </div>
     </div>
 </div>
+
 

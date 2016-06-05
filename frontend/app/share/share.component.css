@@ -1,0 +1,28 @@
+.modal-content {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    bottom: 10px;
+    top: 10px;
+    right:10px;
+    left: 10px;
+    width: 650px;
+    height: 450px;
+}
+
+.modal-body {
+    padding: 20px;
+    bottom:0;
+    top: 60px;
+    width: inherit;
+}
+
+.answerInputField {
+    height: auto;
+    max-height: 134px;
+}
+
+.questionText {
+    margin-bottom: 20px;
+}

@@ -12,18 +12,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
-var CommentComponent = (function () {
-    function CommentComponent() {
+var ShareComponent = (function () {
+    function ShareComponent() {
     }
-    CommentComponent = __decorate([
+    ShareComponent = __decorate([
         core_1.Component({
-            selector: 'comment',
-            templateUrl: 'app/comment/comment.component.html',
-            styleUrls: ['app/comment/comment.component.css']
+            selector: 'share',
+            templateUrl: 'app/share/share.component.html',
+            styleUrls: ['app/share/share.component.css']
         }), 
         __metadata('design:paramtypes', [])
-    ], CommentComponent);
-    return CommentComponent;
+    ], ShareComponent);
+    return ShareComponent;
 }());
-exports.CommentComponent = CommentComponent;
-//# sourceMappingURL=comment.component.js.map
+exports.ShareComponent = ShareComponent;
+//# sourceMappingURL=share.component.js.map

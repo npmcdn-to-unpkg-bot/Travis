@@ -1,0 +1,63 @@
+#profilepicture{
+    background-image: url(https://pbs.twimg.com/profile_images/671726314504622082/0PqgkSEK.jpg)
+}
+
+#comments { color: #646464; text-decoration: none; font-size: 16px;}
+a:hover { text-decoration: underline; }
+
+/* page layout structure */
+#w { display: block; width: 100%; margin: 0 auto; padding-top: 0px; }
+
+#container {
+    display: block;
+    width: 100%;
+    background: #fff;
+}
+
+li { list-style: none; }
+
+#comments .cmmnt, ul .cmmnt, ul ul .cmmnt {
+    display: block;
+    position: relative;
+    top: 20px;
+    border-top: 1px solid #ddd;
+}
+.cmmnt-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#comments .cmmnt .avatar  { position: absolute; top: 10px; left: 10px; }
+.cropcircle #comments .cmmnt .avatar img {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: all 0.4s linear;
+    -moz-transition: all 0.4s linear;
+    -ms-transition: all 0.4s linear;
+    -o-transition: all 0.4s linear;
+    transition: all 0.4s linear;
+}
+
+#comments .cmmnt .avatar a:hover img { opacity: 0.77; }
+
+textarea {
+    width:100%;
+    display:block;
+    max-width:100%;
+    min-height: 20px;
+    max-height: 100%;
+    height: 60px;
+    line-height: 1;
+    border-radius:1px;
+    border:1px solid #ddd;
+    font-smoothing:subpixel-antialiased;
+    margin-bottom: 5px;
+}
+
+.btn {
+    margin-top: 0 !important;
+    width: 100%;
+}

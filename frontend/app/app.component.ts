@@ -8,7 +8,7 @@ import {HomeComponent} from "./home.component";
 
 
 @Component({
-    selector: 'my-app',
+    selector: 'travis',
     template: `
     <header></header>
     <main-comp></main-comp>
@@ -24,5 +24,11 @@ import {HomeComponent} from "./home.component";
     { path: '/poll', name: 'Poll', component: PollComponent},
 
 ])
+
 export class AppComponent {
+    viewContainerRef:any;
+    public constructor(viewContainerRef:ViewContainerRef) {
+        // You need this small hack in order to catch application root view container ref
+        this.viewContainerRef = viewContainerRef;
+    }
 }
