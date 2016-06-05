@@ -13,7 +13,8 @@ export class WindowService {
         if (url == null) {
             return null;
         }
-        var options = `width=${width},height=${height},left=${left},top=${top},location=yes`;
+        var options = `width=${width},height=${height},left=${left},top=${top},location=yes,
+        allow_scripts_to_close_windows=true`;
         console.log(url);
         console.log("returning window!!!!!!!!!!!!");
 
