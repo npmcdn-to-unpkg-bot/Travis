@@ -120,9 +120,10 @@ var LoginComponent = (function () {
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
-            directives: [ng2_bootstrap_1.DROPDOWN_DIRECTIVES],
+            viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
+            directives: [ng2_bootstrap_1.DROPDOWN_DIRECTIVES, ng2_bootstrap_1.MODAL_DIRECTVES],
             templateUrl: 'app/login.component.html',
-            styleUrls: ['app/login.component.css']
+            styleUrls: ['app/login.component.css', 'app/poll/poll.component.css']
         }), 
         __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService])
     ], LoginComponent);

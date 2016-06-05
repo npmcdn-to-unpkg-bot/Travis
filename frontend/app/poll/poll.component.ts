@@ -7,9 +7,9 @@ import { CommentComponent } from '../comment/comment.component';
 
 export class Poll {
     id: number;
-    user: string;
+    userID: string;
     question: string;
-    answers: string[];
+    answerList: string[];
     date: string;
     comments: string[];
 }
@@ -26,9 +26,9 @@ export class Poll {
 export class PollComponent{
     poll: Poll = {
         id: 1,
-        user: 'Emma',
+        userID: '12345',
         question: 'WWED',
-        answers: ['Paris', 'Rome'],
+        answerList: ['Paris', 'Rome'],
         date: 'June 6',
         comments: []
     };
