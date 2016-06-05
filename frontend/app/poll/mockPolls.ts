@@ -10,6 +10,6 @@ export var POLLS:  [
             "item": "Rome" },
             {"item": "Venice"
             }],
-        "comments": [{}]
+        "comments": []
     }
 ];

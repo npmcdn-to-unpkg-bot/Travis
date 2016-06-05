@@ -4,11 +4,11 @@
 import { Component, Injectable } from '@angular/core';
 
 @Component({
-    selector: 'comment',
-    templateUrl: 'app/comment/share.component.html',
-    styleUrls:  ['app/comment/share.component.css']
+    selector: 'share',
+    templateUrl: 'app/share/share.component.html',
+    styleUrls:  ['app/share/share.component.css']
 })
 
-export class CommentComponent{
+export class ShareComponent{
 
 }

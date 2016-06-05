@@ -14,6 +14,7 @@ var auth_service_1 = require('./auth.service');
 var navbar_component_1 = require("./navbar.component");
 var logged_out_component_1 = require("./logged-out.component");
 var poll_component_1 = require("./poll/poll.component");
+var share_component_1 = require("./share/share.component");
 var home_component_1 = require("./home.component");
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
@@ -25,7 +26,7 @@ var AppComponent = (function () {
             selector: 'travis',
             template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
             styleUrls: ['app/app.component.css'],
-            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, poll_component_1.PollComponent],
+            directives: [router_deprecated_1.ROUTER_DIRECTIVES, navbar_component_1.Navbar, share_component_1.ShareComponent, poll_component_1.PollComponent],
             providers: [
                 router_deprecated_1.ROUTER_PROVIDERS,
                 auth_service_1.AuthService,
@@ -35,6 +36,7 @@ var AppComponent = (function () {
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
             { path: '/loggedout', name: 'LoggedoutPage', component: logged_out_component_1.LoggedoutPage },
             { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
+            { path: '/share', name: 'Share', component: share_component_1.ShareComponent },
         ]), 
         __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);

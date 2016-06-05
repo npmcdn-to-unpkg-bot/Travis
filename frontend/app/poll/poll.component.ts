@@ -3,20 +3,16 @@
  */
 import { Component, Injectable } from '@angular/core';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-//
-// export class Poll {
-//     id: number;
-//     user: string;
-//     question: string;
-// }
-//
-// poll: Poll = {
-//     id: 1,
-//     user: 'Emma',
-//     question: 'WWED'
-// };
 
-// import { POLLS } from './poll/mockPolls';
+export class Poll {
+    id: number;
+    user: string;
+    question: string;
+    comments: string[];
+}
+
+
+// import { POLLS } from './mockPolls.ts';
 
 @Component({
     selector: 'pollItem',
@@ -25,9 +21,14 @@ import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
     directives: [MODAL_DIRECTVES],
     styleUrls:  ['app/poll/poll.component.css']
 })
+
 export class PollComponent{
-
-
+    poll: Poll = {
+        id: 1,
+        user: 'Emma',
+        question: 'WWED',
+        comments: []
+    };
 }
 //
 // polls: Poll[];

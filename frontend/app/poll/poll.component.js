@@ -13,21 +13,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  */
 var core_1 = require('@angular/core');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
-//
-// export class Poll {
-//     id: number;
-//     user: string;
-//     question: string;
-// }
-//
-// poll: Poll = {
-//     id: 1,
-//     user: 'Emma',
-//     question: 'WWED'
-// };
-// import { POLLS } from './poll/mockPolls';
+var Poll = (function () {
+    function Poll() {
+    }
+    return Poll;
+}());
+exports.Poll = Poll;
+// import { POLLS } from './mockPolls.ts';
 var PollComponent = (function () {
     function PollComponent() {
+        this.poll = {
+            id: 1,
+            user: 'Emma',
+            question: 'WWED',
+            comments: []
+        };
     }
     PollComponent = __decorate([
         core_1.Component({
