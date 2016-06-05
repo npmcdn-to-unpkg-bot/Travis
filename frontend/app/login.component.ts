@@ -11,7 +11,7 @@ declare var FB: any;
     viewProviders:[BS_VIEW_PROVIDERS],
     directives: [DROPDOWN_DIRECTIVES, MODAL_DIRECTVES],
     templateUrl: 'app/login.component.html',
-    styleUrls:  ['app/login.component.css', 'app/poll/poll.component.css']
+    styleUrls:  ['app/login.component.css']
 })
 export class LoginComponent{
     public disabled:boolean = false;

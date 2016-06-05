@@ -24,9 +24,9 @@ var PollComponent = (function () {
     function PollComponent() {
         this.poll = {
             id: 1,
-            userID: '12345',
+            user: 'Emma',
             question: 'WWED',
-            answerList: ['Paris', 'Rome'],
+            answers: ['Paris', 'Rome'],
             date: 'June 6',
             comments: []
         };
