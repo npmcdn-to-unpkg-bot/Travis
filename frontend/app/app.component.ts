@@ -6,7 +6,7 @@ import {LoginComponent} from "./login.component";
 import {PollComponent} from "./poll/poll.component";
 import {HomeComponent} from "./home.component";
 import {ShareComponent} from "./share/share.component";
-
+import {LoggedInRouterOutlet} from './loggedInOutLet';
 
 @Component({
     selector: 'travis',
@@ -18,7 +18,7 @@ import {ShareComponent} from "./share/share.component";
     providers: [ROUTER_PROVIDERS,
     ],
     styleUrls: ['app/app.component.css'],
-    directives: [ROUTER_DIRECTIVES, Navbar, PollComponent, LoginComponent],
+    directives: [LoggedInRouterOutlet, Navbar],
 })
 @RouteConfig([
     { path: '/',     name: 'Home',     component: HomeComponent, useAsDefault: true },
