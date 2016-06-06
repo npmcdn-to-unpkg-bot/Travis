@@ -4480,7 +4480,7 @@ input:focus:-ms-input-placeholder {
 }
 .modal-dialog {
 	position: absolute;
-	top: 35px;
+	top: 20px;
 	bottom: 35px;
 	left: 35px;
 	right: 35px;
@@ -4514,8 +4514,7 @@ input:focus:-ms-input-placeholder {
 .modal-content {
 	width: 100%; /* Can use left: 0; right: 0; with position: absolute; as well */
 	height: 100%; /* Can use top: 0; bottom: 0; with position: absolute; as well */
-	padding: 0 !important;
-	margin: 0 !important;
+	align-content: center;
 	border: none;
 	border-bottom: 2px solid #CED2D6;
 	border-radius: 3px;

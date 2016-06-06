@@ -63,7 +63,7 @@
             </div>
 
 
-            <div class="col-md-12 text-center ">
+            <div class="col-md-12 text-center center-block">
 
                 <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
                      (ngSubmit)="onSubmit()" [ngFormModel]="regForm" #regFrom="ngForm">
@@ -113,14 +113,14 @@
                         <hr>
                     </div>
                     <div class="container">
-                        <select name="nationality" [(ngModel)]="regModel.country">
+                        <select name="gender" [(ngModel)]="regModel.gender">
                             <option value="">Gender</option>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
-                            <option value="IDK">Other</option>
+                            <option value="X">Other</option>
                         </select>
                         <span>                </span>
-                        <select name="nationality">
+                        <select name="nationality" [(ngModel)]="regModel.country">
                             <option value="">Nationality</option>
                             <option value="AF">Afghanistan</option>
                             <option value="AX">Åland Islands</option>
