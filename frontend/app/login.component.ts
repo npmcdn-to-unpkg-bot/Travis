@@ -9,9 +9,12 @@ declare var FB: any;
 
 export class RegForm {
     public email: string;
-    public pass: string;
-    public firstName: string;public lastName: string;
-    public bDate: string; public country: string;
+    public password: string;
+    public firstName: string;
+    public lastName: string;
+    public birthDate: string;
+    public gender: string;
+    public country: string;
 }
 
 export class LoginForm {
@@ -76,16 +79,36 @@ export class LoginComponent{
     }
 
 
-    submitted = false;
-    onSubmit() { this.submitted = true; }
+    onSubmit() {
+        this.submitted = true;
+        let socialObj = {};
+        socialObj['imageURL'] = "/UI/assets/images/user.jpg";
+        socialObj['lastName'] = this.regModel.lastName;
+        socialObj['firstName'] = this.regModel.firstName;
+        socialObj['email'] = this.regModel.email;
+        socialObj['password'] = this.regModel.password;
+        socialObj['country'] = this.regModel.country;
+        socialObj['type'] = "Travis";
+        socialObj['birthDate'] = this.regModel.birthDate;
+        this.authService.postUserToServer(socialObj);
+    }
 
     public toggled(open:boolean):void {
         console.log('Dropdown is now: ', open);
     }
 
-    public toggleDropdown($event:MouseEvent):void {
+    public toggleDropdown($event:any):void {
         $event.preventDefault();
         $event.stopPropagation();
+        console.log($event);
+        var element = $event.target;
+        console.log("TAG NAME");
+        console.log(element.tagName);
+        if(element.tagName == "INPUT"){
+            $event.preventDefault();
+            $event.stopPropagation();
+            return true;
+        }
         this.status.isopen = !this.status.isopen;
     }
 

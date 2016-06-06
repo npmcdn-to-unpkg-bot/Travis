@@ -1,4 +1,4 @@
-<div class="btn-group" dropdown [(isOpen)]="status.isopen">
+<div class="btn-group" dropdown [(isOpen)]="status.isopen" >
     <button id="single-button" type="button" class="btn btn-primary" dropdownToggle [disabled]="disabled">
         Login <span class="caret"></span>
     </button>
@@ -14,12 +14,9 @@
                     or
                     <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
                           (ngSubmit)="onSubmit()" #lgForm="ngForm">
-                        <div class="form-group">
-                            <label class="sr-only" for="loginEmail">Email address</label>
                             <input type="email" id="loginEmail" class="form-control" placeholder="email@me.com"
                                    [(ngModel)]="loginModel.email" ngControl="loginEmail"
                                    required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
-                        </div>
                         <div class="form-group">
                             <label class="sr-only" for="loginPassword">Email address</label>
                             <input type="password"  id="loginPassword" class="form-control" placeholder="Password"
@@ -65,25 +62,25 @@
 
             <div class="col-md-12 text-center ">
 
-                <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
-                     (ngSubmit)="onSubmit()" [ngFormModel]="regForm" #regFrom="ngForm">
+                <form class="form" role="form" method="post" action="/user/signup" accept-charset="UTF-8"
+                      [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                         <input type="text" [(ngModel)]="regModel.firstName" class="form-control" id="#firstName"
-                               placeholder="First Name"  ngControl="regFName" #fName="ngForm">
+                               placeholder="First Name" name="firstName" ngControl="regFName" #fName="ngForm" required>
                         <div [hidden]="fName.valid || fName.pristine" class="alert alert-danger">
                             First name is required
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="text" [(ngModel)]="regModel.lasttName" ngControl="regLName"
-                               class="form-control" id="#lastName" placeholder="Last Name" #lName="ngForm">
+                        <input type="text" [(ngModel)]="regModel.lastName" ngControl="regLName" name="lastName"
+                               class="form-control" id="#lastName" placeholder="Last Name" #lName="ngForm" required>
                         <div [hidden]="lName.valid || lName.pristine" class="alert alert-danger">
                             Last name is required
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="email" class="form-control" [(ngModel)]="regModel.email" ngControl="regEmail"
-                               placeholder="Email Address" #email="ngForm">
+                               placeholder="Email Address" #email="ngForm" required>
                         <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
                             Email field is required in the correct format email@domain.com
                         </div>
@@ -91,14 +88,14 @@
                     <div ngControlGroup="matchingPassword" #passMatch="ngForm">
                     <div class="form-group">
                         <input type="password" class="form-control" [(ngModel)]="regModel.password"
-                               ngControl="password" placeholder="Password" #regpass="ngForm">
+                               ngControl="password" placeholder="Password" #regpass="ngForm" required>
                         <div [hidden]="regpass.valid || regpass.pristine" class="alert alert-danger">
                             Password is required
                         </div>
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" [(ngModel)]="regModel.confirmPass"
-                               ngControl="confirmPassword" placeholder="Password" #conpass="ngForm">
+                               ngControl="confirmPassword" placeholder="Password" #conpass="ngForm" required>
                         <div [hidden]="conpass.valid || conpass.pristine" class="alert alert-danger">
                             Password repeat is required
                         </div>
@@ -113,14 +110,14 @@
                         <hr>
                     </div>
                     <div class="container">
-                        <select name="nationality" [(ngModel)]="regModel.country">
+                        <select name="gender" [(ngModel)]="regModel.gender">
                             <option value="">Gender</option>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
                             <option value="IDK">Other</option>
                         </select>
                         <span>                </span>
-                        <select name="nationality">
+                        <select [(ngModel)]="regModel.country" name="country">
                             <option value="">Nationality</option>
                             <option value="AF">Afghanistan</option>
                             <option value="AX">Åland Islands</option>
@@ -375,10 +372,10 @@
                     </div>
                     <div class="form-group bday center-block">
                         <span style="font-size:14px">Birthday</span>
-                        <input type="date" name="birthday" [(ngModel)]="regModel.bDate">
+                        <input type="date" name="birthDate" [(ngModel)]="regModel.birthDate">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!regForm.valid">
+                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!registerForm.valid">
                             Sign up</button>
                     </div>
                 </form>

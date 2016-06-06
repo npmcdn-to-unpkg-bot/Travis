@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -186,6 +185,35 @@ var AuthService = (function () {
             console.error("Failed to fetch user info:", err);
         });
     };
+    AuthService.prototype.postUserToServer = function (userObj) {
+        var _this = this;
+        var body = JSON.stringify(userObj);
+        console.log(userObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/signup", body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+            var token = response.token;
+            // now service is authenthicated
+            localStorage.setItem('token', token);
+            _this.user.authenticated = true;
+            _this.authenticated = true;
+            //storing the pics/info in session
+            var travisUser = new auth_user_1.TravisUser();
+            travisUser.name = userObj['firstName'];
+            travisUser.image = userObj['imageURL'];
+            localStorage.setItem('user', JSON.stringify(travisUser));
+            // tell the navbar
+            _this.notify(travisUser.name, travisUser.image);
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to fetch user info:", err);
+        });
+    };
     AuthService.prototype.getUserInfo = function () {
         var user = localStorage.getItem('user');
         console.log("getting user from cache");
@@ -239,13 +267,13 @@ var AuthService = (function () {
         localStorage.setItem('user', JSON.stringify(travisUser));
         this.notify(socialObject['first_name'], socialObject['picture']);
         this.sendTOServer(socialObject, 'Facebook');
-        window.location.reload();
+        location.reload();
     };
     AuthService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-}());
+})();
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

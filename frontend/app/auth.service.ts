@@ -197,6 +197,38 @@ export class AuthService {
             });
     }
 
+    public postUserToServer(userObj){
+        let body = JSON.stringify(userObj);
+        console.log(userObj);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/signup", body, {'headers':headers})
+            .map(res => {
+                console.log(res);
+                let response = res.json();
+                console.log(response);
+                let token = response.token;
+
+                // now service is authenthicated
+                localStorage.setItem('token',token);
+                this.user.authenticated = true;
+                this.authenticated = true;
+
+                //storing the pics/info in session
+                let travisUser = new TravisUser();
+                travisUser.name = userObj['firstName'];
+                travisUser.image = userObj['imageURL'];
+
+                localStorage.setItem('user', JSON.stringify(travisUser));
+                // tell the navbar
+                this.notify(travisUser.name,travisUser.image);
+            })
+            .subscribe(info => {
+            }, err => {
+                console.error("Failed to fetch user info:", err);
+            });
+    }
+
     public getUserInfo() {
         let user = localStorage.getItem('user');
         console.log("getting user from cache");
@@ -256,6 +288,6 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(travisUser));
         this.notify(socialObject['first_name'],socialObject['picture']);
         this.sendTOServer(socialObject, 'Facebook');
-        window.location.reload();
+        location.reload();
     }
 }

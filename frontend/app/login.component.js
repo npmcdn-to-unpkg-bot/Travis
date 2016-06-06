@@ -30,7 +30,6 @@ var LoginComponent = (function () {
         this.authService = authService;
         this.disabled = false;
         this.status = { isopen: false };
-        this.submitted = false;
         this.fb = FB;
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
@@ -62,13 +61,34 @@ var LoginComponent = (function () {
             isValid: false
         };
     };
-    LoginComponent.prototype.onSubmit = function () { this.submitted = true; };
+    LoginComponent.prototype.onSubmit = function () {
+        this.submitted = true;
+        var socialObj = {};
+        socialObj['imageURL'] = "/UI/assets/images/user.jpg";
+        socialObj['lastName'] = this.regModel.lastName;
+        socialObj['firstName'] = this.regModel.firstName;
+        socialObj['email'] = this.regModel.email;
+        socialObj['password'] = this.regModel.password;
+        socialObj['country'] = this.regModel.country;
+        socialObj['type'] = "Travis";
+        socialObj['birthDate'] = this.regModel.birthDate;
+        this.authService.postUserToServer(socialObj);
+    };
     LoginComponent.prototype.toggled = function (open) {
         console.log('Dropdown is now: ', open);
     };
     LoginComponent.prototype.toggleDropdown = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
+        console.log($event);
+        var element = $event.target;
+        console.log("TAG NAME");
+        console.log(element.tagName);
+        if (element.tagName == "INPUT") {
+            $event.preventDefault();
+            $event.stopPropagation();
+            return true;
+        }
         this.status.isopen = !this.status.isopen;
     };
     Object.defineProperty(LoginComponent.prototype, "authenticated", {
