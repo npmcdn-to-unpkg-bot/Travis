@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,9 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var Comment = (function () {
+    function Comment() {
+    }
+    return Comment;
+})();
+exports.Comment = Comment;
 var CommentComponent = (function () {
     function CommentComponent() {
     }
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], CommentComponent.prototype, "comments", void 0);
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'comment',
@@ -24,6 +33,6 @@ var CommentComponent = (function () {
         __metadata('design:paramtypes', [])
     ], CommentComponent);
     return CommentComponent;
-}());
+})();
 exports.CommentComponent = CommentComponent;
 //# sourceMappingURL=comment.component.js.map

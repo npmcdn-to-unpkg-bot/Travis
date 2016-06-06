@@ -23,21 +23,15 @@
     position: relative;
 }
 
-.loginmodal-container input[type=text], input[type=password], input[type=email] {
+.loginmodal-container input[type=text], input[type=password], input[type=email], input[type=registrationForm] {
     height: 40px;
     font-size: 14px;
     width: 100%;
-    margin-bottom: 5px;
     -webkit-appearance: none;
-    /* border-radius: 2px; */
-    padding: 10 15px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     display: inline-block;
     -webkit-font-smoothing: antialiased;
-    /* margin-left: 5px; */
-    /* margin-right: 5px; */
-    /* line-height: 40px; */
     color: #083330;
     resize: none;
     vertical-align: middle;
@@ -53,7 +47,7 @@
     -moz-transition: all 200ms ease-out;
 }
 
-.loginmodal-container input[type=text]:hover, input[type=email], input[type=password]:hover {
+.loginmodal-container input[type=text]:hover, input[type=email]:hover, input[type=password]:hover, input[type=registrationForm]:hover {
     border: 0px solid #b9b9b9;
     border-top: 0px solid #a0a0a0;
     -moz-box-shadow: inset 0 0px 0px rgba(0,0,0,0.1);
@@ -147,14 +141,29 @@ ul#login-dp.dropdown-menu{
     clear:both;
     padding: 14px;
 }
-#login-dp .social-buttons{
-    margin:12px 0
+#login-dp .social-buttons {
+    margin: 12px 0;
 }
 #login-dp .social-buttons a{
     width: 49%;
 }
 #login-dp .form-group {
+    margin-bottom: 5px;
+}
+
+.social-buttons{
+    margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.social-buttons a{
+    width: 49%;
+}
+
+
+
+.form-group {
+    margin-bottom: 5px;
 }
 
 @media(max-width:768px){
@@ -212,4 +221,75 @@ ul#login-dp.dropdown-menu{
     left: 50px;
     right: 50px;
     width: calc(100% - 100px);
+}
+.modal-content {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    bottom: 10px;
+    top: 10px;
+    right:10px;
+    left: 10px;
+    width: 650px;
+    height: 475px;
+}
+
+.modal-body {
+    padding: 20px;
+    bottom:0;
+    top: 60px;
+    width: inherit;
+}
+
+.answerInputField {
+    height: auto;
+    max-height: 134px;
+}
+
+.questionText {
+    margin-bottom: 20px;
+}
+
+.signup-or-separator {
+    background: none;
+    height: 34px;
+    position: relative;
+    text-align: center;
+}
+
+.signup-or-separator hr {
+    margin: -16px auto 10px;
+    width: 80%;
+}
+
+.signup-or-separator--text {
+    background-color: #fff;
+    display: inline-block;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.bday {
+    width: 50%;
+    align-self: center;
+    text-align: center;
+    center-
+}
+
+.close {
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    position: relative;
+    right: 12px;
+    text-align: center;
+    top: 10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 12px;
+}
+.close:hover {
+    background: #14968a;
 }

@@ -39,6 +39,7 @@ var AuthService = (function () {
         this.userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
         //TODO server side facebook
         this.authenticated = false;
+        this.user = new auth_user_1.GoogleUser();
         this.intervalId = null;
         this.expires = 0;
         this.expiresTimerId = null;
@@ -47,7 +48,6 @@ var AuthService = (function () {
         this.authChange = new Subject_1.Subject();
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.user = new auth_user_1.GoogleUser();
         this.authMsg = { 'image': '', 'name': '' };
     }
     AuthService.prototype.notify = function (name, image) {
@@ -105,12 +105,13 @@ var AuthService = (function () {
     AuthService.prototype.doLogout = function () {
         this.user.authenticated = false;
         sessionStorage.removeItem('user');
+        localStorage.removeItem('token');
         this.authenticated = false;
-        //localStorage.removeItem('token_id');
         this.expiresTimerId = null;
         this.expires = 0;
         this.user.accessToken = null;
         console.log('Session has been cleared');
+        window.location.reload();
     };
     AuthService.prototype.validateOAuthToken = function () {
         var _this = this;
@@ -167,7 +168,7 @@ var AuthService = (function () {
         socialObj['fisrtName'] = socialObj['givenName'];
         socialObj['userID'] = socialObj['id'];
         socialObj['email'] = socialObj['emails'][0]['value'];
-        socialObj['type'] = 'Google';
+        socialObj['type'] = type;
         var body = JSON.stringify(socialObj);
         console.log(socialObj);
         var headers = new http_1.Headers();
@@ -175,6 +176,10 @@ var AuthService = (function () {
         this.http.post("http://localhost:3000/user/signup", body, { 'headers': headers })
             .map(function (res) {
             console.log(res);
+            var response = res.json();
+            console.log(response);
+            var token = response.token;
+            localStorage.setItem('token', token);
         })
             .subscribe(function (info) {
         }, function (err) {
@@ -190,16 +195,28 @@ var AuthService = (function () {
             return Promise.resolve(user);
         else if (this.user.authenticated)
             return Promise.resolve(this.user);
-        else if (localStorage.getItem('token_id')) {
-            var token = localStorage.getItem('token_id');
-            return this.getUserFromServer(token);
+        else if (localStorage.getItem('token')) {
+            var token = localStorage.getItem('token');
+            return Promise.resolve(this.getUserFromServer(token));
         }
         else
-            return null;
+            return Promise.resolve(null);
     };
     AuthService.prototype.getUserFromServer = function (token) {
-        //TODO implement!
-        return null;
+        var body = JSON.stringify({ "token": token });
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/lookup", body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            var user = response['user'];
+            return user;
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to get user info:", err);
+        });
     };
     AuthService.prototype.isAuthenticated = function () {
         if (sessionStorage.getItem("user") != null)
@@ -207,9 +224,20 @@ var AuthService = (function () {
         console.log("service inside isAuthenticated");
         if (this.user.authenticated)
             return true;
-        else if (localStorage.getItem('token_id')) {
-            var token = localStorage.getItem('token_id');
-            return this.getUserFromServer(token);
+        else if (localStorage.getItem('token')) {
+            var token = localStorage.getItem('token');
+            var user = this.getUserFromServer(token);
+            //storign in session
+            if (user != undefined) {
+                var travisUser = new auth_user_1.TravisUser();
+                travisUser.name = user['firstName'];
+                travisUser.image = user['imageURL'];
+                sessionStorage.setItem('user', JSON.stringify(travisUser));
+                this.notify(user['firstName'], user['imageURL']);
+                return true;
+            }
+            else
+                return false;
         }
         return false;
     };
@@ -226,6 +254,7 @@ var AuthService = (function () {
         travisUser.image = socialObject['picture'];
         sessionStorage.setItem('user', JSON.stringify(travisUser));
         this.notify(socialObject['first_name'], socialObject['picture']);
+        this.sendTOServer(socialObject, 'Facebook');
     };
     AuthService = __decorate([
         core_1.Injectable(), 

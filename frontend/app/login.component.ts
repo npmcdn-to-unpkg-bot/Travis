@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router-deprecated';
 import { Navbar } from './navbar.component';
 import {AuthService} from './auth.service'
-import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {DROPDOWN_DIRECTIVES, MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 declare var FB: any;
 
 @Component({
     selector: 'login',
-    directives: [DROPDOWN_DIRECTIVES],
+    viewProviders:[BS_VIEW_PROVIDERS],
+    directives: [DROPDOWN_DIRECTIVES, MODAL_DIRECTVES],
     templateUrl: 'app/login.component.html',
     styleUrls:  ['app/login.component.css']
 })

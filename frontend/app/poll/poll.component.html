@@ -10,7 +10,8 @@
             </div><!-- /.col -->
         </div><!-- /.row -->
 
-        <div class="row">
+
+        <div class="row" *ngFor="let poll of polls">
             <div class="posts sidemeta">
                 <div class="post format-gallery">
                     <div class="format-wrapper">
@@ -27,24 +28,24 @@
                     </div><!-- /.date-wrapper -->
 
 
-                    <div class="row inner-bottom-xs">
-                        <div class="colmn-sm-8">
+                    <div class="row inner-bottom-xs" >
+                        <div class="colmn-sm-8" >
                             <fieldset>
                                 <legend>{{poll.question}}</legend>
                                 <div class="list-group">
                                     <li class="list-group-item">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value={{poll.answers[0]}} id="Poll_0"/>
-                                                {{poll.answers[0]}}
+                                                <input type="radio" name="Poll" value={{poll.options[0]}}/>
+                                                {{poll.options[0]}}
                                             </label>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value={{poll.answers[0]}} id="Poll_0"/>
-                                                {{poll.answers[1]}}
+                                                <input type="radio" name="Poll" value={{poll.options[0]}} />
+                                                {{poll.options[1]}}
                                             </label>
                                         </div>
                                     </li>
@@ -52,8 +53,7 @@
                                            value="Vote"/>
                                     <input type="hidden" name="id" value="form1"/>
                                 </div>
-                                <comment></comment>
-
+                                    <comment [comments]="poll.comments"></comment>
                             </fieldset>
                         </div>
                     </div>

@@ -35,6 +35,7 @@ var Navbar = (function () {
         });
     }
     Navbar.prototype.authenticated = function () {
+        console.log("inside navbar");
         return this.authService.isAuthenticated();
     };
     Navbar.prototype.logout = function () {

@@ -6,9 +6,17 @@
                 <textarea ng-model="txtcomment" type="text" name="comment" placeholder="Share your thoughts"></textarea>
                 <button ng-click='btn_add();' class="btn btn-small" style='margin-top:10px;'>Post Comment</button>
             </div>
-            <span>Comments</span>
-            <ul>
-                <li class='cmmnt' ng-repeat="comnt in comment"> {{ comnt }} <a style="float: right;" href="" ng-click="remItem($index)">x</a></li>
+            <span *ngIf="comments.length > 0">Comments</span>
+            <ul class="commentList">
+                    <li *ngFor="let cm of comments">
+                        <div class="commenterImage">
+                            <img src="{{cm.imageURL}}" />
+                            <span class="sub-text">{{cm.name}}</span>
+                        </div>
+                        <div class="commentText">
+                            <p class="">{{cm.text}}</p> <span class="date sub-text">{{cm.date}}</span>
+                        </div>
+                    </li>
             </ul>
         </form>
     </form>

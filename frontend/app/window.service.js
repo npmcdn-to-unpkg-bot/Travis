@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -24,7 +23,7 @@ var WindowService = (function () {
         if (url == null) {
             return null;
         }
-        var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top + ",location=yes";
+        var options = "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top + ",location=yes,\n        allow_scripts_to_close_windows=true";
         console.log(url);
         console.log("returning window!!!!!!!!!!!!");
         return window.open(url, name, options);
@@ -34,6 +33,6 @@ var WindowService = (function () {
         __metadata('design:paramtypes', [])
     ], WindowService);
     return WindowService;
-}());
+})();
 exports.WindowService = WindowService;
 //# sourceMappingURL=window.service.js.map

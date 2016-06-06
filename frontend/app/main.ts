@@ -21,11 +21,13 @@ import {AuthService} from './auth.service';
 import 'rxjs/add/operator/map';
 
 import { AppComponent }   from './app.component';
+import {PollService} from "./poll/poll.service";
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     AuthService,
+    PollService,
     WindowService,
     COMMON_DIRECTIVES,
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
