@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,16 +10,60 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_deprecated_1 = require('@angular/router-deprecated');
+var common_1 = require('@angular/common');
 var auth_service_1 = require('./auth.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
+var RegForm = (function () {
+    function RegForm() {
+    }
+    return RegForm;
+}());
+exports.RegForm = RegForm;
+var LoginForm = (function () {
+    function LoginForm() {
+    }
+    return LoginForm;
+}());
+exports.LoginForm = LoginForm;
 var LoginComponent = (function () {
-    function LoginComponent(_router, authService) {
+    function LoginComponent(_router, authService, formBuilder) {
         this._router = _router;
         this.authService = authService;
         this.disabled = false;
         this.status = { isopen: false };
+        this.submitted = false;
         this.fb = FB;
+        this.loginModel = new LoginForm();
+        this.regModel = new RegForm();
+        this.regForm = formBuilder.group({
+            regFName: ['', common_1.Validators.required],
+            regLName: ['', common_1.Validators.required],
+            regEmail: ['', common_1.Validators.compose([common_1.Validators.required,
+                    common_1.Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+                ])],
+            matchingPassword: formBuilder.group({
+                password: ['', common_1.Validators.required],
+                confirmPassword: ['', common_1.Validators.required]
+            }, { validator: this.matchPassword })
+        });
     }
+    LoginComponent.prototype.matchPassword = function (group) {
+        var password = group.controls.password;
+        var confirm = group.controls.confirmPassword;
+        // Don't kick in until user touches both fields
+        if (password.pristine || confirm.pristine) {
+            return null;
+        }
+        // Mark group as touched so we can add invalid class easily
+        group.markAsTouched();
+        if (password.value === confirm.value) {
+            return null;
+        }
+        return {
+            isValid: false
+        };
+    };
+    LoginComponent.prototype.onSubmit = function () { this.submitted = true; };
     LoginComponent.prototype.toggled = function (open) {
         console.log('Dropdown is now: ', open);
     };
@@ -124,9 +169,9 @@ var LoginComponent = (function () {
             templateUrl: 'app/login.component.html',
             styleUrls: ['app/login.component.css']
         }), 
-        __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService])
+        __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService, common_1.FormBuilder])
     ], LoginComponent);
     return LoginComponent;
-})();
+}());
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map

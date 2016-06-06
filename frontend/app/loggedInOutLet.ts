@@ -3,7 +3,7 @@
    */
      // src/app/LoggedInOutlet.ts
 
-             import {Directive, Attribute, ViewContainerRef, DynamicComponentLoader} from '@angular/core';
+ import {Directive, Attribute, ViewContainerRef, DynamicComponentLoader} from '@angular/core';
  import {Router, RouterOutlet, ComponentInstruction} from '@angular/router-deprecated';
  import { AuthService }         from './auth.service';
 

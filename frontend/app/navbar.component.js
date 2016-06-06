@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,14 +24,14 @@ var Navbar = (function () {
         this.location = location;
         this.router = router;
         this.authService = authService;
-        this.newUser = authService.authMsg;
+        //this.newUser = authService.authMsg;
         this._subscription = authService.authChange.subscribe(function (value) {
-            _this.newUser = value;
+            var tempUser = value;
             console.log("notified!");
             console.log(value);
             _this.user = new auth_user_1.TravisUser();
-            _this.user.name = _this.newUser.name;
-            _this.user.image = _this.newUser.image;
+            _this.user.name = tempUser.name;
+            _this.user.image = tempUser.image;
             _this.authenticated();
         });
     }
@@ -54,7 +55,6 @@ var Navbar = (function () {
             _this.user = user;
             console.log(_this.user);
         });
-        console.log("inside navbar " + this.user);
     };
     Navbar = __decorate([
         core_1.Component({
@@ -66,6 +66,6 @@ var Navbar = (function () {
         __metadata('design:paramtypes', [common_1.Location, router_deprecated_1.Router, auth_service_1.AuthService])
     ], Navbar);
     return Navbar;
-})();
+}());
 exports.Navbar = Navbar;
 //# sourceMappingURL=navbar.component.js.map

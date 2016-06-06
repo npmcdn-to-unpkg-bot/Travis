@@ -5,7 +5,10 @@ export class TravisUser{
     public image:string;
     public gender:string;
     public name:string;
-
+    accessToken:string;
+    authenticated:boolean;
+    expires:any;
+    userId:string;
 }
 
 export class GoogleUser{

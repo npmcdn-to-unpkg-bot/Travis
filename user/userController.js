@@ -181,12 +181,12 @@ module.exports.lookup = function(req, res){
                 temp_user['country'] = user.country;
                 temp_user['city'] = user.city;
                 res.status(200).json({'user': temp_user});
-				return;
-			}
+			}else{
+                res.status(500).send("token is invalid");
+            }
 		});
 	}else{
 		res.status(500).send("token is invalid");
-	    return;
 	}
 };
 

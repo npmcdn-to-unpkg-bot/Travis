@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -39,7 +40,7 @@ var AuthService = (function () {
         this.userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
         //TODO server side facebook
         this.authenticated = false;
-        this.user = new auth_user_1.GoogleUser();
+        this.user = new auth_user_1.TravisUser();
         this.intervalId = null;
         this.expires = 0;
         this.expiresTimerId = null;
@@ -88,11 +89,7 @@ var AuthService = (function () {
                         }
                     }
                     if (_this.user.accessToken) {
-                        _this.user.authenticated = true;
-                        _this.authenticated = true;
                         var now = new Date();
-                        // we dont need it if user has been registered with our platform
-                        //just is needed to do a login
                         _this.user.expires = now.setSeconds(now.getSeconds() + Number(params['expires_in']));
                     }
                     _this.windowHandle.close();
@@ -119,15 +116,9 @@ var AuthService = (function () {
         if (this.user.accessToken != null) {
             this.http.get(validationAccToken)
                 .map(function (res) {
-                // getting the id of the user
+                // getting the id of the user of the google
                 _this.user.userId = res.json()['sub'];
-                //TODO
-                //query the database to get users info from ther
-                //if there is none fetch necessary info from google
-                // localstorage.setItem('token_id', 'Token from the server')
-                _this.user.authenticated = true;
                 _this.fetchUserInfo();
-                // register the user?
             }).
                 subscribe(function (response) {
                 console.log(response);
@@ -138,6 +129,8 @@ var AuthService = (function () {
     };
     AuthService.prototype.fetchUserInfo = function () {
         var _this = this;
+        // fetch the user info from google and send it to server
+        // and get back a jwt token
         if (this.user.accessToken != null) {
             var tempUrl = this.userInfoUrl + this.user.userId + "?access_token=" + this.user.accessToken;
             console.log(tempUrl);
@@ -148,12 +141,14 @@ var AuthService = (function () {
                 _this.user.name = google_user['name'];
                 _this.user.gender = google_user['gender'];
                 _this.user.image = google_user['image']['url'];
-                //storign in session
+                //storing the pics/info in session
                 var travisUser = new auth_user_1.TravisUser();
                 travisUser.name = google_user['name']['givenName'];
                 travisUser.image = google_user['image']['url'];
-                sessionStorage.setItem('user', JSON.stringify(travisUser));
+                localStorage.setItem('user', JSON.stringify(travisUser));
+                // tell the navbar
                 _this.notify(google_user['name']['givenName'], google_user['image']['url']);
+                // get and store the token from the server
                 _this.sendTOServer(google_user, 'Google');
             })
                 .subscribe(function (info) {
@@ -163,6 +158,8 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.sendTOServer = function (socialObj, type) {
+        var _this = this;
+        //returns a token in return after user registeration/logging in
         socialObj['imageURL'] = socialObj['image']['url'];
         socialObj['lastName'] = socialObj['lastName'];
         socialObj['fisrtName'] = socialObj['givenName'];
@@ -179,7 +176,10 @@ var AuthService = (function () {
             var response = res.json();
             console.log(response);
             var token = response.token;
+            // now service is authenthicated
             localStorage.setItem('token', token);
+            _this.user.authenticated = true;
+            _this.authenticated = true;
         })
             .subscribe(function (info) {
         }, function (err) {
@@ -187,8 +187,8 @@ var AuthService = (function () {
         });
     };
     AuthService.prototype.getUserInfo = function () {
-        var user = sessionStorage.getItem('user');
-        console.log("getting user from session");
+        var user = localStorage.getItem('user');
+        console.log("getting user from cache");
         console.log(user);
         user = JSON.parse(user);
         if (user != null)
@@ -219,26 +219,10 @@ var AuthService = (function () {
         });
     };
     AuthService.prototype.isAuthenticated = function () {
-        if (sessionStorage.getItem("user") != null)
-            return true;
-        console.log("service inside isAuthenticated");
         if (this.user.authenticated)
             return true;
-        else if (localStorage.getItem('token')) {
-            var token = localStorage.getItem('token');
-            var user = this.getUserFromServer(token);
-            //storign in session
-            if (user != undefined) {
-                var travisUser = new auth_user_1.TravisUser();
-                travisUser.name = user['firstName'];
-                travisUser.image = user['imageURL'];
-                sessionStorage.setItem('user', JSON.stringify(travisUser));
-                this.notify(user['firstName'], user['imageURL']);
-                return true;
-            }
-            else
-                return false;
-        }
+        else if (localStorage.getItem('token'))
+            return true;
         return false;
     };
     AuthService.prototype.socialLogin = function (socialObject) {
@@ -252,15 +236,16 @@ var AuthService = (function () {
         var travisUser = new auth_user_1.TravisUser();
         travisUser.name = socialObject['first_name'];
         travisUser.image = socialObject['picture'];
-        sessionStorage.setItem('user', JSON.stringify(travisUser));
+        localStorage.setItem('user', JSON.stringify(travisUser));
         this.notify(socialObject['first_name'], socialObject['picture']);
         this.sendTOServer(socialObject, 'Facebook');
+        window.location.reload();
     };
     AuthService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-})();
+}());
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

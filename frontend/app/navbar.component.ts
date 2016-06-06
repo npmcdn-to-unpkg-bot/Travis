@@ -23,14 +23,14 @@ export class Navbar implements OnInit{
     _subscription:any;
 
     constructor(private location:Location, private router:Router, private authService:AuthService) {
-        this.newUser = authService.authMsg;
+        //this.newUser = authService.authMsg;
         this._subscription = authService.authChange.subscribe((value) => {
-            this.newUser = value;
+            let tempUser = value;
             console.log("notified!");
             console.log(value);
             this.user = new TravisUser();
-            this.user.name = this.newUser.name;
-            this.user.image = this.newUser.image;
+            this.user.name = tempUser.name;
+            this.user.image = tempUser.image;
             this.authenticated();
         });
     }
@@ -58,7 +58,6 @@ export class Navbar implements OnInit{
             console.log(this.user);
         }
         );
-        console.log("inside navbar " + this.user);
     }
 
 }

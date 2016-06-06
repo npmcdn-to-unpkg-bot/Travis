@@ -1,10 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router-deprecated';
+import { NgForm,  FormBuilder, Validators }    from '@angular/common';
 import { Navbar } from './navbar.component';
 import {AuthService} from './auth.service'
 import {DROPDOWN_DIRECTIVES, MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 declare var FB: any;
+
+export class RegForm {
+    public email: string;
+    public pass: string;
+    public firstName: string;public lastName: string;
+    public bDate: string; public country: string;
+}
+
+export class LoginForm {
+    public email: string;public pass: string;
+
+}
 
 @Component({
     selector: 'login',
@@ -18,11 +31,53 @@ export class LoginComponent{
     public status:{isopen:boolean} = {isopen: false};
     error: any;
     fb:any;
+    loginModel:LoginForm;
+    regModel:RegForm;
+    regForm:any;
+
     constructor(
         private _router: Router,
-        private authService: AuthService) {
+        private authService: AuthService, formBuilder: FormBuilder) {
         this.fb = FB;
+        this.loginModel = new LoginForm();
+        this.regModel = new RegForm();
+
+        this.regForm = formBuilder.group({
+            regFName: ['', Validators.required],
+            regLName: ['', Validators.required],
+            regEmail: ['', Validators.compose([Validators.required,
+                Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+            ])],
+            matchingPassword: formBuilder.group({
+                password: ['', Validators.required],
+                confirmPassword: ['', Validators.required]
+            }, {validator: this.matchPassword})
+        });
     }
+
+    matchPassword(group): any {
+        let password = group.controls.password;
+        let confirm = group.controls.confirmPassword;
+
+        // Don't kick in until user touches both fields
+        if (password.pristine || confirm.pristine) {
+            return null;
+        }
+
+        // Mark group as touched so we can add invalid class easily
+        group.markAsTouched();
+
+        if (password.value === confirm.value) {
+            return null;
+        }
+        return {
+            isValid: false
+        };
+    }
+
+
+    submitted = false;
+    onSubmit() { this.submitted = true; }
 
     public toggled(open:boolean):void {
         console.log('Dropdown is now: ', open);

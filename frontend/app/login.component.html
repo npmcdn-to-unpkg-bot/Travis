@@ -12,18 +12,23 @@
                         <button class="btn btn-google" (click)="doLogin()">Google</button>
                     </div>
                     or
-                    <form class="form" role="form" method="post" action="/" accept-charset="UTF-8" id="login-nav">
+                    <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
+                          (ngSubmit)="onSubmit()" #lgForm="ngForm">
                         <div class="form-group">
-                            <label class="sr-only" for="#email">Email address</label>
-                            <input type="email" class="form-control" id="#email" placeholder="Email address" required>
+                            <label class="sr-only" for="loginEmail">Email address</label>
+                            <input type="email" id="loginEmail" class="form-control" placeholder="email@me.com"
+                                   [(ngModel)]="loginModel.email" ngControl="loginEmail"
+                                   required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="#password">Email address</label>
-                            <input type="password" class="form-control" id="#password" placeholder="Password" required>
+                            <label class="sr-only" for="loginPassword">Email address</label>
+                            <input type="password"  id="loginPassword" class="form-control" placeholder="Password"
+                                   [(ngModel)]="loginModel.email" ngControl="loginPassword" required/>
                             <div class="help-block text-center"><a href="">Forgotten password?</a></div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!lgForm.form?.valid">
+                                Sign in</button>
                         </div>
                         <div class="checkbox">
                             <label>
@@ -41,15 +46,15 @@
 </div>
 <div bsModal #register="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
-        <div class="modal-content">
+        <div class="modal-content" style="overflow-y: scroll;">
             <button type="button" class="close" (click)="register.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div style="margin-top:20px;">
                 <span style="font-size: 16px">Login via
-                    <button class="btn-link" (click)="facebookLogin()">Facebook</button>
+                    <button class="btn-link" (click)="register.hide();facebookLogin()">Facebook</button>
                     or
-                    <button class="btn-link" (click)="doLogin()">Google</button>
+                    <button class="btn-link" (click)="register.hide();doLogin()">Google</button>
                 </span>
                 <div class="signup-or-separator">
                     <span class="signup-or-separator--text">or</span>
@@ -60,29 +65,55 @@
 
             <div class="col-md-12 text-center ">
 
-                <div class="form" role="form" method="post" action="/" accept-charset="UTF-8" id="login-nav">
+                <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
+                     (ngSubmit)="onSubmit()" [ngFormModel]="regForm" #regFrom="ngForm">
                     <div class="form-group">
-                        <input type="registrationForm" class="form-control" id="#firstName" placeholder="First Name"
-                               required>
+                        <input type="text" [(ngModel)]="regModel.firstName" class="form-control" id="#firstName"
+                               placeholder="First Name"  ngControl="regFName" #fName="ngForm">
+                        <div [hidden]="fName.valid || fName.pristine" class="alert alert-danger">
+                            First name is required
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="registrationForm" class="form-control" id="#lastName" placeholder="Last Name"
-                               required>
+                        <input type="text" [(ngModel)]="regModel.lasttName" ngControl="regLName"
+                               class="form-control" id="#lastName" placeholder="Last Name" #lName="ngForm">
+                        <div [hidden]="lName.valid || lName.pristine" class="alert alert-danger">
+                            Last name is required
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="registrationForm" class="form-control" for="#password" id="#email"
-                               placeholder="Email Address" required>
+                        <input type="email" class="form-control" [(ngModel)]="regModel.email" ngControl="regEmail"
+                               placeholder="Email Address" #email="ngForm">
+                        <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                            Email field is required in the correct format email@domain.com
+                        </div>
+                    </div>
+                    <div ngControlGroup="matchingPassword" #passMatch="ngForm">
+                    <div class="form-group">
+                        <input type="password" class="form-control" [(ngModel)]="regModel.password"
+                               ngControl="password" placeholder="Password" #regpass="ngForm">
+                        <div [hidden]="regpass.valid || regpass.pristine" class="alert alert-danger">
+                            Password is required
+                        </div>
                     </div>
                     <div class="form-group">
-                        <input type="registrationForm" class="form-control" id="#password" placeholder="Password"
-                               required>
+                        <input type="password" class="form-control" [(ngModel)]="regModel.confirmPass"
+                               ngControl="confirmPassword" placeholder="Password" #conpass="ngForm">
+                        <div [hidden]="conpass.valid || conpass.pristine" class="alert alert-danger">
+                            Password repeat is required
+                        </div>
                     </div>
+                        <div [hidden]="passMatch.valid || passMatch.pristine" class="alert alert-danger">
+                            Password must match!
+                        </div>
+                        </div>
+
                     <div class="signup-or-separator">
                         <span class="signup-or-separator--text">optional</span>
                         <hr>
                     </div>
                     <div class="container">
-                        <select name="nationality">
+                        <select name="nationality" [(ngModel)]="regModel.country">
                             <option value="">Gender</option>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
@@ -344,12 +375,13 @@
                     </div>
                     <div class="form-group bday center-block">
                         <span style="font-size:14px">Birthday</span>
-                        <input type="date" name="birthday">
+                        <input type="date" name="birthday" [(ngModel)]="regModel.bDate">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!regForm.valid">
+                            Sign up</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
