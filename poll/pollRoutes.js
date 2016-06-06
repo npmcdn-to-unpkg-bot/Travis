@@ -1,15 +1,25 @@
-module.exports = userRoutes;
+module.exports = pollRoutes;
 
-function userRoutes(passport) {
-
-    var userController = require('./userController');
+function pollRoutes(passport) {
+	
+	
+    var pollController = require('./pollController');
     var router = require('express').Router();
+   /* var unless = require('express-unless');
 
+    var mw = passport.authenticate('jwt', {session: false});
+    mw.unless = unless;
 
-    router.post('/login', userController.login);
-    router.post('/signup', userController.signup);
-    router.post('/update', userController.update);
-    router.post('/unregister', passport.authenticate('jwt', {session: false}),userController.unregister)
+    //middleware
+    router.use(mw.unless({method: ['GET', 'OPTIONS']}));
+*/
+
+    router.post('/'       , pollController.getPoll);
+    router.post('/Create' , pollController.create);
+    router.post('/Remove' , pollController.remove);
+    router.post('/Vote'   , pollController.vote);
+    router.post('/Comment', pollController.comment);
+    
 
     return router;
 
