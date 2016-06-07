@@ -18,7 +18,8 @@ export class RegForm {
 }
 
 export class LoginForm {
-    public email: string;public pass: string;
+    public email: string;
+    public pass: string;
 
 }
 
@@ -37,6 +38,7 @@ export class LoginComponent{
     loginModel:LoginForm;
     regModel:RegForm;
     regForm:any;
+    loginForm: any;
 
     constructor(
         private _router: Router,
@@ -45,6 +47,12 @@ export class LoginComponent{
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
 
+        this.loginForm = formBuilder.group({
+            email: ['', Validators.compose([Validators.required,
+                Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+            ])],
+            pass: ['', Validators.required],
+        });
         this.regForm = formBuilder.group({
             regFName: ['', Validators.required],
             regLName: ['', Validators.required],
@@ -81,15 +89,21 @@ export class LoginComponent{
 
     onSubmit() {
         let socialObj = {};
-        socialObj['imageURL'] = "/UI/assets/images/user.jpg";
-        socialObj['lastName'] = this.regModel.lastName;
-        socialObj['firstName'] = this.regModel.firstName;
-        socialObj['email'] = this.regModel.email;
-        socialObj['password'] = this.regModel.password;
-        socialObj['country'] = this.regModel.country;
-        socialObj['type'] = "Travis";
-        socialObj['birthDate'] = this.regModel.birthDate;
-        this.authService.postUserToServer(socialObj);
+        if (this.regForm) {
+            let socialObj = {};
+            socialObj['imageURL'] = "/UI/assets/images/user.jpg";
+            socialObj['lastName'] = this.regModel.lastName;
+            socialObj['firstName'] = this.regModel.firstName;
+            socialObj['email'] = this.regModel.email;
+            socialObj['password'] = this.regModel.password;
+            socialObj['country'] = this.regModel.country;
+            socialObj['type'] = "Travis";
+            socialObj['birthDate'] = this.regModel.birthDate;
+            this.authService.postUserToServer(socialObj);
+        } else if (this.loginForm) {
+            socialObj['email'] = this.loginModel.email;
+            socialObj['password'] = this.loginModel.pass;
+        }
     }
 
     public toggled(open:boolean):void {
