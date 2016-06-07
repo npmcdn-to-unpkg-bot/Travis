@@ -13,14 +13,14 @@
                     </div>
                     or
                     <form class="form" role="form" method="post" action="/" accept-charset="UTF-8"
-                          (ngSubmit)="onSubmit()" #lgForm="ngForm">
+                          [ngFormModel]="loginForm" #lgForm="ngForm" (ngSubmit)="onSubmit()">
                             <input type="email" id="loginEmail" class="form-control" placeholder="email@me.com"
                                    [(ngModel)]="loginModel.email" ngControl="loginEmail"
                                    required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                         <div class="form-group">
                             <label class="sr-only" for="loginPassword">Email address</label>
                             <input type="password"  id="loginPassword" class="form-control" placeholder="Password"
-                                   [(ngModel)]="loginModel.email" ngControl="loginPassword" required/>
+                                   [(ngModel)]="loginModel.pass" ngControl="loginPassword" required/>
                             <div class="help-block text-center"><a href="">Forgotten password?</a></div>
                         </div>
                         <div class="form-group">
@@ -95,7 +95,7 @@
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" [(ngModel)]="regModel.confirmPass"
-                               ngControl="confirmPassword" placeholder="Password" #conpass="ngForm" required>
+                               ngControl="confirmPassword" placeholder="Retype Password" #conpass="ngForm" required>
                         <div [hidden]="conpass.valid || conpass.pristine" class="alert alert-danger">
                             Password repeat is required
                         </div>

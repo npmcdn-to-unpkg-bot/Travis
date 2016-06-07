@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,13 +17,13 @@ var RegForm = (function () {
     function RegForm() {
     }
     return RegForm;
-})();
+}());
 exports.RegForm = RegForm;
 var LoginForm = (function () {
     function LoginForm() {
     }
     return LoginForm;
-})();
+}());
 exports.LoginForm = LoginForm;
 var LoginComponent = (function () {
     function LoginComponent(_router, authService, formBuilder) {
@@ -33,6 +34,12 @@ var LoginComponent = (function () {
         this.fb = FB;
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
+        this.loginForm = formBuilder.group({
+            email: ['', common_1.Validators.compose([common_1.Validators.required,
+                    common_1.Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
+                ])],
+            pass: ['', common_1.Validators.required],
+        });
         this.regForm = formBuilder.group({
             regFName: ['', common_1.Validators.required],
             regLName: ['', common_1.Validators.required],
@@ -63,15 +70,22 @@ var LoginComponent = (function () {
     };
     LoginComponent.prototype.onSubmit = function () {
         var socialObj = {};
-        socialObj['imageURL'] = "/UI/assets/images/user.jpg";
-        socialObj['lastName'] = this.regModel.lastName;
-        socialObj['firstName'] = this.regModel.firstName;
-        socialObj['email'] = this.regModel.email;
-        socialObj['password'] = this.regModel.password;
-        socialObj['country'] = this.regModel.country;
-        socialObj['type'] = "Travis";
-        socialObj['birthDate'] = this.regModel.birthDate;
-        this.authService.postUserToServer(socialObj);
+        if (this.regForm) {
+            var socialObj_1 = {};
+            socialObj_1['imageURL'] = "/UI/assets/images/user.jpg";
+            socialObj_1['lastName'] = this.regModel.lastName;
+            socialObj_1['firstName'] = this.regModel.firstName;
+            socialObj_1['email'] = this.regModel.email;
+            socialObj_1['password'] = this.regModel.password;
+            socialObj_1['country'] = this.regModel.country;
+            socialObj_1['type'] = "Travis";
+            socialObj_1['birthDate'] = this.regModel.birthDate;
+            this.authService.postUserToServer(socialObj_1);
+        }
+        else if (this.loginForm) {
+            socialObj['email'] = this.loginModel.email;
+            socialObj['password'] = this.loginModel.pass;
+        }
     };
     LoginComponent.prototype.toggled = function (open) {
         console.log('Dropdown is now: ', open);
@@ -189,6 +203,6 @@ var LoginComponent = (function () {
         __metadata('design:paramtypes', [router_deprecated_1.Router, auth_service_1.AuthService, common_1.FormBuilder])
     ], LoginComponent);
     return LoginComponent;
-})();
+}());
 exports.LoginComponent = LoginComponent;
 //# sourceMappingURL=login.component.js.map
