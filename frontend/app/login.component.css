@@ -215,24 +215,71 @@ ul#login-dp.dropdown-menu{
         opacity: 1;
     }
 }
+
+.modal {
+    z-index: 9000;
+    background: none;
+}
+.modal.fade {
+    -webkit-transition: opacity 200ms ease-out;
+    -o-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
+}
+.modal.fade .modal-dialog {
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+    -webkit-transform: translate(0);
+    -ms-transform: translate(0);
+    -o-transform: translate(0);
+    transform: translate(0);
+}
+.modal-open .modal {
+    overflow: hidden;
+}
+.modal-backdrop {
+    background-color: #F2F5F7;
+}
+.modal-backdrop.in {
+    opacity: .95;
+}
+.modal .container {
+    width: 100%;
+    max-width: 1170px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
 .modal-dialog {
-    top: 50px;
-    bottom: 50px;
-    left: 50px;
-    right: 50px;
+    position: absolute;
+    top: 20px;
+    bottom: 35px;
+    left: 35px;
+    right: 35px;
+    width: calc(100% - 70px);
+    margin: auto;
+}
+.modal-full {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.modal-dialog {
+    top: 0px;
     width: calc(100% - 100px);
 }
 .modal-content {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    padding: 0;
     bottom: 10px;
     top: 10px;
     right:10px;
-    left: 10px;
+    left: 60px;
     width: 650px;
-    height: 475px;
+    height: 550px;
+    align-self: center;
 }
 
 .modal-body {

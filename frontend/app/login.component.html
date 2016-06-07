@@ -60,7 +60,7 @@
             </div>
 
 
-            <div class="col-md-12 text-center ">
+            <div class="col-md-12 text-center center-block">
 
                 <form class="form" role="form" method="post" action="/user/signup" accept-charset="UTF-8"
                       [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="onSubmit()">
@@ -114,7 +114,7 @@
                             <option value="">Gender</option>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
-                            <option value="IDK">Other</option>
+                            <option value="X">Other</option>
                         </select>
                         <span>                </span>
                         <select [(ngModel)]="regModel.country" name="country">
