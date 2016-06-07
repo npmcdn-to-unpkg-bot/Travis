@@ -32,9 +32,12 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', express.static(__dirname + '/frontend'));
+
+
 app.use('/*', function(req, res){
-  res.sendfile(__dirname + '/frontend/index.html');
+  res.sendFile(__dirname + '/frontend/index.html');
 });
+
 //passport
 
 var passport = require('passport');

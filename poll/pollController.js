@@ -52,6 +52,8 @@ module.exports.remove = function(req, res){
 };
 module.exports.getPoll = function(req, res){
 	
+	
+	console.log("ko");
     Poll.find(function(err, poll) {
         if (err) {
             res.status(500).send(err);

@@ -38,6 +38,8 @@ module.exports.login = function(req, res){
 
 module.exports.signup = function(req, res){
 
+	// console.log(req.body);
+	
     if(!req.body.email){
         res.status(400).send('email required');
         return;
@@ -54,35 +56,49 @@ module.exports.signup = function(req, res){
     user.password = req.body.password;
     user.type = req.body.type;
     user.userID = req.body.userID;
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
+    user.firstName = req.body.name.givenName;
+    user.lastName = req.body.name.familyName;
     user.imageURL = req.body.imageURL;
     user.gender = req.body.gender;
     user.birthDate = req.body.birthDate;
     user.country = req.body.country;
     user.city = req.body.city;
-    console.log(user);
+  
+    
 if(user.type !== "travis")
 	{
     User.findOne({userID: req.body.userID}, function(err, user){
-
-
         if (user) {
         	res.status(200).json({token: createToken(user)});
         	return;
+        }else
+        {
+    	    user.save(function(err) {
+    	        if (err) {
+    	            res.status(500).send(err);
+    	            return;
+    	        }
+
+    	        res.status(201).json({token: createToken(user)});
+    	        return;
+    	    });	
         }
     });
-	}
-
-
+	}else
+	{
 	    user.save(function(err) {
 	        if (err) {
 	            res.status(500).send(err);
 	            return;
 	        }
-	        console.log("req 2");
+
 	        res.status(201).json({token: createToken(user)});
-	    });		
+	        return;
+	    });	
+	}
+
+
+	
 
 };
 
