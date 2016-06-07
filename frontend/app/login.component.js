@@ -35,10 +35,10 @@ var LoginComponent = (function () {
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
         this.loginForm = formBuilder.group({
-            email: ['', common_1.Validators.compose([common_1.Validators.required,
+            loginEmail: ['', common_1.Validators.compose([common_1.Validators.required,
                     common_1.Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
                 ])],
-            pass: ['', common_1.Validators.required],
+            loginPassword: ['', common_1.Validators.required],
         });
         this.regForm = formBuilder.group({
             regFName: ['', common_1.Validators.required],
@@ -83,8 +83,8 @@ var LoginComponent = (function () {
             this.authService.postUserToServer(socialObj_1);
         }
         else if (this.loginForm) {
-            socialObj['email'] = this.loginModel.email;
-            socialObj['password'] = this.loginModel.pass;
+            socialObj['email'] = this.loginModel.loginEmail;
+            socialObj['password'] = this.loginModel.loginPassword;
         }
     };
     LoginComponent.prototype.toggled = function (open) {

@@ -18,8 +18,8 @@ export class RegForm {
 }
 
 export class LoginForm {
-    public email: string;
-    public pass: string;
+    public loginEmail: string;
+    public loginPassword: string;
 
 }
 
@@ -48,10 +48,10 @@ export class LoginComponent{
         this.regModel = new RegForm();
 
         this.loginForm = formBuilder.group({
-            email: ['', Validators.compose([Validators.required,
+            loginEmail: ['', Validators.compose([Validators.required,
                 Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
             ])],
-            pass: ['', Validators.required],
+            loginPassword: ['', Validators.required],
         });
         this.regForm = formBuilder.group({
             regFName: ['', Validators.required],
@@ -101,8 +101,8 @@ export class LoginComponent{
             socialObj['birthDate'] = this.regModel.birthDate;
             this.authService.postUserToServer(socialObj);
         } else if (this.loginForm) {
-            socialObj['email'] = this.loginModel.email;
-            socialObj['password'] = this.loginModel.pass;
+            socialObj['email'] = this.loginModel.loginEmail;
+            socialObj['password'] = this.loginModel.loginPassword;
         }
     }
 
