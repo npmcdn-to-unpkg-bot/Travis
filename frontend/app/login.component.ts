@@ -213,5 +213,9 @@ export class LoginComponent{
         return this.location.path().split('/')[1];
     }
     */
-
+    private dropdownMenu($event:MouseEvent):void {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
+    }
 }

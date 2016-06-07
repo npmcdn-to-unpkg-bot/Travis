@@ -192,6 +192,16 @@ var LoginComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    /*
+    get page() {
+        return this.location.path().split('/')[1];
+    }
+    */
+    LoginComponent.prototype.dropdownMenu = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
+    };
     LoginComponent = __decorate([
         core_1.Component({
             selector: 'login',
