@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,13 +20,23 @@ var Poll = (function () {
     function Poll() {
     }
     return Poll;
-})();
+}());
 exports.Poll = Poll;
+var pollForm = (function () {
+    function pollForm() {
+    }
+    return pollForm;
+}());
+exports.pollForm = pollForm;
 var PollComponent = (function () {
     function PollComponent(authService, pollService) {
         this.authService = authService;
         this.pollService = pollService;
+        this.pollModel = new pollForm();
     }
+    PollComponent.prototype.submitPoll = function () {
+        // for creating a poll
+    };
     PollComponent.prototype.ngOnInit = function () {
         console.log("OnInit poll component");
         this.getPolls();
@@ -45,6 +56,6 @@ var PollComponent = (function () {
         __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService])
     ], PollComponent);
     return PollComponent;
-})();
+}());
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map

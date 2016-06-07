@@ -80,7 +80,6 @@ export class LoginComponent{
 
 
     onSubmit() {
-        this.submitted = true;
         let socialObj = {};
         socialObj['imageURL'] = "/UI/assets/images/user.jpg";
         socialObj['lastName'] = this.regModel.lastName;
@@ -107,7 +106,6 @@ export class LoginComponent{
         if(element.tagName == "INPUT"){
             $event.preventDefault();
             $event.stopPropagation();
-            return true;
         }
         this.status.isopen = !this.status.isopen;
     }

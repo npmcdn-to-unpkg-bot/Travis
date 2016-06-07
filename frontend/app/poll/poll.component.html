@@ -74,11 +74,25 @@
                 <h4 class="modal-title">Create a new poll</h4>
             </div>
             <div class="modal-body">
+                <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll()">
                 <p>Please enter a question:</p>
-                <input type="text" class="questionText" placeholder="Where should I go?">
+                <input type="text" [(ngModel)]="pollModel.title" name="title" class="questionText"
+                       placeholder="Where should I go?" ngControl="title"  #title="ngForm"    required/>
+                    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                        Question is required!
+                    </div>
+
                 <p>Enter a list of possible answers, one answer per line:</p>
-                <textarea class="answerInputField" name="textarea"></textarea>
-                <input type="submit" class="btn btn-default btn-submit" name="submit" id="submit" value="Submit"/>
+                <textarea class="answerInputField" name="textarea" [(ngModel)]="pollModel.options"
+                          #pollOptions="ngForm" ngControl="pollOptions" required>
+                </textarea>
+                    <div [hidden]="pollOptions.valid || pollOptions.pristine" class="alert alert-danger">
+                        Minimum one Option is required
+                    </div>
+
+                <button type="submit" class="btn btn-primary btn-block"
+                       [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit</button>
+                    </form>
             </div>
         </div>
     </div>
