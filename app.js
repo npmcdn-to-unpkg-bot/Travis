@@ -32,6 +32,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use('/', express.static(__dirname + '/frontend'));
+app.use('/poll', express.static(__dirname + '/frontend'));
+
 
 /*
 app.use('/*', function(req, res){
