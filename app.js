@@ -11,6 +11,9 @@ mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
     pass: Config.db.pass
 });
 
+require('./poll/pollSchema');
+require('./user/userSchema');
+
 /**
  * create application
  */

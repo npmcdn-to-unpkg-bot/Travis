@@ -1,20 +1,22 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var User = require('../user/userSchema');
+
 
 
 var Poll = mongoose.Schema({
-	owner    : { type : Schema.Types.ObjectId, ref: 'user' }, 
+	owner    : { type : Schema.Types.ObjectId, ref: 'User' }, 
 	title    : {type: String,required: false},   
 	date     : { type: Date, default: Date.now },
 	
 	options   : [
 	             {
 	              text : String,
-	              vote : [{ type : Schema.Types.ObjectId, ref: 'user' }]
+	              vote : [{ type : Schema.Types.ObjectId, ref: 'User' }]
 				 }
 				], 
 	comments : [{text : String,
-			    user : { type : Schema.Types.ObjectId, ref: 'user' },
+			    user : { type : Schema.Types.ObjectId, ref: 'User' },
 				date : { type: Date, default: Date.now },
 				}]
 });
@@ -24,5 +26,5 @@ var Poll = mongoose.Schema({
 
 
 
-
+module.exports = mongoose.model('User', User);
 module.exports = mongoose.model('Poll', Poll);
