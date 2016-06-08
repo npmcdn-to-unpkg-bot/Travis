@@ -185,6 +185,38 @@ var AuthService = (function () {
             console.error("Failed to fetch user info:", err);
         });
     };
+    AuthService.prototype.logInTravis = function (loginObj) {
+        var _this = this;
+        //returns a token in return after user registeration/logging in
+        var authObj = {};
+        authObj['email'] = loginObj['email'];
+        authObj['password'] = loginObj['password'];
+        var body = JSON.stringify(authObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/login", body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+            var token = response.token;
+            //storing the pics/info in session
+            var travisUser = new auth_user_1.TravisUser();
+            travisUser.name = response['name'];
+            travisUser.image = response['imageURL'];
+            localStorage.setItem('user', JSON.stringify(travisUser));
+            // tell the navbar
+            _this.notify(travisUser.name, travisUser.image);
+            // now service is authenthicated
+            localStorage.setItem('token', token);
+            _this.user.authenticated = true;
+            _this.authenticated = true;
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to fetch user info:", err);
+        });
+    };
     AuthService.prototype.postUserToServer = function (userObj) {
         var _this = this;
         var body = JSON.stringify(userObj);

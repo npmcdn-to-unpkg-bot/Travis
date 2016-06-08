@@ -197,6 +197,42 @@ export class AuthService {
             });
     }
 
+    public logInTravis(loginObj){
+            //returns a token in return after user registeration/logging in
+        let authObj = {};
+        authObj['email'] = loginObj['email'];
+        authObj['password'] = loginObj['password'];
+        let body = JSON.stringify(authObj);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/user/login", body, {'headers':headers})
+                .map(res => {
+                    console.log(res);
+                    let response = res.json();
+                    console.log(response);
+                    let token = response.token;
+
+                    //storing the pics/info in session
+                    let travisUser = new TravisUser();
+                    travisUser.name = response['name'];
+                    travisUser.image = response['imageURL'];
+
+                    localStorage.setItem('user', JSON.stringify(travisUser));
+                    // tell the navbar
+                    this.notify(travisUser.name,travisUser.image);
+
+                    // now service is authenthicated
+                    localStorage.setItem('token',token);
+                    this.user.authenticated = true;
+                    this.authenticated = true;
+
+                })
+                .subscribe(info => {
+                }, err => {
+                    console.error("Failed to fetch user info:", err);
+                });
+    }
+
     public postUserToServer(userObj){
         let body = JSON.stringify(userObj);
         console.log(userObj);

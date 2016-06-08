@@ -47,12 +47,6 @@ export class LoginComponent{
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
 
-        this.loginForm = formBuilder.group({
-            loginEmail: ['', Validators.compose([Validators.required,
-                Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
-            ])],
-            loginPassword: ['', Validators.required],
-        });
         this.regForm = formBuilder.group({
             regFName: ['', Validators.required],
             regLName: ['', Validators.required],
@@ -87,10 +81,8 @@ export class LoginComponent{
     }
 
 
-    onSubmit() {
+    onRegister() {
         let socialObj = {};
-        if (this.regForm) {
-            let socialObj = {};
             socialObj['imageURL'] = "/UI/assets/images/user.jpg";
             socialObj['lastName'] = this.regModel.lastName;
             socialObj['firstName'] = this.regModel.firstName;
@@ -100,10 +92,13 @@ export class LoginComponent{
             socialObj['type'] = "Travis";
             socialObj['birthDate'] = this.regModel.birthDate;
             this.authService.postUserToServer(socialObj);
-        } else if (this.loginForm) {
-            socialObj['email'] = this.loginModel.loginEmail;
-            socialObj['password'] = this.loginModel.loginPassword;
-        }
+    }
+
+    onLogin(){
+        let socialObj = {};
+        socialObj['email'] = this.loginModel.loginEmail;
+        socialObj['password'] = this.loginModel.loginPassword;
+        this.authService.logInTravis(socialObj);
     }
 
     public toggled(open:boolean):void {
@@ -214,6 +209,8 @@ export class LoginComponent{
     }
     */
     private dropdownMenu($event:MouseEvent):void {
+        if($event.target.id == 'loginButton')
+            return;
         $event.preventDefault();
         $event.stopPropagation();
         this.status.isopen = !this.status.isopen;

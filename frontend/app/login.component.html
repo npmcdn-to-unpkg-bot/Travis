@@ -13,18 +13,19 @@
                     </div>
                     or
                     <form class="form" role="form" method="post" action="/user/login" accept-charset="UTF-8"
-                           #lgForm="ngForm" (ngSubmit)="onSubmit()" (click)="dropdownMenu($event)">
+                           #lgForm="ngForm" (ngSubmit)="onLogin()" (click)="dropdownMenu($event)">
                         <input type="email" id="email" class="form-control" placeholder="email@me.com"
-                                   [(ngModel)]="loginModel.loginEmail" ngControl="loginEmail" #email="ngForm"
+                                   [(ngModel)]="loginModel.loginEmail" ngControl="loginEmail" #loginEmail="ngForm"
                                    required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
                         <div class="form-group">
                             <label class="sr-only" for="loginPassword">Email address</label>
                             <input type="password"  id="loginPassword" class="form-control" placeholder="Password"
-                                   [(ngModel)]="loginModel.loginPassword" ngControl="loginPassword" required/>
+                                   [(ngModel)]="loginModel.loginPassword" ngControl="loginPassword" #loginPassword="ngForm"
+                                   required/>
                             <div class="help-block text-center"><a href="">Forgotten password?</a></div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" [disabled]="!loginForm.form?.valid" >
+                            <button type="submit" id="loginButton" (click)="lgForm.submit" class="btn btn-primary btn-block" [disabled]="!lgForm.form?.valid" >
                                 Sign in</button>
                         </div>
                         <div class="checkbox">
@@ -63,7 +64,7 @@
             <div class="col-md-12 text-center center-block">
 
                 <form class="form" role="form" method="post" action="/user/signup" accept-charset="UTF-8"
-                      [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="onSubmit()">
+                      [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="onRegister()">
                     <div class="form-group">
                         <input type="text" [(ngModel)]="regModel.firstName" class="form-control" id="#firstName"
                                placeholder="First Name" name="firstName" ngControl="regFName" #fName="ngForm" required>
@@ -110,14 +111,13 @@
                         <hr>
                     </div>
                     <div class="container">
-                        <select name="gender" [(ngModel)]="regModel.gender">
-                            <option value="">Gender</option>
+                        <select name="gender" [(ngModel)]="regModel.gender" value="gender">
                             <option value="F">Female</option>
                             <option value="M">Male</option>
                             <option value="X">Other</option>
                         </select>
                         <span>                </span>
-                        <select [(ngModel)]="regModel.country" name="country">
+                        <select [(ngModel)]="regModel.country" name="country" value="country">
                             <option value="">Nationality</option>
                             <option value="AF">Afghanistan</option>
                             <option value="AX">Åland Islands</option>

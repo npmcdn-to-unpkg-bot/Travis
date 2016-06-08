@@ -33,12 +33,6 @@ var LoginComponent = (function () {
         this.fb = FB;
         this.loginModel = new LoginForm();
         this.regModel = new RegForm();
-        this.loginForm = formBuilder.group({
-            loginEmail: ['', common_1.Validators.compose([common_1.Validators.required,
-                    common_1.Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")
-                ])],
-            loginPassword: ['', common_1.Validators.required],
-        });
         this.regForm = formBuilder.group({
             regFName: ['', common_1.Validators.required],
             regLName: ['', common_1.Validators.required],
@@ -67,24 +61,23 @@ var LoginComponent = (function () {
             isValid: false
         };
     };
-    LoginComponent.prototype.onSubmit = function () {
+    LoginComponent.prototype.onRegister = function () {
         var socialObj = {};
-        if (this.regForm) {
-            var socialObj_1 = {};
-            socialObj_1['imageURL'] = "/UI/assets/images/user.jpg";
-            socialObj_1['lastName'] = this.regModel.lastName;
-            socialObj_1['firstName'] = this.regModel.firstName;
-            socialObj_1['email'] = this.regModel.email;
-            socialObj_1['password'] = this.regModel.password;
-            socialObj_1['country'] = this.regModel.country;
-            socialObj_1['type'] = "Travis";
-            socialObj_1['birthDate'] = this.regModel.birthDate;
-            this.authService.postUserToServer(socialObj_1);
-        }
-        else if (this.loginForm) {
-            socialObj['email'] = this.loginModel.loginEmail;
-            socialObj['password'] = this.loginModel.loginPassword;
-        }
+        socialObj['imageURL'] = "/UI/assets/images/user.jpg";
+        socialObj['lastName'] = this.regModel.lastName;
+        socialObj['firstName'] = this.regModel.firstName;
+        socialObj['email'] = this.regModel.email;
+        socialObj['password'] = this.regModel.password;
+        socialObj['country'] = this.regModel.country;
+        socialObj['type'] = "Travis";
+        socialObj['birthDate'] = this.regModel.birthDate;
+        this.authService.postUserToServer(socialObj);
+    };
+    LoginComponent.prototype.onLogin = function () {
+        var socialObj = {};
+        socialObj['email'] = this.loginModel.loginEmail;
+        socialObj['password'] = this.loginModel.loginPassword;
+        this.authService.logInTravis(socialObj);
     };
     LoginComponent.prototype.toggled = function (open) {
         console.log('Dropdown is now: ', open);
@@ -197,6 +190,8 @@ var LoginComponent = (function () {
     }
     */
     LoginComponent.prototype.dropdownMenu = function ($event) {
+        if ($event.target.id == 'loginButton')
+            return;
         $event.preventDefault();
         $event.stopPropagation();
         this.status.isopen = !this.status.isopen;

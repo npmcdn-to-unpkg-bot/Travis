@@ -29,7 +29,7 @@ module.exports.login = function(req, res){
             if(!isMatch || err){
                 res.status(401).send('Invalid Credentials');
             } else {
-                res.status(200).json({token: createToken(user)});
+                res.status(200).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName});
             }
         });
     });
@@ -56,8 +56,14 @@ module.exports.signup = function(req, res){
     user.password = req.body.password;
     user.type = req.body.type;
     user.userID = req.body.userID;
-    user.firstName = req.body.name.givenName;
+    /*
+	user.firstName = req.body.name.givenName;
     user.lastName = req.body.name.familyName;
+	*/
+	user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+	
+	
     user.imageURL = req.body.imageURL;
     user.gender = req.body.gender;
     user.birthDate = req.body.birthDate;
@@ -65,7 +71,7 @@ module.exports.signup = function(req, res){
     user.city = req.body.city;
   
     
-if(user.type !== "travis")
+if(user.type !== "Travis")
 	{
     User.findOne({userID: req.body.userID}, function(err, user){
         if (user) {
@@ -92,7 +98,7 @@ if(user.type !== "travis")
 	            return;
 	        }
 
-	        res.status(201).json({token: createToken(user)});
+	        res.status(201).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName});
 	        return;
 	    });	
 	}
