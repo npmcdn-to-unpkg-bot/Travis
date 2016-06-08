@@ -41,7 +41,7 @@
                                             </label>
                                         </div>
                                         <progressbar class="progress-striped"
-                                                     value={{poll.getVotesPercentage(option.text)}} type="warning"><i>
+                                                     value={{poll.getVotesPercentage(option.text)}} type={{getBarType(option.text)}}><i>
                                             {{poll.getVotes(option.text)}} / {{poll.getNumOfVotes()}}</i>
                                         </progressbar>
                                     </li>

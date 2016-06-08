@@ -41,7 +41,7 @@ var polls = [
         _id: 5,
         owner: { firstName: 'Emma', imageURL: 'https://pbs.twimg.com/profile_images/671726314504622082/0PqgkSEK.jpg', _id: "1234" },
         title: 'WWED',
-        options: [{ text: 'Paris', vote: ["1234", "1234", "1234"] }, { text: 'Rome', vote: ["1234", "1234", "1234"] }],
+        options: [{ text: 'Paris', vote: ["1234", "1234", "1234", "1", "33", "678898"] }, { text: 'Rome', vote: ["1234", "1234", "1234"] }],
         date: 'June 6',
         comments: [{ user: { firstName: 'Jen', imageURL: 'http://static.tvtropes.org/pmwiki/pub/images/jenit_545.jpg', _id: "123" },
                 text: "You should visit me if you come to London!", date: 'June 2, 2016' },
@@ -58,7 +58,7 @@ var polls = [
             _id: "1234"
         },
         title: 'June 2016 Paris or NY?',
-        options: [{ text: 'Paris', vote: ["1234", "1234", "1234"] }, { text: 'New York', vote: ["1234", "1234", "1234"] }],
+        options: [{ text: 'Paris', vote: ["1234", "1234", "1234", "3456"] }, { text: 'New York', vote: ["1234", "1234", "1234"] }],
         date: 'June 10',
         comments: [{
                 user: { firstName: 'Arash', _id: "123",
@@ -82,7 +82,7 @@ var polls = [
             _id: "1234"
         },
         title: 'WTD in Winter',
-        options: [{ text: 'Moscow', vote: ["1234", "1234", "1234"] }, { text: 'Casablanca', vote: ["1234", "1234", "1234"] }],
+        options: [{ text: 'Moscow', vote: ["1234"] }, { text: 'Casablanca', vote: ["1234", "1234", "1234", "23456"] }],
         date: 'March 2014',
         comments: [{
                 user: { firstName: 'Arash', _id: "23456",
@@ -106,7 +106,7 @@ var polls = [
             _id: "1234"
         },
         title: 'WTD in Winter',
-        options: [{ text: 'Moscow', vote: ["1234", "1234", "1234"] }, { text: 'Casablanca', vote: ["1234", "1234", "1234"] }],
+        options: [{ text: 'Moscow', vote: ["1234", "1234", "1234"] }, { text: 'Casablanca', vote: ["1234", "1234", "1234", "12345", "1234555"] }],
         date: 'March 2014',
         comments: [{
                 user: { firstName: "Ronaldo", _id: "7",
