@@ -13,7 +13,7 @@ var Poll = mongoose.Schema({
 	              vote : [{ type : Schema.Types.ObjectId, ref: 'user' }]
 				 }
 				], 
-	comment : [{text : String,
+	comments : [{text : String,
 			    user : { type : Schema.Types.ObjectId, ref: 'user' },
 				date : { type: Date, default: Date.now },
 				}]

@@ -35,6 +35,14 @@ var PollComponent = (function () {
     }
     PollComponent.prototype.submitPoll = function () {
         // for creating a poll
+        var options = this.pollModel.options.split('\n');
+        var validOptions = [];
+        options.map(function (option) {
+            if (option != "" && option != null)
+                validOptions.push(option);
+        });
+        var pollObj = { token: localStorage.getItem('token'), title: this.pollModel.title, options: validOptions };
+        this.pollService.postPoll(pollObj);
     };
     PollComponent.prototype.ngOnInit = function () {
         console.log("OnInit poll component");

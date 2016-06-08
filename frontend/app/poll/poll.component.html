@@ -90,7 +90,7 @@
                         Minimum one Option is required
                     </div>
 
-                <button type="submit" class="btn btn-primary btn-block"
+                <button type="submit" class="btn btn-primary btn-block" (click)="createPollModal.hide()"
                        [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit</button>
                     </form>
             </div>

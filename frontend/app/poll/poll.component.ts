@@ -42,6 +42,14 @@ export class PollComponent implements OnInit{
 
     submitPoll(){
         // for creating a poll
+        let options = this.pollModel.options.split('\n');
+        let validOptions = [];
+        options.map(option =>{
+            if (option != "" && option != null)
+                validOptions.push(option);
+        });
+        let pollObj = {token: localStorage.getItem('token'), title:this.pollModel.title, options:validOptions};
+        this.pollService.postPoll(pollObj);
     }
 
     ngOnInit() {

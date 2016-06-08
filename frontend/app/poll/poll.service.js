@@ -84,6 +84,22 @@ var PollService = (function () {
          // 200m seconds
         );
     };
+    PollService.prototype.postPoll = function (pollObj) {
+        var body = JSON.stringify(pollObj);
+        console.log(pollObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.post("http://localhost:3000/poll/Create", body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to post a poll:", err);
+        });
+    };
     PollService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
