@@ -188,6 +188,11 @@ export class AuthService {
 
                 // now service is authenthicated
                 localStorage.setItem('token',token);
+
+                let travisUser = JSON.parse(localStorage.getItem('user'));
+                travisUser._id = response['_id'];
+
+                localStorage.setItem('user', JSON.stringify(travisUser));
                 this.user.authenticated = true;
                 this.authenticated = true;
             })
@@ -214,8 +219,10 @@ export class AuthService {
 
                     //storing the pics/info in session
                     let travisUser = new TravisUser();
-                    travisUser.name = response['name'];
+                    travisUser.name = response['firstName'];
                     travisUser.image = response['imageURL'];
+                    travisUser._id = response['_id'];
+
 
                     localStorage.setItem('user', JSON.stringify(travisUser));
                     // tell the navbar
@@ -244,6 +251,7 @@ export class AuthService {
                 let response = res.json();
                 console.log(response);
                 let token = response.token;
+                let userId = response._id;
 
                 // now service is authenthicated
                 localStorage.setItem('token',token);
@@ -254,6 +262,7 @@ export class AuthService {
                 let travisUser = new TravisUser();
                 travisUser.name = userObj['firstName'];
                 travisUser.image = userObj['imageURL'];
+                travisUser._id = userId;
 
                 localStorage.setItem('user', JSON.stringify(travisUser));
                 // tell the navbar

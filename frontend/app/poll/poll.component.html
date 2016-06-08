@@ -31,23 +31,19 @@
                     <div class="row inner-bottom-xs" >
                         <div class="colmn-sm-8" >
                             <fieldset>
-                                <legend>{{poll.question}}</legend>
+                                <legend>{{poll.title}}</legend>
                                 <div class="list-group">
-                                    <li class="list-group-item">
+                                    <li class="list-group-item" *ngFor="let option of poll.options">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value={{poll.options[0]}}/>
-                                                {{poll.options[0]}}
+                                                <input type="radio" name="Poll" value={{option.text}}/>
+                                                {{option.text}}
                                             </label>
                                         </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="Poll" value={{poll.options[0]}} />
-                                                {{poll.options[1]}}
-                                            </label>
-                                        </div>
+                                        <progressbar class="progress-striped"
+                                                     value={{poll.getVotesPercentage(option.text)}} type="warning"><i>
+                                            {{poll.getVotes(option.text)}} / {{poll.getNumOfVotes()}}</i>
+                                        </progressbar>
                                     </li>
                                     <input type="submit" class="btn btn-default btn-submit" name="submit" id="submit"
                                            value="Vote"/>
