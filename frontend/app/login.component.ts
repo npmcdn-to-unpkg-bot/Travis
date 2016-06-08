@@ -208,7 +208,7 @@ export class LoginComponent{
         return this.location.path().split('/')[1];
     }
     */
-    private dropdownMenu($event:MouseEvent):void {
+    private dropdownMenu($event:any):void {
         if($event.target.id == 'loginButton')
             return;
         $event.preventDefault();

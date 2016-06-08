@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -177,6 +178,9 @@ var AuthService = (function () {
             var token = response.token;
             // now service is authenthicated
             localStorage.setItem('token', token);
+            var travisUser = JSON.parse(localStorage.getItem('user'));
+            travisUser._id = response['_id'];
+            localStorage.setItem('user', JSON.stringify(travisUser));
             _this.user.authenticated = true;
             _this.authenticated = true;
         })
@@ -202,8 +206,9 @@ var AuthService = (function () {
             var token = response.token;
             //storing the pics/info in session
             var travisUser = new auth_user_1.TravisUser();
-            travisUser.name = response['name'];
+            travisUser.name = response['firstName'];
             travisUser.image = response['imageURL'];
+            travisUser._id = response['_id'];
             localStorage.setItem('user', JSON.stringify(travisUser));
             // tell the navbar
             _this.notify(travisUser.name, travisUser.image);
@@ -229,6 +234,7 @@ var AuthService = (function () {
             var response = res.json();
             console.log(response);
             var token = response.token;
+            var userId = response._id;
             // now service is authenthicated
             localStorage.setItem('token', token);
             _this.user.authenticated = true;
@@ -237,6 +243,7 @@ var AuthService = (function () {
             var travisUser = new auth_user_1.TravisUser();
             travisUser.name = userObj['firstName'];
             travisUser.image = userObj['imageURL'];
+            travisUser._id = userId;
             localStorage.setItem('user', JSON.stringify(travisUser));
             // tell the navbar
             _this.notify(travisUser.name, travisUser.image);
@@ -306,6 +313,6 @@ var AuthService = (function () {
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-})();
+}());
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

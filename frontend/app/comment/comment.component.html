@@ -10,8 +10,8 @@
             <ul class="commentList">
                     <li *ngFor="let cm of comments">
                         <div class="commenterImage">
-                            <img src="{{cm.imageURL}}" />
-                            <span class="sub-text">{{cm.name}}</span>
+                            <img src="{{cm.user?.imageURL}}" />
+                            <span class="sub-text">{{cm.user?.firstName}}</span>
                         </div>
                         <div class="commentText">
                             <p class="">{{cm.text}}</p> <span class="date sub-text">{{cm.date}}</span>

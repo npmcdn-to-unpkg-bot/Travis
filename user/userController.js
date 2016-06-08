@@ -29,7 +29,7 @@ module.exports.login = function(req, res){
             if(!isMatch || err){
                 res.status(401).send('Invalid Credentials');
             } else {
-                res.status(200).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName});
+                res.status(200).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName, _id:user._id});
             }
         });
     });
@@ -75,7 +75,7 @@ if(user.type !== "Travis")
 	{
     User.findOne({userID: req.body.userID}, function(err, user){
         if (user) {
-        	res.status(200).json({token: createToken(user)});
+        	res.status(200).json({token: createToken(user),_id:user._id});
         	return;
         }else
         {
@@ -84,8 +84,8 @@ if(user.type !== "Travis")
     	            res.status(500).send(err);
     	            return;
     	        }
-
-    	        res.status(201).json({token: createToken(user)});
+				conole.log(user);
+    	        res.status(201).json({token: createToken(user) , _id:user._id});
     	        return;
     	    });	
         }
@@ -98,7 +98,7 @@ if(user.type !== "Travis")
 	            return;
 	        }
 
-	        res.status(201).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName});
+	        res.status(201).json({token: createToken(user), imageURL:user.imageURL, firstName: user.firstName, _id:user._id});
 	        return;
 	    });	
 	}

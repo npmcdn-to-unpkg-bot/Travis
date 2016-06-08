@@ -2,19 +2,66 @@
  * Created by Nadine on 6/2/16.
  */
 import { Component, Injectable,OnInit } from '@angular/core';
-import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
+import {CORE_DIRECTIVES} from '@angular/common';
+import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS,Ng2BootstrapConfig, Ng2BootstrapTheme,
+    PROGRESSBAR_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import { NgForm}    from '@angular/common';
 import { CommentComponent } from '../comment/comment.component';
 import {PollService} from './poll.service'
 import {AuthService} from '../auth.service';
 
+export class Option{
+    text: string;
+    vote = [];
+}
+
 export class Poll {
-    id: number;
-    user: string;
-    question: string;
-    options: string[];
+    _id: number;
+    owner: Object;
+    title: string;
+    options: Option[];
     date: string;
     comments: Object[];
+
+    public isUserVoted(userId:string){
+        this.options.map(option =>{
+            option.vote.map( v =>{
+                if(userId == v)
+                    return option.text;
+            });
+        });
+        return false;
+    }
+
+    public getVotes(currentOp:string){
+        let votes = 0;
+        console.log("getting votes for option ");
+        console.log(currentOp);
+        this.options.map(tempOp =>{
+           console.log(tempOp.text);
+            if (tempOp.text == currentOp){
+               votes = tempOp.vote.length;
+           }
+        });
+        console.log("votes: " + votes);
+        return votes;
+    }
+
+    public getVotesPercentage(option:string){
+        let votes = this.getVotes(option);
+        return 100 * votes / this.getNumOfVotes();
+    }
+
+
+    public getNumOfVotes(){
+        let votes = 0;
+        this.options.map(tempOp =>{
+            votes += tempOp.vote.length;
+        });
+        console.log("number of votes for " + this.title + " is: " + votes);
+        return votes;
+    }
+
 }
 
 export class pollForm {
@@ -27,18 +74,25 @@ export class pollForm {
     selector: 'pollItem',
     templateUrl: 'app/poll/poll.component.html',
     viewProviders:[BS_VIEW_PROVIDERS],
-    directives: [MODAL_DIRECTVES, CommentComponent],
+    directives: [MODAL_DIRECTVES, CommentComponent,PROGRESSBAR_DIRECTIVES, CORE_DIRECTIVES],
     styleUrls:  ['app/poll/poll.component.css'],
 })
 
 export class PollComponent implements OnInit{
     polls:Poll[];
     pollModel:pollForm;
+    userId:string;
 
     constructor(private authService: AuthService, private pollService: PollService) {
         this.pollModel = new pollForm();
+        this.polls = [];
+        this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
     }
 
+    getBarType(){
+        let states = ["success","info", "warning", "danger"];
+        return states[Math.floor((Math.random() * 4))];
+    }
 
     submitPoll(){
         // for creating a poll
@@ -58,7 +112,19 @@ export class PollComponent implements OnInit{
     }
 
     private getPolls(){
-            this.pollService.getLatestPolls().then(polls => this.polls = polls);
+            this.pollService.getLatestPolls().then(polls => {
+                polls.map(poll=>{
+                    let tempPoll = new Poll();
+                    tempPoll.owner =  poll['owner'];
+                    tempPoll.title = poll['title'];
+                    tempPoll.options = poll['options'];
+                    tempPoll.date =  poll['date'];
+                    tempPoll.comments =  poll['comments'];
+
+                    this.polls.push(tempPoll);
+                });
+
+            });
     }
 
 }

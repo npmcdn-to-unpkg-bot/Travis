@@ -5,10 +5,10 @@ import { Component, Input } from '@angular/core';
 
 
 export class Comment{
-    name:string;
+
+    user:Object;
     text:string;
     date:string;
-    imageURL:string;
 }
 
 
