@@ -1,12 +1,13 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
 var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+    };
 /**
  * Created by Arash on 25-May-16.
  */
@@ -48,8 +49,9 @@ var AuthService = (function () {
         this.authChange = new Subject_1.Subject();
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.authMsg = { 'image': '', 'name': '' };
+        this.authMsg = {'image': '', 'name': ''};
     }
+
     AuthService.prototype.notify = function (name, image) {
         this.authMsg.name = name;
         this.authMsg.image = image;
@@ -70,7 +72,7 @@ var AuthService = (function () {
                 break;
             }
         }
-        return { accessToken: accessToken, expires: params['expires_in'] };
+        return {accessToken: accessToken, expires: params['expires_in']};
     };
     AuthService.prototype.GoogleLogin = function () {
         var _this = this;
@@ -126,7 +128,9 @@ var AuthService = (function () {
         var validationAccToken = this.GooglevalidationUrl + accessToken;
         if (accessToken != null) {
             this.http.get(validationAccToken)
-                .map(function (res) { return res.json()['sub']; }).subscribe(function (id) {
+                .map(function (res) {
+                    return res.json()['sub'];
+                }).subscribe(function (id) {
                 console.log(id);
                 _this.user.userId = id;
                 _this.fetchGoogleUserInfo(_this.user.accessToken, _this.user.userId);
@@ -143,7 +147,9 @@ var AuthService = (function () {
         if (accessToken != null) {
             var tempUrl = this.GoogleuserInfoUrl + id + "?access_token=" + accessToken;
             this.http.get(tempUrl)
-                .map(function (res) { return res.json(); }).subscribe(function (jsonResponse) {
+                .map(function (res) {
+                    return res.json();
+                }).subscribe(function (jsonResponse) {
                 var google_user = jsonResponse;
                 console.log(google_user);
                 _this.user.firstName = google_user['name']['givenName'];
@@ -169,24 +175,24 @@ var AuthService = (function () {
         console.log(socialObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/user/signup", body, { 'headers': headers })
+        this.http.post("http://localhost:3000/user/signup", body, {'headers': headers})
             .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            var token = response.token;
-            // now service is authenthicated
-            localStorage.setItem('token', token);
-            var travisUser = JSON.parse(localStorage.getItem('user'));
-            travisUser._id = response['_id'];
-            localStorage.setItem('user', JSON.stringify(travisUser));
-            _this.user.authenticated = true;
-            _this.authenticated = true;
-        })
+                console.log(res);
+                var response = res.json();
+                console.log(response);
+                var token = response.token;
+                // now service is authenthicated
+                localStorage.setItem('token', token);
+                var travisUser = JSON.parse(localStorage.getItem('user'));
+                travisUser._id = response['_id'];
+                localStorage.setItem('user', JSON.stringify(travisUser));
+                _this.user.authenticated = true;
+                _this.authenticated = true;
+            })
             .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to fetch user info:", err);
-        });
+            }, function (err) {
+                console.error("Failed to fetch user info:", err);
+            });
     };
     AuthService.prototype.logInTravis = function (loginObj) {
         var _this = this;
@@ -197,29 +203,29 @@ var AuthService = (function () {
         var body = JSON.stringify(authObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/user/login", body, { 'headers': headers })
+        this.http.post("http://localhost:3000/user/login", body, {'headers': headers})
             .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            var token = response.token;
-            //storing the pics/info in session
-            var travisUser = new auth_user_1.TravisUser();
-            travisUser.name = response['firstName'];
-            travisUser.image = response['imageURL'];
-            travisUser._id = response['_id'];
-            localStorage.setItem('user', JSON.stringify(travisUser));
-            // tell the navbar
-            _this.notify(travisUser.name, travisUser.image);
-            // now service is authenthicated
-            localStorage.setItem('token', token);
-            _this.user.authenticated = true;
-            _this.authenticated = true;
-        })
+                console.log(res);
+                var response = res.json();
+                console.log(response);
+                var token = response.token;
+                //storing the pics/info in session
+                var travisUser = new auth_user_1.TravisUser();
+                travisUser.firstName = response['firstName'];
+                travisUser.imageURL = response['imageURL'];
+                travisUser._id = response['_id'];
+                localStorage.setItem('user', JSON.stringify(travisUser));
+                // tell the navbar
+                _this.notify(travisUser.name, travisUser.image);
+                // now service is authenthicated
+                localStorage.setItem('token', token);
+                _this.user.authenticated = true;
+                _this.authenticated = true;
+            })
             .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to fetch user info:", err);
-        });
+            }, function (err) {
+                console.error("Failed to fetch user info:", err);
+            });
     };
     AuthService.prototype.postUserToServer = function (userObj) {
         var _this = this;
@@ -227,30 +233,33 @@ var AuthService = (function () {
         console.log(userObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/user/signup", body, { 'headers': headers })
+        this.http.post("http://localhost:3000/user/signup", body, {'headers': headers})
             .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            var token = response.token;
-            var userId = response._id;
-            // now service is authenthicated
-            localStorage.setItem('token', token);
-            _this.user.authenticated = true;
-            _this.authenticated = true;
-            //storing the pics/info in session
-            var travisUser = new auth_user_1.TravisUser();
-            travisUser.name = userObj['firstName'];
-            travisUser.image = userObj['imageURL'];
-            travisUser._id = userId;
-            localStorage.setItem('user', JSON.stringify(travisUser));
-            // tell the navbar
-            _this.notify(travisUser.name, travisUser.image);
-        })
+                console.log(res);
+                var response = res.json();
+                console.log(response);
+                var token = response.token;
+                var userId = response._id;
+                // now service is authenthicated
+                localStorage.setItem('token', token);
+                _this.user.authenticated = true;
+                _this.authenticated = true;
+                //storing the pics/info in session
+                var travisUser = new auth_user_1.TravisUser();
+                travisUser.firstName = userObj['firstName'];
+                travisUser.lastName = userObj['lastName'];
+                travisUser.imageURL = userObj['imageURL'];
+                travisUser.email = userObj['email'];
+                travisUser.name = userObj['firstName'];
+                travisUser._id = userId;
+                localStorage.setItem('user', JSON.stringify(travisUser));
+                // tell the navbar
+                _this.notify(travisUser.name, travisUser.imageURL);
+            })
             .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to fetch user info:", err);
-        });
+            }, function (err) {
+                console.error("Failed to fetch user info:", err);
+            });
     };
     AuthService.prototype.getUserInfo = function () {
         var user = localStorage.getItem('user');
@@ -269,20 +278,20 @@ var AuthService = (function () {
             return Promise.resolve(null);
     };
     AuthService.prototype.getUserFromServer = function (token) {
-        var body = JSON.stringify({ "token": token });
+        var body = JSON.stringify({"token": token});
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/user/lookup", body, { 'headers': headers })
+        this.http.post("http://localhost:3000/user/lookup", body, {'headers': headers})
             .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            var user = response['user'];
-            return user;
-        })
+                console.log(res);
+                var response = res.json();
+                var user = response['user'];
+                return user;
+            })
             .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to get user info:", err);
-        });
+            }, function (err) {
+                console.error("Failed to get user info:", err);
+            });
     };
     AuthService.prototype.isAuthenticated = function () {
         if (this.user.authenticated)
@@ -311,10 +320,10 @@ var AuthService = (function () {
         this.sendTOServer(travisUser);
     };
     AuthService = __decorate([
-        core_1.Injectable(), 
+        core_1.Injectable(),
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-})();
+}());
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

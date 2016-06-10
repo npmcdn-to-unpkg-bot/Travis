@@ -218,8 +218,8 @@ export class AuthService {
 
                     //storing the pics/info in session
                     let travisUser = new TravisUser();
-                    travisUser.name = response['firstName'];
-                    travisUser.image = response['imageURL'];
+                    travisUser.firstName = response['firstName'];
+                    travisUser.imageURL = response['imageURL'];
                     travisUser._id = response['_id'];
 
 

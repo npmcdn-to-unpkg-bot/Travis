@@ -73,18 +73,20 @@ module.exports.signup = function(req, res){
     
 if(user.type !== "Travis")
 	{
-    User.findOne({userID: req.body.userID}, function(err, user){
-        if (user) {
-        	res.status(200).json({token: createToken(user),_id:user._id});
+    User.findOne({userID: req.body.userID}, function(err, foundUser){
+        if (foundUser) {
+        	res.status(200).json({token: createToken(foundUser),_id:foundUser._id});
         	return;
-        }else
+        } else
         {
-    	    user.save(function(err) {
+            console.log("SIGNUP USER: " + req + " XXX "+ req.body.userID);
+
+            user.save(function(err) {
     	        if (err) {
     	            res.status(500).send(err);
     	            return;
     	        }
-				conole.log(user);
+				console.log(user);
     	        res.status(201).json({token: createToken(user) , _id:user._id});
     	        return;
     	    });	
