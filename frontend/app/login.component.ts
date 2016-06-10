@@ -81,24 +81,24 @@ export class LoginComponent{
     }
 
 
-    onRegister() {
-        let socialObj = {};
-            socialObj['imageURL'] = "/UI/assets/images/user.jpg";
-            socialObj['lastName'] = this.regModel.lastName;
-            socialObj['firstName'] = this.regModel.firstName;
-            socialObj['email'] = this.regModel.email;
-            socialObj['password'] = this.regModel.password;
-            socialObj['country'] = this.regModel.country;
-            socialObj['type'] = "Travis";
-            socialObj['birthDate'] = this.regModel.birthDate;
-            this.authService.postUserToServer(socialObj);
+    travisRegister() {
+        let regObj = {};
+            regObj['imageURL'] = "/UI/assets/images/user.jpg";
+            regObj['lastName'] = this.regModel.lastName;
+            regObj['firstName'] = this.regModel.firstName;
+            regObj['email'] = this.regModel.email;
+            regObj['password'] = this.regModel.password;
+            regObj['country'] = this.regModel.country;
+            regObj['type'] = "Travis";
+            regObj['birthDate'] = this.regModel.birthDate;
+            this.authService.postUserToServer(regObj);
     }
 
-    onLogin(){
-        let socialObj = {};
-        socialObj['email'] = this.loginModel.loginEmail;
-        socialObj['password'] = this.loginModel.loginPassword;
-        this.authService.logInTravis(socialObj);
+    travisLogin(){
+        let obj = {};
+        obj['email'] = this.loginModel.loginEmail;
+        obj['password'] = this.loginModel.loginPassword;
+        this.authService.logInTravis(obj);
     }
 
     public toggled(open:boolean):void {
@@ -133,20 +133,12 @@ export class LoginComponent{
                 FB.api('/me', {fields: "id,first_name,last_name ,picture,gender,birthday"},
                     function(response){
                         try{
-                            var facebook_response = JSON.stringify(response);
-                            console.log(facebook_response);
-                            temp_facebook_obj['auth_type'] = 'facebook';
-                            temp_facebook_obj['id'] = response['id'];
-                            temp_facebook_obj['picture'] = response['picture']['data']['url'];
-                            temp_facebook_obj['gender'] = response['gender'];
-                            temp_facebook_obj['first_name'] = response['first_name'];
-                            temp_facebook_obj['last_name'] = response['last_name'];
-                            a_Service.socialLogin(temp_facebook_obj);
+                            a_Service.facebookLogin(response);
                         }catch (err){
                             console.log(err);
                             if (! temp_facebook_obj['id'])
                                 alert('Facebook authentication failed! try again');
-                            else a_Service.socialLogin(temp_facebook_obj);
+                            else a_Service.facebookLogin(temp_facebook_obj);
                         }
                     });
             } else if (response.status === 'not_authorized') {
@@ -156,23 +148,24 @@ export class LoginComponent{
                 FB.login(function(response){
                     if (response.status === 'connected') {
                         console.log(response.authResponse.accessToken);
-                        FB.api('/me', {fields: "id,first_name,last_name ,picture,gender,birthday"},
+                        FB.api('/me', {fields: "id,first_name,last_name ,picture,gender,birthday, email"},
                             function(response){
                                 try{
                                     var facebook_response = JSON.stringify(response);
                                     console.log(facebook_response);
                                     temp_facebook_obj['auth_type'] = 'facebook';
                                     temp_facebook_obj['id'] = response['id'];
-                                    temp_facebook_obj['picture'] = response['picture']['data']['url'];
+									temp_facebook_obj['email'] = response['email'];
+                                    temp_facebook_obj['imageURL'] = response['picture']['data']['url'];
                                     temp_facebook_obj['gender'] = response['gender'];
-                                    temp_facebook_obj['first_name'] = response['first_name'];
-                                    temp_facebook_obj['last_name'] = response['last_name'];
-                                    a_Service.socialLogin(temp_facebook_obj);
+                                    temp_facebook_obj['firstName'] = response['first_name'];
+                                    temp_facebook_obj['lastName'] = response['last_name'];
+                                    a_Service.facebookLogin(temp_facebook_obj);
                                 }catch (err){
                                     console.log(err);
                                     if (! temp_facebook_obj['id'])
                                         alert('Facebook authentication failed! try again');
-                                    else a_Service.socialLogin(temp_facebook_obj);
+                                    else a_Service.facebookLogin(temp_facebook_obj);
                                 }
                             });
                     }
@@ -192,7 +185,7 @@ export class LoginComponent{
 
     doLogin() {
         console.log("login is called");
-        this.authService.doLogin();
+        this.authService.GoogleLogin();
     }
 
     doLogout() {

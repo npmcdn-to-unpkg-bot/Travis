@@ -64,7 +64,7 @@
             <div class="col-md-12 text-center center-block">
 
                 <form class="form" role="form" method="post" action="/user/signup" accept-charset="UTF-8"
-                      [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="onRegister()">
+                      [ngFormModel]="regForm" #registerForm="ngForm" (ngSubmit)="travisRegister()">
                     <div class="form-group">
                         <input type="text" [(ngModel)]="regModel.firstName" class="form-control" id="#firstName"
                                placeholder="First Name" name="firstName" ngControl="regFName" #fName="ngForm" required>
