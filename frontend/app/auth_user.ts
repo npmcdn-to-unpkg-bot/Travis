@@ -10,7 +10,7 @@ export class TravisUser{
     accessToken:string;
     authenticated:boolean;
     expires:any;
-    userId:string;
+    userID:string;
 }
 
 export class GoogleUser{

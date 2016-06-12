@@ -48,11 +48,11 @@ var AuthService = (function () {
         this.authChange = new Subject_1.Subject();
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.authMsg = { 'image': '', 'name': '' };
+        this.authMsg = { 'imageURL': '', 'firstName': '' };
     }
     AuthService.prototype.notify = function (name, image) {
-        this.authMsg.name = name;
-        this.authMsg.image = image;
+        this.authMsg.firstName = name;
+        this.authMsg.imageURL = image;
         this.authChange.next(this.authMsg);
     };
     AuthService.prototype.getTokenFromGoogleURL = function (href) {
@@ -182,10 +182,13 @@ var AuthService = (function () {
             localStorage.setItem('user', JSON.stringify(travisUser));
             _this.user.authenticated = true;
             _this.authenticated = true;
+            // or navigate to home
+            window.location.reload();
         })
             .subscribe(function (info) {
         }, function (err) {
             console.error("Failed to fetch user info:", err);
+            alert("Login failed due to server error! Please try again");
         });
     };
     AuthService.prototype.logInTravis = function (loginObj) {
@@ -205,8 +208,8 @@ var AuthService = (function () {
             var token = response.token;
             //storing the pics/info in session
             var travisUser = new auth_user_1.TravisUser();
-            travisUser.name = response['firstName'];
-            travisUser.image = response['imageURL'];
+            travisUser.firstName = response['firstName'];
+            travisUser.imageURL = response['imageURL'];
             travisUser._id = response['_id'];
             localStorage.setItem('user', JSON.stringify(travisUser));
             // tell the navbar
@@ -256,17 +259,19 @@ var AuthService = (function () {
         var user = localStorage.getItem('user');
         console.log("getting user from cache");
         console.log(user);
-        user = JSON.parse(user);
-        if (user != null)
-            return Promise.resolve(user);
-        else if (this.user.authenticated)
-            return Promise.resolve(this.user);
-        else if (localStorage.getItem('token')) {
+        user = user != null ? user : this.user;
+        if (user == null) {
             var token = localStorage.getItem('token');
-            return Promise.resolve(this.getUserFromServer(token));
+            user = this.getUserFromServer(token);
         }
-        else
-            return Promise.resolve(null);
+        else {
+            user = JSON.parse(user);
+        }
+        if (user != null) {
+            this.notify(user.firstName, user.imageURL);
+            return Promise.resolve(user);
+        }
+        return Promise.resolve(null);
     };
     AuthService.prototype.getUserFromServer = function (token) {
         var body = JSON.stringify({ "token": token });
@@ -295,18 +300,18 @@ var AuthService = (function () {
         console.log(facebookResponse);
         var travisUser = new auth_user_1.TravisUser();
         travisUser['type'] = 'Facebook';
-        travisUser.userId = facebookResponse['id'];
+        travisUser.userID = facebookResponse['id'];
         travisUser.imageURL = facebookResponse['picture']['data']['url'];
         travisUser.gender = facebookResponse['gender'];
         travisUser.firstName = facebookResponse['first_name'];
         travisUser.lastName = facebookResponse['last_name'];
-        travisUser["email"] = facebookResponse['email'];
+        travisUser["email"] = facebookResponse['email'] ? facebookResponse['email'] : "null";
         this.user.authenticated = true;
         this.authenticated = true;
         this.user.firstName = travisUser['firstName'];
         this.user.gender = travisUser['gender'];
         this.user.imageURL = travisUser['imageURL'];
-        localStorage.setItem('user', JSON.stringify(travisUser));
+        localStorage.setItem('user', JSON.stringify(this.user));
         this.notify(travisUser.firstName, travisUser.imageURL);
         this.sendTOServer(travisUser);
     };

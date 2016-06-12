@@ -29,8 +29,8 @@ var Navbar = (function () {
             console.log("notified!");
             console.log(value);
             _this.user = new auth_user_1.TravisUser();
-            _this.user.name = tempUser.name;
-            _this.user.image = tempUser.image;
+            _this.user.firstName = tempUser.firstName;
+            _this.user.imageURL = tempUser.imageURL;
             _this.authenticated();
         });
     }
@@ -49,7 +49,7 @@ var Navbar = (function () {
         var _this = this;
         console.log("calling get user info from navbar");
         this.authService.getUserInfo().then(function (user) {
-            console.log("THen getting user from service");
+            console.log("Then getting user from service");
             _this.user = user;
             console.log(_this.user);
         });

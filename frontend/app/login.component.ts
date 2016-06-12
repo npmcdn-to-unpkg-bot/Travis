@@ -177,7 +177,7 @@ export class LoginComponent{
                         // they are logged into this app or not.
                         alert("you are not logged in");
                     }
-                });
+                },{scope: 'email'});
             }
         });
 

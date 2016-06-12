@@ -43,15 +43,15 @@ export class AuthService {
     authChange: Subject<any> = new Subject<any>();
 
     notify(name, image){
-        this.authMsg.name = name;
-        this.authMsg.image = image;
+        this.authMsg.firstName = name;
+        this.authMsg.imageURL = image;
         this.authChange.next(this.authMsg);
     }
 
     constructor(private windows:WindowService, private http:Http, private router: Router) {
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.authMsg = {'image':'', 'name':''};
+        this.authMsg = {'imageURL':'', 'firstName':''};
     }
 
     private getTokenFromGoogleURL(href:string) {
@@ -194,10 +194,13 @@ export class AuthService {
                 localStorage.setItem('user', JSON.stringify(travisUser));
                 this.user.authenticated = true;
                 this.authenticated = true;
+                // or navigate to home
+                window.location.reload();
             })
             .subscribe(info => {
             }, err => {
                 console.error("Failed to fetch user info:", err);
+                alert("Login failed due to server error! Please try again");
             });
     }
 
@@ -218,8 +221,8 @@ export class AuthService {
 
                     //storing the pics/info in session
                     let travisUser = new TravisUser();
-                    travisUser.name = response['firstName'];
-                    travisUser.image = response['imageURL'];
+                    travisUser.firstName = response['firstName'];
+                    travisUser.imageURL = response['imageURL'];
                     travisUser._id = response['_id'];
 
 
@@ -277,17 +280,23 @@ export class AuthService {
         let user = localStorage.getItem('user');
         console.log("getting user from cache");
         console.log(user);
-        user = JSON.parse(user);
-        if (user != null)
-            return Promise.resolve(user);
-        else if (this.user.authenticated)
-            return Promise.resolve(this.user);
-        else if (localStorage.getItem('token')){
+        user = user != null ? user : this.user;
+
+        if (user == null) {
             let token = localStorage.getItem('token');
-            return Promise.resolve(this.getUserFromServer(token));
-        }else
-            return Promise.resolve(null);
-    }
+            user = this.getUserFromServer(token);
+        }else{
+            user = JSON.parse(user) ;
+        }
+
+        if(user != null){
+            this.notify(user.firstName,user.imageURL);
+            return Promise.resolve(user);
+        }
+
+        return Promise.resolve(null);
+
+}
 
     private getUserFromServer(token){
         let body = JSON.stringify({"token":token});
@@ -319,14 +328,14 @@ export class AuthService {
         console.log(facebookResponse);
         let travisUser = new TravisUser();
         travisUser['type'] = 'Facebook';
-        travisUser.userId = facebookResponse['id'];
+        travisUser.userID = facebookResponse['id'];
 
         travisUser.imageURL = facebookResponse['picture']['data']['url'];
 
         travisUser.gender = facebookResponse['gender'];
         travisUser.firstName = facebookResponse['first_name'];
         travisUser.lastName = facebookResponse['last_name'];
-        travisUser["email"] = facebookResponse['email'];
+        travisUser["email"] = facebookResponse['email'] ? facebookResponse['email']: "null";
 
         this.user.authenticated = true;
         this.authenticated = true;
@@ -335,7 +344,7 @@ export class AuthService {
         this.user.gender = travisUser['gender'];
         this.user.imageURL = travisUser['imageURL'];
 
-        localStorage.setItem('user', JSON.stringify(travisUser));
+        localStorage.setItem('user', JSON.stringify(this.user));
         this.notify(travisUser.firstName,travisUser.imageURL);
         this.sendTOServer(travisUser);
     }

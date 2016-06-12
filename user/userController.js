@@ -38,7 +38,7 @@ module.exports.login = function(req, res){
 
 module.exports.signup = function(req, res){
 
-	// console.log(req.body);
+	console.log(req.body);
 	
     if(!req.body.email){
         res.status(400).send('email required');
@@ -73,9 +73,11 @@ module.exports.signup = function(req, res){
     
 if(user.type !== "Travis")
 	{
-    User.findOne({userID: req.body.userID}, function(err, user){
-        if (user) {
-        	res.status(200).json({token: createToken(user),_id:user._id});
+    User.findOne({userID: user.userID}, function(err, foundUser){
+        if (foundUser) {
+			console.log("user found!");
+			console.log(foundUser);
+        	res.status(200).json({token: createToken(foundUser),_id:user._id});
         	return;
         }else
         {
@@ -84,7 +86,8 @@ if(user.type !== "Travis")
     	            res.status(500).send(err);
     	            return;
     	        }
-				conole.log(user);
+				console.log("user saved!!!");
+				console.log(user);
     	        res.status(201).json({token: createToken(user) , _id:user._id});
     	        return;
     	    });	
