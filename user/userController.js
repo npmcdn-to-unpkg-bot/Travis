@@ -79,9 +79,11 @@ if(user.type !== "Travis")
 			console.log(foundUser);
         	res.status(200).json({token: createToken(foundUser),_id:user._id});
         	return;
-        }else
+        } else
         {
-    	    user.save(function(err) {
+            console.log("SIGNUP USER: " + req + " XXX "+ req.body.userID);
+
+            user.save(function(err) {
     	        if (err) {
     	            res.status(500).send(err);
     	            return;
