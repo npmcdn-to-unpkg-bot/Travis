@@ -1780,10 +1780,10 @@ aside .thumb figure {
          -o-transition: all 200ms ease-out;
             transition: all 200ms ease-out;
 }
-/*.btn-share-lg:hover i:after,
-.btn-share-md:hover i:after,
-.btn-share-sm:hover i:after,
-.btn-share-xs:hover i:after {
+/*.btn-trip-lg:hover i:after,
+.btn-trip-md:hover i:after,
+.btn-trip-sm:hover i:after,
+.btn-trip-xs:hover i:after {
 	height: 100%;
 }*/
 .btn-share-lg:hover .icon-s-facebook:after,

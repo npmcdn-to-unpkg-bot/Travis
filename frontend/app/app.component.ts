@@ -5,7 +5,7 @@ import {Navbar} from "./navbar.component";
 import {LoginComponent} from "./login.component";
 import {PollComponent} from "./poll/poll.component";
 import {HomeComponent} from "./home.component";
-import {ShareComponent} from "./share/share.component";
+import {TripComponent} from "./trip/trip.component";
 import {LoggedInRouterOutlet} from './loggedInOutLet';
 
 @Component({
@@ -21,9 +21,9 @@ import {LoggedInRouterOutlet} from './loggedInOutLet';
     directives: [LoggedInRouterOutlet, Navbar],
 })
 @RouteConfig([
-    { path: '/',     name: 'Home',     component: HomeComponent, useAsDefault: true },
-    { path: '/poll', name: 'Poll', component: PollComponent},
-    { path: '/share', name: 'Share', component: ShareComponent}
+    { path: '/', name: 'Home', component: HomeComponent, useAsDefault: true },
+    { path: '/trip', name: 'Trip', component: TripComponent},
+    { path: '/poll', name: 'Poll', component: PollComponent}
 ])
 
 export class AppComponent {

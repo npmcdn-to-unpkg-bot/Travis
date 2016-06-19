@@ -7,22 +7,14 @@
     top: 10px;
     right:10px;
     left: 10px;
-    width: 650px;
-    height: 450px;
+    width: 50% auto;
+    height: min 500px;
 }
 
 .modal-body {
     padding: 20px;
-    bottom:0;
+    bottom: 60px;
     top: 60px;
     width: inherit;
-}
-
-.answerInputField {
-    height: auto;
-    max-height: 134px;
-}
-
-.questionText {
-    margin-bottom: 20px;
+    height: inherit;
 }
