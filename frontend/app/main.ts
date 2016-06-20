@@ -24,12 +24,14 @@ import {PollService} from "./poll/poll.service";
 import {enableProdMode} from '@angular/core';
 
 //enableProdMode();
+import {TripService} from "./trip/trip.service";
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     ROUTER_PROVIDERS,
     AuthService,
     PollService,
+    TripService,
     WindowService,
     COMMON_DIRECTIVES,
     provide(LocationStrategy, {useClass: PathLocationStrategy}),

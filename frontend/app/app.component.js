@@ -13,7 +13,7 @@ var router_deprecated_1 = require('@angular/router-deprecated');
 var navbar_component_1 = require("./navbar.component");
 var poll_component_1 = require("./poll/poll.component");
 var home_component_1 = require("./home.component");
-var share_component_1 = require("./share/share.component");
+var trip_component_1 = require("./trip/trip.component");
 var loggedInOutLet_1 = require('./loggedInOutLet');
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
@@ -31,8 +31,8 @@ var AppComponent = (function () {
         }),
         router_deprecated_1.RouteConfig([
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
-            { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
-            { path: '/share', name: 'Share', component: share_component_1.ShareComponent }
+            { path: '/trip', name: 'Trip', component: trip_component_1.TripComponent },
+            { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent }
         ]), 
         __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);

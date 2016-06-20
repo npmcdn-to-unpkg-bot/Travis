@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({
 
 app.use('/', express.static(__dirname + '/frontend'));
 app.use('/poll', express.static(__dirname + '/frontend'));
+app.use('/trip', express.static(__dirname + '/frontend'));
 
 
 /*
@@ -56,9 +57,10 @@ jwtConfig(passport);
 
 var userRoutes = require("./user/userRoutes");
 var pollRoutes = require("./poll/pollRoutes");
+var tripRoutes = require("./trip/tripRoutes");
 
 app.use('/user', userRoutes(passport));
 app.use('/poll', pollRoutes(passport));
-
+app.use('/rest/trip', tripRoutes(passport));
 
 module.exports = app;
