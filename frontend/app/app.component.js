@@ -23,7 +23,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         core_1.Component({
             selector: 'travis',
-            template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
+            template: "\n    <header></header>\n    <router-outlet></router-outlet>\n  ",
             providers: [router_deprecated_1.ROUTER_PROVIDERS,
             ],
             styleUrls: ['app/app.component.css'],

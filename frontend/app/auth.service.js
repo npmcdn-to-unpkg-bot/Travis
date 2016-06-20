@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -128,8 +129,8 @@ var AuthService = (function () {
             this.http.get(validationAccToken)
                 .map(function (res) { return res.json()['sub']; }).subscribe(function (id) {
                 console.log(id);
-                _this.user.userId = id;
-                _this.fetchGoogleUserInfo(_this.user.accessToken, _this.user.userId);
+                _this.user.userID = id;
+                _this.fetchGoogleUserInfo(_this.user.accessToken, _this.user.userID);
             }, function (err) {
                 console.log(err);
                 alert("Google authentication failed!");
@@ -213,7 +214,7 @@ var AuthService = (function () {
             travisUser._id = response['_id'];
             localStorage.setItem('user', JSON.stringify(travisUser));
             // tell the navbar
-            _this.notify(travisUser.name, travisUser.image);
+            _this.notify(travisUser.firstName, travisUser.imageURL);
             // now service is authenthicated
             localStorage.setItem('token', token);
             _this.user.authenticated = true;
@@ -243,12 +244,12 @@ var AuthService = (function () {
             _this.authenticated = true;
             //storing the pics/info in session
             var travisUser = new auth_user_1.TravisUser();
-            travisUser.name = userObj['firstName'];
-            travisUser.image = userObj['imageURL'];
+            travisUser.firstName = userObj['firstName'];
+            travisUser.imageURL = userObj['imageURL'];
             travisUser._id = userId;
             localStorage.setItem('user', JSON.stringify(travisUser));
             // tell the navbar
-            _this.notify(travisUser.name, travisUser.image);
+            _this.notify(travisUser.firstName, travisUser.imageURL);
         })
             .subscribe(function (info) {
         }, function (err) {
@@ -320,6 +321,6 @@ var AuthService = (function () {
         __metadata('design:paramtypes', [window_service_1.WindowService, http_1.Http, router_deprecated_1.Router])
     ], AuthService);
     return AuthService;
-})();
+}());
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

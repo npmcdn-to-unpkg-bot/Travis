@@ -12,7 +12,6 @@ import {LoggedInRouterOutlet} from './loggedInOutLet';
     selector: 'travis',
     template: `
     <header></header>
-    <main-comp></main-comp>
     <router-outlet></router-outlet>
   `,
     providers: [ROUTER_PROVIDERS,

@@ -133,8 +133,8 @@ export class AuthService {
             this.http.get(validationAccToken)
                 .map(res => res.json()['sub']).subscribe(id => {
                 console.log(id);
-                this.user.userId = id;
-                this.fetchGoogleUserInfo(this.user.accessToken,this.user.userId);
+                this.user.userID = id;
+                this.fetchGoogleUserInfo(this.user.accessToken,this.user.userID);
             }, err =>{
                 console.log(err);
                 alert("Google authentication failed!");
@@ -228,7 +228,7 @@ export class AuthService {
 
                     localStorage.setItem('user', JSON.stringify(travisUser));
                     // tell the navbar
-                    this.notify(travisUser.name,travisUser.image);
+                    this.notify(travisUser.firstName,travisUser.imageURL);
 
                     // now service is authenthicated
                     localStorage.setItem('token',token);
@@ -262,13 +262,13 @@ export class AuthService {
 
                 //storing the pics/info in session
                 let travisUser = new TravisUser();
-                travisUser.name = userObj['firstName'];
-                travisUser.image = userObj['imageURL'];
+                travisUser.firstName = userObj['firstName'];
+                travisUser.imageURL = userObj['imageURL'];
                 travisUser._id = userId;
 
                 localStorage.setItem('user', JSON.stringify(travisUser));
                 // tell the navbar
-                this.notify(travisUser.name,travisUser.image);
+                this.notify(travisUser.firstName,travisUser.imageURL);
             })
             .subscribe(info => {
             }, err => {

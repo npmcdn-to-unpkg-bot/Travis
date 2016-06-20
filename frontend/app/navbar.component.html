@@ -8,9 +8,9 @@
                     <a class="navbar-brand" href="#"></a>
                     <div class="navbar-inner center">
                         <ul class="nav navbar-nav center">
-                            <li class="active"><a href="index.html">Search</a></li>
-                            <li *ngIf="authenticated()"><a href="../share">Share</a></li>
-                            <li *ngIf="authenticated()"><a href="./poll">Poll</a></li>
+                            <li class="active"><a [routerLink]="['Home']">Search</a></li>
+                            <li *ngIf="authenticated()"><a [routerLink]="['Home']">Share</a></li>
+                            <li *ngIf="authenticated()"><a [routerLink]="['Poll']">Poll</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <login *ngIf="!authenticated()"></login>

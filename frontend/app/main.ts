@@ -21,6 +21,9 @@ import 'rxjs/add/operator/map';
 
 import { AppComponent }   from './app.component';
 import {PollService} from "./poll/poll.service";
+import {enableProdMode} from '@angular/core';
+
+//enableProdMode();
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
@@ -29,5 +32,5 @@ bootstrap(AppComponent, [
     PollService,
     WindowService,
     COMMON_DIRECTIVES,
-    provide(LocationStrategy, {useClass: HashLocationStrategy}),
+    provide(LocationStrategy, {useClass: PathLocationStrategy}),
 ]);
