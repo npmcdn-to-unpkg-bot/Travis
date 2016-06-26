@@ -121,9 +121,24 @@ var polls:Object[] = [
 export class PollService {
 
     public getLatestPolls(){
+        this.http.get("http://localhost:3000/poll/")
+            .map(res => {
+                console.log(res);
+                let response = res.json();
+                console.log(response);
+                return new Promise<Object[]>(resolve =>resolve(response));
+            })
+            .subscribe(info => {
+                return new Promise<Object>(resolve =>resolve(String("info!")));
+            }, err => {
+                console.error("Failed to post a poll:", err);
+                return new Promise<Object>(resolve =>resolve(String("error!")));
+            });
+        /*
         return new Promise<Object[]>(resolve =>
             setTimeout(()=>resolve(polls), 200) // 200m seconds
         );
+        */
     }
 
     public postPoll(pollObj){
