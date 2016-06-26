@@ -15,11 +15,8 @@ var auth_service_1 = require('./auth.service');
 require('rxjs/add/operator/map');
 var app_component_1 = require('./app.component');
 var poll_service_1 = require("./poll/poll.service");
-<<<<<<< HEAD
 //enableProdMode();
-=======
 var trip_service_1 = require("./trip/trip.service");
->>>>>>> a1e66ed7c68c0c1af67bf62d3038ed596f72e265
 platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     http_1.HTTP_PROVIDERS,
     router_deprecated_1.ROUTER_PROVIDERS,

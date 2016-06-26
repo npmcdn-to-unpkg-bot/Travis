@@ -27,7 +27,6 @@ export class TripComponent{
         console.log(this.tripModel);
         this.tripService.createTrip(this.tripModel);
     }
-
 }
 
 export class Trip {
@@ -38,7 +37,8 @@ export class Trip {
     dateTo: string;
     budget: number;
     route: string;
+    tags: string;
     description: string;
-    
+
     comments: Object[];
 }

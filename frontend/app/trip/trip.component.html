@@ -23,6 +23,10 @@
                         <label for="route">Route</label>
                         <input [(ngModel)]="tripModel.route" type="url" name="route" id="route" placeholder="Paste the link to your route in here"/>
                     </fieldset>
+                    <fieldset class="form-group">
+                        <label for="route">Tags</label>
+                        <input [(ngModel)]="tripModel.tags" type="text" name="tags" id="tags" placeholder="Enter tags separated by spaces"/>
+                    </fieldset>
                     <div class="form-group center-block">
                         <label>Duration</label>
                         <br/>

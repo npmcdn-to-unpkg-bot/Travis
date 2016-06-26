@@ -9,6 +9,7 @@ var Trip = mongoose.Schema({
     dateTo : { type: Date, required: true},
     budget: { type: Number, required: false},
     route: { type: String, required: true},
+    tags: { type: String, required: true},
     description: { type: String, required: true},
     comments : [{text : String,
         user : { type : Schema.Types.ObjectId, ref: 'user' },

@@ -1,6 +1,5 @@
 import {Injectable, EventEmitter} from "@angular/core";
 import {Http, Headers, Response} from '@angular/http'
-// import {TripComponent} from "./trip.component";
 
 @Injectable()
 export class TripService {
@@ -23,4 +22,9 @@ export class TripService {
     }
     constructor(private http: Http) {
     }
+
+    // public searchForTrip(searchTerms){
+    //     console.log(searchTerms);
+    //    // TODO
+    // }
 }

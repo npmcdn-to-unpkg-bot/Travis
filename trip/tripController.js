@@ -28,6 +28,7 @@ module.exports.create = function(req, res){
     tmpTrip.dateTo = req.body.dateTo;
     tmpTrip.dateFrom = req.body.dateFrom;
     tmpTrip.route = req.body.route;
+    tmpTrip.tags = req.body.tags;
     tmpTrip.description = req.body.description;
 
     console.log(tmpTrip);
