@@ -8,7 +8,7 @@ module.exports.getAll = function(req, res){
 
     console.log("Get all trips");
 
-    Trip.find(function(err, trip) {
+    Trip.find().sort('-date').limit(10).exec(function(err, trip) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -49,15 +49,13 @@ module.exports.getTrips = function(req, res) {
 
     console.log(req.query);
     var mongoQuery = getMongoQuery(req.query);
-        Trip.find(mongoQuery
-        ,function(err, trip) {
-        if (err) {
-            console.log(err);
-            res.status(500).send("Server error!");
-            return;
-        }
-        res.status(201).json(trip);
-    });
+        Trip.find(mongoQuery).sort('-date').limit(10).exec(function(err, trip) {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Server error!");
+                return;
+            }
+            res.status(201).json(trip);});
 };
 
 function getMongoQuery(query){
