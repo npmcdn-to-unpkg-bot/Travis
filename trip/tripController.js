@@ -1,5 +1,6 @@
 var Config = require('../config/config.js');
 var jwt = require('jwt-simple');
+var url = require('url');
 
 var Trip = require('./tripSchema');
 
@@ -7,7 +8,7 @@ module.exports.getAll = function(req, res){
 
     console.log("Get all trips");
 
-    Trip.find(function(err, trip) {
+    Trip.find().sort('-date').limit(10).exec(function(err, trip) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -42,3 +43,46 @@ module.exports.create = function(req, res){
         res.status(201).json(success);
     });
 };
+
+
+module.exports.getTrips = function(req, res) {
+
+    console.log(req.query);
+    var mongoQuery = getMongoQuery(req.query);
+        Trip.find(mongoQuery).sort('-date').limit(10).exec(function(err, trip) {
+            if (err) {
+                console.log(err);
+                res.status(500).send("Server error!");
+                return;
+            }
+            res.status(201).json(trip);});
+};
+
+function getMongoQuery(query){
+    var mongoQuery = {};
+    console.log(query);
+    if (query.countries)
+        mongoQuery.countries = {$in: query.countries};
+    if (query.cities)
+        mongoQuery.cities = {$in: query.cities};
+    if (query.budget)
+        mongoQuery.budget = {$lte:parseFloat(query.budget)};
+    if (query.tags)
+        mongoQuery.tags = {$in: query.tags};
+
+    if (query.from) {
+        var tempDate = new Date(query.from);
+        if ( !isNaN( tempDate.getTime() ) )
+            // date is valid
+            mongoQuery.dateFrom = {"$gte": tempDate};
+    }
+    if (query.to){
+        var tempDate = new Date(query.to);
+    if ( !isNaN( tempDate.getTime() ) )
+    // date is valid
+        mongoQuery.dateTo = {"$lte": tempDate};
+}
+    console.log(mongoQuery);
+return mongoQuery;
+}
+

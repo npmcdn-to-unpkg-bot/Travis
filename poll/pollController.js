@@ -32,7 +32,7 @@ module.exports.create = function(req, res){
 			var options = req.body.options;
 			if (options != undefined){
 				options.map(item =>{
-					var temp = {}
+					var temp = {};
 					temp.text = item;
 					temp.vote = [];
 					pollObj.options.push(temp);
@@ -92,18 +92,26 @@ module.exports.getPoll = function(req, res){
 	
 	
 	console.log("ko");
-    Poll.find(function(err, poll) {
+	Poll.aggregate(
+		[ {$unwind: "$comments"},
+			{ $limit : 3 },
+			{$project: {"_id": 1, "owner": 1, "options":1,"comments": 1}}]
+		,function (err, result) {
+		if (err) {
+			console.log(err);
+			res.status(500).send("internal server error");
+			return;
+		}
+		console.log(result);
+			res.status(200).json({'polls': result});
+	});
+    /*
+	Poll.find(function(err, poll) {
         if (err) {
             res.status(500).send(err);
             return;
         }
-       
-        res.json(poll);
-    });
-    
-    
-    
-    
+    */
 };
 
 

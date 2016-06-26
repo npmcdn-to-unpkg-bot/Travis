@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -129,11 +128,24 @@ var PollService = (function () {
         this.router = router;
     }
     PollService.prototype.getLatestPolls = function () {
-        return new Promise(function (resolve) {
-            return setTimeout(function () { return resolve(polls); }, 200);
-        } // 200m seconds
-         // 200m seconds
+        this.http.get("http://localhost:3000/poll/")
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+            return new Promise(function (resolve) { return resolve(response); });
+        })
+            .subscribe(function (info) {
+            return new Promise(function (resolve) { return resolve(String("info!")); });
+        }, function (err) {
+            console.error("Failed to post a poll:", err);
+            return new Promise(function (resolve) { return resolve(String("error!")); });
+        });
+        /*
+        return new Promise<Object[]>(resolve =>
+            setTimeout(()=>resolve(polls), 200) // 200m seconds
         );
+        */
     };
     PollService.prototype.postPoll = function (pollObj) {
         var body = JSON.stringify(pollObj);
@@ -156,6 +168,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-}());
+})();
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map
