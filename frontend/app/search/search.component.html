@@ -1,0 +1,58 @@
+<section id="search" class="light-bg img-bg-softer body">
+    <div class="container search_box">
+        <div class="row inner-bottom-xs">
+            <div class="column-sm-10">
+                <div class="col-md-10 col-sm-12 center-block text-center">
+                    <form #searchForm="ngForm" id="searchForm" class="navbar-form" role="search" (ngSubmit)="search()">
+                        <input type="text" [(ngModel)]="searchModel.searchTerm" id="searchTerm" placeholder="Type in keyword(s)"/>
+                        <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget" placeholder="maximum budget" style="width: 200px">
+                        <select class="selectableList" [(ngModel)]="searchModel.month" id="searchMonth" style="width: 200px">
+                            <option disabled selected>Select a Month ...</option>
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                            <option></option>
+                        </select>
+                        <fieldset>
+                            <div id="searchCities" class="searchCities" style="width: 300px; margin-bottom: 20px;">
+                                <ng-select [data]="value"
+                                           [multiple]="true"
+                                           [items]="items"
+                                           [disabled]="disabled"
+                                           (data)="refreshValue($event)"
+                                           (selected)="selected($event)"
+                                           (removed)="removed($event)"
+                                           placeholder="No city selected"></ng-select>
+                            </div>
+                            <div id="searchCountries" class="searchCountries"
+                                 style="width: 300px; margin-bottom: 20px;">
+                                <ng-select [data]="valueCountries"
+                                           [multiple]="true"
+                                           [items]="countries"
+                                           [disabled]="disabled"
+                                           (data)="refreshValue($event)"
+                                           (selected)="selected($event)"
+                                           (removed)="removed($event)"
+                                           placeholder="No country selected"></ng-select>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <button class="btn btn-submit btn-small">Search</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <ul class="format-filter text-center">
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

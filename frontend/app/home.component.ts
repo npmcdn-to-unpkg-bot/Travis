@@ -6,13 +6,13 @@ import {Router}            from '@angular/router-deprecated';
 import {Navbar} from './navbar.component';
 import {AuthService} from './auth.service'
 import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-
+import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
 
 declare var FB:any;
 
 @Component({
     selector: 'main-comp',
-    directives: [DROPDOWN_DIRECTIVES],
+    directives: [DROPDOWN_DIRECTIVES, ROUTER_DIRECTIVES],
     templateUrl: 'app/home.component.html',
     styleUrls: ['app/app.component.css']
 })
@@ -20,7 +20,7 @@ export class HomeComponent {
     constructor(private _router:Router,
                 private authService:AuthService) {
     }
-
+    
     SearchCtrl($scope, $http) {
         // $scope.url =  // The url of our search
 

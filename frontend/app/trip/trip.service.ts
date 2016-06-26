@@ -23,8 +23,8 @@ export class TripService {
     constructor(private http: Http) {
     }
 
-    // public searchForTrip(searchTerms){
-    //     console.log(searchTerms);
-    //    // TODO
-    // }
+    public searchForTrip(searchTerms){
+        console.log(searchTerms);
+       // TODO
+    }
 }

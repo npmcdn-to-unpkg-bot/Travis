@@ -6,6 +6,7 @@ import {LoginComponent} from "./login.component";
 import {PollComponent} from "./poll/poll.component";
 import {HomeComponent} from "./home.component";
 import {TripComponent} from "./trip/trip.component";
+import {SearchComponent} from "./search/search.component";
 import {LoggedInRouterOutlet} from './loggedInOutLet';
 
 @Component({
@@ -22,7 +23,8 @@ import {LoggedInRouterOutlet} from './loggedInOutLet';
 @RouteConfig([
     { path: '/', name: 'Home', component: HomeComponent, useAsDefault: true },
     { path: '/trip', name: 'Trip', component: TripComponent},
-    { path: '/poll', name: 'Poll', component: PollComponent}
+    { path: '/poll', name: 'Poll', component: PollComponent},
+    { path: '/search', name: 'Search', component: SearchComponent}
 ])
 
 export class AppComponent {

@@ -30,6 +30,10 @@ var TripService = (function () {
             console.error("Failed to post a trip:", err);
         });
     };
+    TripService.prototype.searchForTrip = function (searchTerms) {
+        console.log(searchTerms);
+        // TODO
+    };
     TripService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
