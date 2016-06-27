@@ -1,5 +1,4 @@
-<section id="trip" class="light-bg img-bg-softer search-section"
-         style="background-image: url(/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg);">
+<section id="trip" class="light-bg img-bg-softer center-block create-trip body">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,22 +9,26 @@
                 <form #tripCreationForm="ngForm" (ngSubmit)="createTrip()">
                     <fieldset class="form-group">
                         <label for="title">Title</label>
-                        <input [(ngModel)]="tripModel.title" type="text" class="form-control" id="title" placeholder="Enter a title">
+                        <input [(ngModel)]="tripModel.title" type="text" class="form-control" id="title"
+                               placeholder="Enter a title">
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="budget">Budget</label>
-                        <input [(ngModel)]="tripModel.budget" type="number" class="form-control" id="budget" placeholder="How much did you spend?">
+                        <input [(ngModel)]="tripModel.budget" type="number" class="form-control" id="budget"
+                               placeholder="How much did you spend?">
                     </fieldset>
                     <script type="text/javascript">
                         $(".js-example-basic-multiple").select2();
                     </script>
                     <fieldset class="form-group">
                         <label for="route">Route</label>
-                        <input [(ngModel)]="tripModel.route" type="url" name="route" id="route" placeholder="Paste the link to your route in here"/>
+                        <input [(ngModel)]="tripModel.route" type="url" name="route" id="route"
+                               placeholder="Paste the link to your route in here"/>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="route">Tags</label>
-                        <input [(ngModel)]="tripModel.tags" type="text" name="tags" id="tags" placeholder="Enter tags separated by spaces"/>
+                        <input [(ngModel)]="tripModel.tags" type="text" name="tags" id="tags"
+                               placeholder="Enter tags separated by spaces"/>
                     </fieldset>
                     <div class="form-group center-block">
                         <label>Duration</label>
@@ -36,8 +39,27 @@
                         </fieldset>
                     </div>
                     <fieldset class="form-group">
+                        <label for="countries">Countries</label>
+                    <div id="countries" name="countries" id="countries" style="margin-bottom: 20px;">
+                        <ng-select [data]="countriesValue"
+                                   [multiple]="true"
+                                   [items]="countriesArray"
+                                   [disabled]="disabled"
+                                   (data)="refreshCountries($event)"
+                                   (selected)="selectedCountry($event)"
+                                   (removed)="removedCountry($event)"
+                                   placeholder="no country selected"></ng-select>
+                    </div>
+                        </fieldset>
+                    <fieldset class="form-group">
+                        <label for="cities">Cities</label>
+                        <input [(ngModel)]="tripModel.cities" type="text" name="cities" id="cities"
+                               placeholder="Enter cities separated by spaces"/>
+                    </fieldset>
+                    <fieldset class="form-group">
                         <label for="description">Description</label>
-                        <textarea [(ngModel)]="tripModel.description" class="summary" name="textarea" id="description" placeholder="Describe your trip ..."
+                        <textarea [(ngModel)]="tripModel.description" class="summary" name="textarea" id="description"
+                                  placeholder="Describe your trip ..."
                                   style="height: 60px"></textarea>
                     </fieldset>
                     <fieldset>
