@@ -121,7 +121,7 @@ var polls:Object[] = [
 export class PollService {
 
     public getLatestPolls(){
-        this.http.get("http://localhost:3000/poll/")
+        this.http.get("http://localhost:3000/rest/poll/")
             .map(res => {
                 console.log(res);
                 let response = res.json();

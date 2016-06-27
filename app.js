@@ -60,7 +60,7 @@ var pollRoutes = require("./poll/pollRoutes");
 var tripRoutes = require("./trip/tripRoutes");
 
 app.use('/user', userRoutes(passport));
-app.use('/poll', pollRoutes(passport));
+app.use('/rest/poll', pollRoutes(passport));
 app.use('/rest/trip', tripRoutes(passport));
 
 module.exports = app;

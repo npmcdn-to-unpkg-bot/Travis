@@ -128,5 +128,4 @@ export class PollComponent implements OnInit{
 
             });
     }
-
 }
