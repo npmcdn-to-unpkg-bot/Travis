@@ -61,10 +61,17 @@ module.exports.getTrips = function(req, res) {
 function getMongoQuery(query){
     var mongoQuery = {};
     console.log(query);
-    if (query.countries)
+    if (query.countries){
+        if (typeof  query.countries == 'string')
+            query.countries = [query.countries];
         mongoQuery.countries = {$in: query.countries};
-    if (query.cities)
+    }
+
+    if (query.cities){
+        if (typeof  query.cities == 'string')
+            query.cities = [query.cities];
         mongoQuery.cities = {$in: query.cities};
+    }
     if (query.budget)
         mongoQuery.budget = {$lte:parseFloat(query.budget)};
     if (query.tags)

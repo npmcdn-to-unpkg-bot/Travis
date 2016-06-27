@@ -128,7 +128,7 @@ var PollService = (function () {
         this.router = router;
     }
     PollService.prototype.getLatestPolls = function () {
-        this.http.get("http://localhost:3000/poll/")
+        this.http.get("http://localhost:3000/rest/poll/")
             .map(function (res) {
             console.log(res);
             var response = res.json();

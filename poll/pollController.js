@@ -89,9 +89,9 @@ module.exports.remove = function(req, res){
     });
 };
 module.exports.getPoll = function(req, res){
-	
-	
+
 	console.log("ko");
+	/*
 	Poll.aggregate(
 		[ {$unwind: "$comments"},
 			{ $limit : 3 },
@@ -105,13 +105,36 @@ module.exports.getPoll = function(req, res){
 		console.log(result);
 			res.status(200).json({'polls': result});
 	});
-    /*
-	Poll.find(function(err, poll) {
+	*/
+
+	Poll.find({}).populate("owner").populate("comments.user").exec(function(err, polls) {
         if (err) {
             res.status(500).send(err);
             return;
-        }
-    */
+        }else if (polls){
+			polls.map( (poll) => {
+				console.log(poll);
+				var temp = {};
+				temp.firstName = poll.owner.firstName;
+				temp.imageURL = poll.owner.imageURL;
+				temp._id = poll.owner._id;
+				poll.owner = temp;
+
+				// filter the info of the users of the comments
+				if (poll.comments){
+					poll.comments.map((comment) => {
+						var temp = {};
+						temp.firstName = comment.user.firstName;
+						temp.imageURL = comment.user.imageURL;
+						temp._id = comment.user._id;
+						comment.user = temp;
+					});
+				}
+
+			});
+			return res.status(200).json(polls);
+		}
+		});
 };
 
 
