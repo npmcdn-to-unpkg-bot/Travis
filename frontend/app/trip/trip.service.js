@@ -29,6 +29,24 @@ var TripService = (function () {
             console.error("Failed to post a trip:", err);
         });
     };
+    TripService.prototype.searchForTrip = function (searchTerm) {
+        console.log("Searching for trips ...");
+        console.log(searchTerm);
+        var body = JSON.stringify(searchTerm);
+        console.log(body);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        this.http.get("http://localhost:3000/rest/trip/search", { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to post a trip:", err);
+        });
+    };
     TripService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

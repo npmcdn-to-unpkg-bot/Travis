@@ -1,0 +1,28 @@
+.body {
+    background-image: url("/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg");
+    background-repeat: repeat-y;
+}
+
+.search_box {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.format-filter {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-bottom: 0;
+}
+.filter:before,
+.format-filter:before {
+    border-bottom: 1px solid #052421;
+}
+
+.btn-submit{
+    width: 300px;
+    margin-top: 5px;
+}
+
+.selectableList {
+    background-color: #eff2f5;
+}

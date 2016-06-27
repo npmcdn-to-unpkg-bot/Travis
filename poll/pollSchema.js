@@ -20,10 +20,4 @@ var Poll = mongoose.Schema({
 				}]
 });
 
-
-
-
-
-
-
 module.exports = mongoose.model('Poll', Poll);

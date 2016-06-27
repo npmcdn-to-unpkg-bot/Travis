@@ -13,6 +13,7 @@ var navbar_component_1 = require("./navbar.component");
 var poll_component_1 = require("./poll/poll.component");
 var home_component_1 = require("./home.component");
 var trip_component_1 = require("./trip/trip.component");
+var search_component_1 = require("./search/search.component");
 var loggedInOutLet_1 = require('./loggedInOutLet');
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
@@ -31,7 +32,8 @@ var AppComponent = (function () {
         router_deprecated_1.RouteConfig([
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
             { path: '/trip', name: 'Trip', component: trip_component_1.TripComponent },
-            { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent }
+            { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
+            { path: '/search', name: 'Search', component: search_component_1.SearchComponent }
         ]), 
         __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);
