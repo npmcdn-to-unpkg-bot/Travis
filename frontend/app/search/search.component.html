@@ -4,10 +4,10 @@
             <div class="column-sm-10">
                 <div class="col-md-10 col-sm-12 center-block text-center">
                     <form #searchForm="ngForm" id="searchForm" class="navbar-form" role="search" (ngSubmit)="search()">
-                        <input type="text" [(ngModel)]="searchModel.searchTerm" id="searchTerm" placeholder="Type in keyword(s)"/>
+                        <input type="text" [(ngModel)]="searchModel.searchTerm" id="searchTerm" placeholder="type in keyword(s)"/>
                         <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget" placeholder="maximum budget" style="width: 200px">
                         <select class="selectableList" [(ngModel)]="searchModel.month" id="searchMonth" style="width: 200px">
-                            <option disabled selected>Select a Month ...</option>
+                            <option disabled selected>select a month ...</option>
                             <option value="01">January</option>
                             <option value="02">February</option>
                             <option value="03">March</option>
@@ -22,32 +22,29 @@
                             <option value="12">December</option>
                             <option></option>
                         </select>
-                        <fieldset>
-                            <div id="searchCities" class="searchCities" style="width: 300px; margin-bottom: 20px;">
-                                <ng-select [data]="value"
+                        <div  style="display: table;" align="center" class="center-block text-center">
+                            <div id="searchCountries" class="searchCountries" style="width: 300px; margin-bottom: 20px; display: table-cell;">
+                                <ng-select [data]="countriesValue"
                                            [multiple]="true"
-                                           [items]="items"
+                                           [items]="countriesArray"
                                            [disabled]="disabled"
-                                           (data)="refreshValue($event)"
-                                           (selected)="selected($event)"
-                                           (removed)="removed($event)"
-                                           placeholder="No city selected"></ng-select>
+                                           (data)="refreshCountries($event)"
+                                           (selected)="selectedCountry($event)"
+                                           (removed)="removedCountry($event)"
+                                           placeholder="no country selected"></ng-select>
                             </div>
-                            <div id="searchCountries" class="searchCountries"
-                                 style="width: 300px; margin-bottom: 20px;">
-                                <ng-select [data]="valueCountries"
+                            <div id="searchCities" class="searchCities" style="width: 300px; margin-bottom: 20px; display: table-cell;">
+                                <ng-select [data]="citiesValue"
                                            [multiple]="true"
-                                           [items]="countries"
+                                           [items]="citiesArray"
                                            [disabled]="disabled"
-                                           (data)="refreshValue($event)"
-                                           (selected)="selected($event)"
-                                           (removed)="removed($event)"
-                                           placeholder="No country selected"></ng-select>
+                                           (data)="refreshCities($event)"
+                                           (selected)="selectedCity($event)"
+                                           (removed)="removedCity($event)"
+                                           placeholder="no city selected"></ng-select>
                             </div>
-                        </fieldset>
-                        <fieldset>
-                            <button class="btn btn-submit btn-small">Search</button>
-                        </fieldset>
+                        </div>
+                            <button type="submit" class="btn btn-default btn-submit btn-small">Search</button>
                     </form>
                 </div>
                 <ul class="format-filter text-center">

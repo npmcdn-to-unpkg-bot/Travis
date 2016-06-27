@@ -19,10 +19,10 @@
 }
 
 .btn-submit{
-    width: 400px;
+    width: 300px;
+    margin-top: 5px;
 }
 
 .selectableList {
     background-color: #eff2f5;
 }
-
