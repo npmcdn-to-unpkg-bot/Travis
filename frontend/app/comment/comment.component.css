@@ -75,7 +75,7 @@ textarea {
     display:table-cell;
 }
 .commenterImage {
-    width:30px;
+    width:50px;
     margin-right:5px;
     height:100%;
     /*float:left;*/
@@ -93,6 +93,5 @@ textarea {
     color:#aaa;
     font-family:verdana;
     font-size:11px;
-    float: right;
 }
 

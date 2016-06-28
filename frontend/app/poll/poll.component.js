@@ -106,11 +106,22 @@ var PollComponent = (function () {
                 tempPoll.owner = poll['owner'];
                 tempPoll.title = poll['title'];
                 tempPoll.options = poll['options'];
-                tempPoll.date = poll['date'];
+                tempPoll.date = _this.formatDate(poll['date']);
                 tempPoll.comments = poll['comments'];
+                tempPoll.comments.map(function (comment) {
+                    comment.date = _this.formatDate(comment.date);
+                });
                 _this.polls.push(tempPoll);
             });
         });
+    };
+    PollComponent.prototype.formatDate = function (dateStr) {
+        var options = {
+            year: "numeric", month: "short",
+            day: "numeric", hour: "2-digit", minute: "2-digit"
+        };
+        var temp_date = new Date(dateStr);
+        return temp_date.toLocaleTimeString("en-us", options);
     };
     PollComponent = __decorate([
         core_1.Component({

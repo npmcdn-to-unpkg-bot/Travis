@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,6 +22,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
+var Observable_1 = require("rxjs/Observable");
 var router_deprecated_1 = require('@angular/router-deprecated');
 var polls = [
     {
@@ -129,24 +129,22 @@ var PollService = (function () {
         this.router = router;
     }
     PollService.prototype.getLatestPolls = function () {
-        this.http.get("http://localhost:3000/rest/poll/")
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            return new Promise(function (resolve) { return resolve(response); });
-        })
-            .subscribe(function (info) {
-            return new Promise(function (resolve) { return resolve(String("info!")); });
-        }, function (err) {
-            console.error("Failed to post a poll:", err);
-            return new Promise(function (resolve) { return resolve(String("error!")); });
-        });
-        /*
-        return new Promise<Object[]>(resolve =>
-            setTimeout(()=>resolve(polls), 200) // 200m seconds
-        );
-        */
+        console.log("poll service is called!");
+        return this.http.get("http://localhost:3000/rest/poll/")
+            .toPromise().then(function (res) {
+            if (res)
+                return res.json();
+            else
+                return {};
+        }).catch(this.handleError);
+    };
+    PollService.prototype.handleError = function (error) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable_1.Observable.throw(errMsg);
     };
     PollService.prototype.postPoll = function (pollObj) {
         var body = JSON.stringify(pollObj);
@@ -169,6 +167,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-}());
+})();
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map
