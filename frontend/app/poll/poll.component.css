@@ -76,32 +76,6 @@ legend {
     margin-top: 0px;
 }
 
-.modalDialog {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 99999;
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
-}
-.modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
-}
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 3px;
-    background: #fff;
-}
 .close {
     background: #606061;
     color: #FFFFFF;
@@ -264,25 +238,24 @@ li { list-style: none; }
     color: #FFF;
 }
 
-.modal-content {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    bottom: 10px;
-    top: 10px;
-    right:10px;
-    left: 10px;
-    width: 650px;
-    height: 450px;
-}
 
 .modal-body {
     padding: 20px;
     bottom:0;
-    top: 60px;
     width: inherit;
 }
+#createPollModal .modal-content {
+    width: 50% auto;
+}
+
+#createPollModal .modal-body {
+    padding: 20px;
+    margin-top: 0px;
+    bottom: 0px;
+    width: inherit;
+    height: auto;
+}
+
 
 .answerInputField {
     height: auto;
@@ -298,4 +271,9 @@ li { list-style: none; }
 }
 .ng-invalid {
     border-left: 5px solid #a94442; /* red */
+}
+
+#createPollModal {
+    height: auto;
+    top: 60px;
 }

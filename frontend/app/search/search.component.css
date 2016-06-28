@@ -26,3 +26,106 @@
 .selectableList {
     background-color: #eff2f5;
 }
+
+
+
+.animate {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.trip-card {
+    width: 100%;
+    border: 1px solid rgb(215, 215, 215);
+    position: relative;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #FFF;
+}
+
+.trip-card .trip-card-details,
+.trip-card .trip-card-details .trip-card-header  {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    padding: 0 15px;
+    background: rgb(255, 255, 255);
+    text-align: center;
+}
+.trip-card .trip-card-details::-webkit-scrollbar {
+    width: 8px;
+}
+.trip-card .trip-card-details::-webkit-scrollbar-button {
+    width: 8px;
+    height: 0px;
+}
+.trip-card .trip-card-details::-webkit-scrollbar-track {
+    background: transparent;
+}
+.trip-card .trip-card-details::-webkit-scrollbar-thumb {
+    background: rgb(160, 160, 160);
+}
+.trip-card .trip-card-details::-webkit-scrollbar-thumb:hover {
+    background: rgb(130, 130, 130);
+}
+
+.trip-card .trip-card-details .trip-card-header {
+    height: auto;
+    bottom: 100%;
+    padding: 10px 5px;
+}
+.trip-card:hover .trip-card-details {
+    bottom: 0px;
+    overflow: auto;
+    padding-bottom: 25px;
+}
+.trip-card:hover .trip-card-details .trip-card-header {
+    position: relative;
+    bottom: 0px;
+    padding-top: 45px;
+    padding-bottom: 25px;
+}
+.trip-card .trip-card-details .trip-card-header h1,
+.trip-card .trip-card-details .trip-card-header h3 {
+    color: rgb(62, 62, 62);
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.trip-card .trip-card-details .trip-card-header h3 {
+    color: rgb(142, 182, 52);
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+.trip-card .trip-card-details .trip-card-detail .social {
+    list-style: none;
+    padding: 0px;
+    margin-top: 25px;
+    text-align: center;
+}
+.trip-card .trip-card-details .trip-card-detail .social a {
+    position: relative;
+    display: inline-block;
+    min-width: 40px;
+    padding: 10px 0px;
+    margin: 0px 5px;
+    overflow: hidden;
+    text-align: center;
+    background-color: rgb(215, 215, 215);
+    border-radius: 40px;
+}
+
+.route {
+    padding: 20px;
+    margin-bottom: 70px;
+    width: inherit;
+    height: inherit;
+}

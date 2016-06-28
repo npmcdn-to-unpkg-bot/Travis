@@ -101,6 +101,5 @@ export class Trip {
     countries: [string];
     tags: string;
     description: string;
-
     comments: Object[];
 }

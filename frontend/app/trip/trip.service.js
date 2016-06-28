@@ -40,9 +40,8 @@ var TripService = (function () {
             query = query + "budget=" + searchTerm.budget + "&";
         if (searchTerm.cities)
             query = query + "cities=" + searchTerm.cities + "&";
-        if (searchTerm.countries)
-            console.log(searchTerm.countries);
-        // query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.countries.length)
+            query = query + "countries=" + searchTerm.countries + "&";
         if (searchTerm.month)
             query = query + "month=" + searchTerm.month + "&";
         if (searchTerm.searchTerm)
@@ -52,11 +51,14 @@ var TripService = (function () {
             .map(function (res) {
             console.log(res);
             var response = res.json();
-            console.log(response);
+            console.log("response" + response);
+            return new Promise(function (resolve) { return resolve(response); });
         })
             .subscribe(function (info) {
+            return new Promise(function (resolve) { return resolve(String("info!")); });
         }, function (err) {
-            console.error("Failed to post a trip:", err);
+            console.error("Failed to search trips:", err);
+            return new Promise(function (resolve) { return resolve(String("error!")); });
         });
     };
     TripService = __decorate([

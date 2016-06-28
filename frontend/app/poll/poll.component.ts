@@ -122,7 +122,7 @@ export class PollComponent implements OnInit{
                     tempPoll.options = poll['options'];
                     tempPoll.date =  poll['date'];
                     tempPoll.comments =  poll['comments'];
-
+                    
                     this.polls.push(tempPoll);
                 });
 

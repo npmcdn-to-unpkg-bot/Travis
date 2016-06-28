@@ -33,7 +33,7 @@
                                            (removed)="removedCountry($event)"
                                            placeholder="no country selected"></ng-select>
                             </div>
-                            <input type="text" [(ngModel)]="searchModel.cities" id="searchCities" style="width: 300px; margin-top: 5px; display: table-cell;" placeholder="type in keyword(s)"/>
+                            <input type="text" [(ngModel)]="searchModel.cities" id="searchCities" style="width: 300px; margin-left: 4px; margin-top: 5px; display: table-cell;" placeholder="type in keyword(s)"/>
                         </div>
                             <button type="submit" class="btn btn-default btn-submit btn-small">Search</button>
                     </form>
@@ -41,6 +41,24 @@
                 <ul class="format-filter text-center">
                 </ul>
             </div>
+        <div class="container center-block text-center" *ngFor="let trip of trips">
+            <div class="row center-block">
+                <div class="col-sm-8 col-md-5">
+                    <div class="trip-card">
+                        <img class="route" src="https://blog.gerbenjacobs.nl/img/blog/scandinavia/scandinavian-roadtrip-route.png" />
+                        <div class="trip-card-details animate">
+                            <div class="trip-card-header">
+                                <h1> {{trip.title}} </h1>
+                                <h3> {{trip.tags}} </h3>
+                            </div>
+                            <div class="trip-card-detail">
+                                <p>Description</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </section>
