@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -31,12 +32,23 @@ var TripService = (function () {
     };
     TripService.prototype.searchForTrip = function (searchTerm) {
         console.log("Searching for trips ...");
-        console.log(searchTerm);
-        var body = JSON.stringify(searchTerm);
-        console.log(body);
+        console.log(searchTerm.countries);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.get("http://localhost:3000/rest/trip/search", { 'headers': headers })
+        var query = "/rest/trip/search?";
+        if (searchTerm.budget)
+            query = query + "budget=" + searchTerm.budget + "&";
+        if (searchTerm.cities)
+            query = query + "cities=" + searchTerm.cities + "&";
+        if (searchTerm.countries)
+            console.log(searchTerm.countries);
+        // query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.month)
+            query = query + "month=" + searchTerm.month + "&";
+        if (searchTerm.searchTerm)
+            query = query + "searchTerm=" + searchTerm.searchTerm;
+        console.log(query);
+        this.http.get(query, { 'headers': headers })
             .map(function (res) {
             console.log(res);
             var response = res.json();
@@ -52,6 +64,6 @@ var TripService = (function () {
         __metadata('design:paramtypes', [http_1.Http])
     ], TripService);
     return TripService;
-})();
+}());
 exports.TripService = TripService;
 //# sourceMappingURL=trip.service.js.map

@@ -26,13 +26,27 @@ export class TripService {
 
     public searchForTrip(searchTerm) {
         console.log("Searching for trips ...");
-        console.log(searchTerm);
-        let body = JSON.stringify(searchTerm);
-        console.log(body);
+        console.log(searchTerm.countries);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        var query = "/rest/trip/search?"
 
-        this.http.get("http://localhost:3000/rest/trip/search", {'headers': headers})
+        if (searchTerm.budget)
+            query = query + "budget=" + searchTerm.budget + "&";
+        if (searchTerm.cities)
+            query = query + "cities=" + searchTerm.cities + "&";
+        if (searchTerm.countries)
+            console.log(searchTerm.countries)
+            // query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.month)
+            query = query + "month=" + searchTerm.month + "&";
+        if (searchTerm.searchTerm)
+            query = query + "searchTerm=" + searchTerm.searchTerm;
+
+
+        console.log(query);
+
+        this.http.get(query, {'headers': headers})
             .map(res => {
                 console.log(res);
                 let response = res.json();

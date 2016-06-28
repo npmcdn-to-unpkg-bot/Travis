@@ -23,12 +23,15 @@ module.exports.create = function(req, res){
     console.log("Create a trip");
 
     var tmpTrip = new Trip();
-    
+    console.log(req.body)
     tmpTrip.title = req.body.title;
     tmpTrip.budget = req.body.budget;
     tmpTrip.dateTo = req.body.dateTo;
     tmpTrip.dateFrom = req.body.dateFrom;
     tmpTrip.route = req.body.route;
+    tmpTrip.cities = req.body.cities;
+    tmpTrip.countries = req.body.countries;
+
     tmpTrip.tags = req.body.tags;
     tmpTrip.description = req.body.description;
 
@@ -43,7 +46,6 @@ module.exports.create = function(req, res){
         res.status(201).json(success);
     });
 };
-
 
 module.exports.getTrips = function(req, res) {
 

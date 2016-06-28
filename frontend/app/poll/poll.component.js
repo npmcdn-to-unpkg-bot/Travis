@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -21,7 +22,7 @@ var Option = (function () {
         this.vote = [];
     }
     return Option;
-})();
+}());
 exports.Option = Option;
 var Poll = (function () {
     function Poll() {
@@ -61,13 +62,13 @@ var Poll = (function () {
         return votes;
     };
     return Poll;
-})();
+}());
 exports.Poll = Poll;
 var pollForm = (function () {
     function pollForm() {
     }
     return pollForm;
-})();
+}());
 exports.pollForm = pollForm;
 var PollComponent = (function () {
     function PollComponent(authService, pollService) {
@@ -134,6 +135,6 @@ var PollComponent = (function () {
         __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService])
     ], PollComponent);
     return PollComponent;
-})();
+}());
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map
