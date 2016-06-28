@@ -1,5 +1,5 @@
 .body {
-    background-image: url("/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg");
+    background-image: url("/UI/assets/images/art/bg5.jpg");
     background-repeat: repeat-y;
 }
 
@@ -36,9 +36,10 @@
     -ms-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
 }
+
 .trip-card {
     width: 100%;
-    border: 1px solid rgb(215, 215, 215);
+    border: 0px;
     position: relative;
     font-family: 'Lato', sans-serif;
     margin-bottom: 20px;
@@ -90,9 +91,17 @@
     padding-top: 45px;
     padding-bottom: 25px;
 }
-.trip-card .trip-card-details .trip-card-header h1,
+.trip-card .trip-card-details .trip-card-header h1 {
+    color: #052421;
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .trip-card .trip-card-details .trip-card-header h3 {
-    color: rgb(62, 62, 62);
+    color: #FF6485;
     font-size: 22px;
     font-weight: 900;
     text-transform: uppercase;
@@ -100,27 +109,17 @@
     padding: 0 !important;
 }
 .trip-card .trip-card-details .trip-card-header h3 {
-    color: rgb(142, 182, 52);
+    color: #0F6660;
     font-size: 15px;
     font-weight: 400;
     margin-top: 5px;
 }
-.trip-card .trip-card-details .trip-card-detail .social {
-    list-style: none;
-    padding: 0px;
-    margin-top: 25px;
-    text-align: center;
-}
-.trip-card .trip-card-details .trip-card-detail .social a {
-    position: relative;
-    display: inline-block;
-    min-width: 40px;
-    padding: 10px 0px;
-    margin: 0px 5px;
-    overflow: hidden;
-    text-align: center;
-    background-color: rgb(215, 215, 215);
-    border-radius: 40px;
+
+.trip-card .trip-card-details .trip-card-header {
+    color: #083330;
+    font-size: 13px;
+    font-weight: 200;
+    margin-top: 5px;
 }
 
 .route {
@@ -128,4 +127,9 @@
     margin-bottom: 70px;
     width: inherit;
     height: inherit;
+}
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
 }

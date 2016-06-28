@@ -45,18 +45,11 @@ export class TripService {
 
         console.log(query);
 
-        this.http.get(query, {'headers': headers})
-            .map(res => {
-                console.log(res);
-                let response = res.json();
-                console.log("response" + response);
-                return new Promise<Object[]>(resolve =>resolve(response));
-            })
-            .subscribe(info => {
-                return new Promise<Object>(resolve =>resolve(String("info!")));
-            }, err => {
-                console.error("Failed to search trips:", err);
-                return new Promise<Object>(resolve =>resolve(String("error!")));
-            });
+        return this.http.get(query, {'headers': headers})
+            .toPromise().then(res => {
+                if (res)
+                    return res.json();
+                else return {};
+            }).catch(this.handleError);
     }
 }

@@ -47,19 +47,13 @@ var TripService = (function () {
         if (searchTerm.searchTerm)
             query = query + "searchTerm=" + searchTerm.searchTerm;
         console.log(query);
-        this.http.get(query, { 'headers': headers })
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log("response" + response);
-            return new Promise(function (resolve) { return resolve(response); });
-        })
-            .subscribe(function (info) {
-            return new Promise(function (resolve) { return resolve(String("info!")); });
-        }, function (err) {
-            console.error("Failed to search trips:", err);
-            return new Promise(function (resolve) { return resolve(String("error!")); });
-        });
+        return this.http.get(query, { 'headers': headers })
+            .toPromise().then(function (res) {
+            if (res)
+                return res.json();
+            else
+                return {};
+        }).catch(this.handleError);
     };
     TripService = __decorate([
         core_1.Injectable(), 

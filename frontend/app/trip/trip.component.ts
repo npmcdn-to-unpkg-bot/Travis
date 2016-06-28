@@ -1,7 +1,7 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-import { Component, Injectable } from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {TripService} from './trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
@@ -9,21 +9,21 @@ import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 @Component({
     selector: 'trip',
     templateUrl: 'app/trip/trip.component.html',
-    styleUrls:  ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
-    viewProviders:[BS_VIEW_PROVIDERS],
+    styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+    viewProviders: [BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES],
 })
 
-export class TripComponent{
+export class TripComponent {
 
     trips:Trip[];
-    tripModel: Trip;
+    tripModel:Trip;
 
-    constructor(private tripService: TripService) {
+    constructor(private tripService:TripService) {
         this.tripModel = new Trip();
     }
 
-    createTrip(){
+    createTrip() {
         console.log(this.tripModel);
         this.tripService.createTrip(this.tripModel);
     }
@@ -81,25 +81,26 @@ export class TripComponent{
     public refreshCountries(value:any):void {
         console.log("refreshCountries");
         console.log(value);
-        if (value.length > 0)
-        {
+        if (value.length > 0) {
             this.countriesValue = value;
             this.tripModel.countries = value;
+        } else {
+            this.tripModel.countries = [];
         }
     }
 }
 
 export class Trip {
-    _id: number;
-    owner: Object;
-    title: string;
-    dateFrom: string;
-    dateTo: string;
-    budget: number;
-    route: string;
-    cities: string;
-    countries: [string];
-    tags: string;
-    description: string;
-    comments: Object[];
+    _id:number;
+    owner:Object;
+    title:string;
+    dateFrom:string;
+    dateTo:string;
+    budget:number;
+    route:string;
+    cities:string;
+    countries:[string];
+    tags:string;
+    description:string;
+    comments:Object[];
 }

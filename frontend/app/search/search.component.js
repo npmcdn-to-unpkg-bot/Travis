@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -90,29 +91,25 @@ var SearchComponent = (function () {
         }).join(',');
     };
     SearchComponent.prototype.search = function () {
+        var _this = this;
         console.log(this.searchModel);
-        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function (response) {
-            console.log("TRIPS: " + trips);
+        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function (trips) {
+            trips.map(function (trip) {
+                var tmpTrip = new trip_component_1.Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                _this.trips.push(tmpTrip);
+            });
         });
-        //         trips.map(trip => {
-        //             let tmpTrip = new Trip();
-        //             tmpTrip.owner =  trip['owner'];
-        //             tmpTrip.title = trip['title'];
-        //             tmpTrip.tags = trip['tags'];
-        //             tmpTrip.budget =  trip['budget'];
-        //             tmpTrip.comments =  trip['comments'];
-        //             tmpTrip.cities = trip['cities'];
-        //             tmpTrip.countries = trip['countries'];
-        //             tmpTrip.dateFrom = trip['dateFrom'];
-        //             tmpTrip.dateTo = trip['dateTo'];
-        //             tmpTrip.route = trip['route'];
-        //             tmpTrip.description = trip['description'];
-        //             console.log("tmpTrip");
-        //
-        //             console.log(tmpTrip);
-        //             this.trips.push(tmpTrip);
-        //         });
-        // });
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -125,12 +122,12 @@ var SearchComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map

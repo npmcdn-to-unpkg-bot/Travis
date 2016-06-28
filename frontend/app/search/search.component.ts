@@ -102,29 +102,23 @@ export class SearchComponent {
 
     public search() {
         console.log(this.searchModel);
-        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function(response){
-            console.log("TRIPS: " + trips);
-        });
+        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(trips => {trips.map(trip => {
+                    let tmpTrip = new Trip();
+                    tmpTrip.owner =  trip['owner'];
+                    tmpTrip.title = trip['title'];
+                    tmpTrip.tags = trip['tags'];
+                    tmpTrip.budget =  trip['budget'];
+                    tmpTrip.comments =  trip['comments'];
+                    tmpTrip.cities = trip['cities'];
+                    tmpTrip.countries = trip['countries'];
+                    tmpTrip.dateFrom = trip['dateFrom'];
+                    tmpTrip.dateTo = trip['dateTo'];
+                    tmpTrip.route = trip['route'];
+                    tmpTrip.description = trip['description'];
 
-        //         trips.map(trip => {
-        //             let tmpTrip = new Trip();
-        //             tmpTrip.owner =  trip['owner'];
-        //             tmpTrip.title = trip['title'];
-        //             tmpTrip.tags = trip['tags'];
-        //             tmpTrip.budget =  trip['budget'];
-        //             tmpTrip.comments =  trip['comments'];
-        //             tmpTrip.cities = trip['cities'];
-        //             tmpTrip.countries = trip['countries'];
-        //             tmpTrip.dateFrom = trip['dateFrom'];
-        //             tmpTrip.dateTo = trip['dateTo'];
-        //             tmpTrip.route = trip['route'];
-        //             tmpTrip.description = trip['description'];
-        //             console.log("tmpTrip");
-        //
-        //             console.log(tmpTrip);
-        //             this.trips.push(tmpTrip);
-        //         });
-        // });
+                    this.trips.push(tmpTrip);
+                });
+        });
     }
 }
 
