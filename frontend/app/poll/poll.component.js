@@ -107,9 +107,12 @@ var PollComponent = (function () {
                 tempPoll.title = poll['title'];
                 tempPoll.options = poll['options'];
                 tempPoll.date = _this.formatDate(poll['date']);
-                tempPoll.comments.map(function (comment) {
-                    comment.date = _this.formatDate(comment.date);
-                });
+                tempPoll.comments = poll['comments'];
+                if (tempPoll.comments) {
+                    tempPoll.comments.map(function (comment) {
+                        comment.date = _this.formatDate(comment.date);
+                    });
+                }
                 _this.polls.push(tempPoll);
             });
         });
