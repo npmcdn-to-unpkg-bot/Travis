@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -87,7 +88,7 @@ var SearchComponent = (function () {
         return value
             .map(function (item) {
             return item.text;
-        }).join(',');
+        }).join(', ');
     };
     SearchComponent.prototype.search = function () {
         var _this = this;
@@ -114,19 +115,19 @@ var SearchComponent = (function () {
         core_1.Component({
             selector: 'search',
             templateUrl: 'app/search/search.component.html',
-            styleUrls: ['app/search/search.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+            styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
         }), 
         __metadata('design:paramtypes', [trip_service_1.TripService])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map

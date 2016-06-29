@@ -12,7 +12,7 @@ import {Trip} from "../trip/trip.component";
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
-    styleUrls:  ['app/search/search.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+    styleUrls:  ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
     viewProviders:[BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
 })
@@ -97,7 +97,7 @@ export class SearchComponent {
         return value
             .map((item:any) => {
                 return item.text;
-            }).join(',');
+            }).join(', ');
     }
 
     public search() {

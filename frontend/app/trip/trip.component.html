@@ -28,7 +28,7 @@
                     <fieldset class="form-group">
                         <label for="route">Tags</label>
                         <input [(ngModel)]="tripModel.tags" type="text" name="tags" id="tags"
-                               placeholder="Enter tags separated by spaces"/>
+                               placeholder="Enter tags separated by spaces (max. 5)" max="5"/>
                     </fieldset>
                     <div class="form-group center-block">
                         <label>Duration</label>
@@ -58,8 +58,8 @@
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="description">Description</label>
-                        <textarea [(ngModel)]="tripModel.description" class="summary" name="textarea" id="description"
-                                  placeholder="Describe your trip ..."
+                        <textarea [(ngModel)]="tripModel.description" class="summary" name="textarea" maxlength="1000" id="description"
+                                  placeholder="Describe your trip ... (max. 1000 chars)"
                                   style="height: 60px"></textarea>
                     </fieldset>
                     <fieldset>

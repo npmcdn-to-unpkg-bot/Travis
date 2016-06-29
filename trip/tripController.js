@@ -95,6 +95,6 @@ function getMongoQuery(query) {
 }
 
 function stringToArray(string) {
-    return string.split(",");
+    return string.split(", ");
 }
 
