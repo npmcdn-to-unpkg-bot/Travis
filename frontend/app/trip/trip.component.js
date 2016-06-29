@@ -77,6 +77,9 @@ var TripComponent = (function () {
             this.countriesValue = value;
             this.tripModel.countries = value;
         }
+        else {
+            this.tripModel.countries = [];
+        }
     };
     TripComponent = __decorate([
         core_1.Component({

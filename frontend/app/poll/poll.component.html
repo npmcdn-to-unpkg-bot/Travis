@@ -3,14 +3,12 @@
         <div class="row inner-bottom-xs">
             <div class="column-sm-10">
                 <ul class="format-filter text-center">
-                    <li><a class="active icon-th" title="All"></a></li>
+                    <!--<li><a class="active icon-th" title="All"></a></li>-->
                     <li><a (click)="createPollModal.show()" class="icon-edit" title="Create Poll"></a>
                         <!-- <li><a class="icon-quote"></a></li>-->
-                     </ul><!-- /.format-filter -->
+                </ul><!-- /.format-filter -->
             </div><!-- /.col -->
         </div><!-- /.row -->
-
-
         <div class="row" *ngFor="let poll of polls">
             <div class="posts sidemeta">
                 <div class="post format-gallery">
@@ -23,8 +21,8 @@
                     </div>
 
 
-                    <div class="row inner-bottom-xs" >
-                        <div class="colmn-sm-8" >
+                    <div class="row inner-bottom-xs">
+                        <div class="colmn-sm-8">
                             <fieldset>
                                 <legend>{{poll.title}}</legend>
                                 <div class="list-group">
@@ -39,7 +37,8 @@
                                         </div>
                                         <div class="percentage">
                                         <progressbar class="progress-striped"
-                                                     value={{poll.getVotesPercentage(option.text)}} type={{getBarType(option.text)}}><i>
+                                                     value={{poll.getVotesPercentage(option.text)}}
+                                                     type={{getBarType(option.text)}}><i>
                                             {{poll.getVotes(option.text)}} / {{poll.getNumOfVotes()}}</i>
                                         </progressbar>
                                         </div>
@@ -48,7 +47,7 @@
                                            value="Vote"/>
                                     <input type="hidden" name="id" value="form1"/>
                                 </div>
-                                    <comment [comments]="poll.comments"></comment>
+                                <comment [comments]="poll.comments"></comment>
                             </fieldset>
                         </div>
                     </div>
@@ -60,7 +59,7 @@
 
 
 <div bsModal #createPollModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog center-block" id="createPollModal">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" (click)="createPollModal.hide()" aria-label="Close">
@@ -69,15 +68,15 @@
                 <h4 class="modal-title">Create a new poll</h4>
             </div>
             <div class="modal-body">
-                <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll()">
-                <p>Please enter a question:</p>
-                <input type="text" [(ngModel)]="pollModel.title" name="title" class="questionText"
-                       placeholder="Where should I go?" ngControl="title"  #title="ngForm"    required/>
+                <form #pollCreationForm="ngForm" (ngSubmit)="submitPoll()">
+                    <p>Please enter a question:</p>
+                    <input type="text" [(ngModel)]="pollModel.title" name="title" class="questionText"
+                           placeholder="Where should I go?" ngControl="title" #title="ngForm" required/>
                     <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
                         Question is required!
                     </div>
 
-                <p>Enter a list of possible answers, one answer per line:</p>
+                    <p>Enter a list of possible answers, one answer per line:</p>
                 <textarea class="answerInputField" name="textarea" [(ngModel)]="pollModel.options"
                           #pollOptions="ngForm" ngControl="pollOptions" required>
                 </textarea>
@@ -85,9 +84,10 @@
                         Minimum one Option is required
                     </div>
 
-                <button type="submit" class="btn btn-primary btn-block" (click)="createPollModal.hide()"
-                       [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary btn-block" (click)="createPollModal.hide()"
+                            [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit
+                    </button>
+                </form>
             </div>
         </div>
     </div>

@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,9 +12,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 var trip_service_1 = require('../trip/trip.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
+var trip_component_1 = require("../trip/trip.component");
 var SearchComponent = (function () {
     function SearchComponent(tripService) {
         this.tripService = tripService;
@@ -48,6 +51,8 @@ var SearchComponent = (function () {
         this._disabledV = '0';
         this.disabled = false;
         this.searchModel = new SearchTerm();
+        this.resultTripModel = new trip_component_1.Trip();
+        this.trips = [];
     }
     Object.defineProperty(SearchComponent.prototype, "disabledV", {
         get: function () {
@@ -68,8 +73,14 @@ var SearchComponent = (function () {
     };
     SearchComponent.prototype.refreshCountries = function (value) {
         this.countriesValue = value;
-        if (value.isEmpty == false) {
-            this.searchModel.countries = value;
+        if (value.length > 0) {
+            console.log("countries ...");
+            console.log(value);
+            this.searchModel.countries = this.itemsToString(value);
+            console.log(this.searchModel.countries);
+        }
+        else {
+            this.searchModel.countries = "";
         }
     };
     SearchComponent.prototype.itemsToString = function (value) {
@@ -80,8 +91,25 @@ var SearchComponent = (function () {
         }).join(',');
     };
     SearchComponent.prototype.search = function () {
+        var _this = this;
         console.log(this.searchModel);
-        this.tripService.searchForTrip(this.searchModel);
+        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function (trips) {
+            trips.map(function (trip) {
+                var tmpTrip = new trip_component_1.Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                _this.trips.push(tmpTrip);
+            });
+        });
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -89,17 +117,17 @@ var SearchComponent = (function () {
             templateUrl: 'app/search/search.component.html',
             styleUrls: ['app/search/search.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
-            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES],
+            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
         }), 
         __metadata('design:paramtypes', [trip_service_1.TripService])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map

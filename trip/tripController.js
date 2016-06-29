@@ -4,11 +4,11 @@ var url = require('url');
 
 var Trip = require('./tripSchema');
 
-module.exports.getAll = function(req, res){
+module.exports.getAll = function (req, res) {
 
     console.log("Get all trips");
 
-    Trip.find().sort('-date').limit(10).exec(function(err, trip) {
+    Trip.find().sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -18,7 +18,7 @@ module.exports.getAll = function(req, res){
     });
 };
 
-module.exports.create = function(req, res){
+module.exports.create = function (req, res) {
 
     console.log("Create a trip");
 
@@ -47,51 +47,57 @@ module.exports.create = function(req, res){
     });
 };
 
-module.exports.getTrips = function(req, res) {
+module.exports.getTrips = function (req, res) {
 
     console.log(req.query);
     var mongoQuery = getMongoQuery(req.query);
-        Trip.find(mongoQuery).sort('-date').limit(10).exec(function(err, trip) {
-            if (err) {
-                console.log(err);
-                res.status(500).send("Server error!");
-                return;
-            }
-            res.status(201).json(trip);});
+    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        res.status(201).json(trip);
+    });
 };
 
-function getMongoQuery(query){
+function getMongoQuery(query) {
     var mongoQuery = {};
     console.log(query);
-    if (query.countries){
-        if (typeof  query.countries == 'string')
-            query.countries = [query.countries];
+    if (query.countries) {
+        if (typeof  query.countries == 'string') {
+            query.countries = stringToArray(query.countries);
+            console.log(query.countries);
+        }
         mongoQuery.countries = {$in: query.countries};
     }
-
-    if (query.cities){
+    if (query.cities) {
         if (typeof  query.cities == 'string')
             query.cities = [query.cities];
         mongoQuery.cities = {$in: query.cities};
     }
     if (query.budget)
-        mongoQuery.budget = {$lte:parseFloat(query.budget)};
+        mongoQuery.budget = {$lte: parseFloat(query.budget)};
     if (query.tags)
         mongoQuery.tags = {$in: query.tags};
 
     if (query.from) {
         var tempDate = new Date(query.from);
-        if ( !isNaN( tempDate.getTime() ) )
-            // date is valid
+        if (!isNaN(tempDate.getTime()))
+        // date is valid
             mongoQuery.dateFrom = {"$gte": tempDate};
     }
-    if (query.to){
+    if (query.to) {
         var tempDate = new Date(query.to);
-    if ( !isNaN( tempDate.getTime() ) )
-    // date is valid
-        mongoQuery.dateTo = {"$lte": tempDate};
-}
+        if (!isNaN(tempDate.getTime()))
+        // date is valid
+            mongoQuery.dateTo = {"$lte": tempDate};
+    }
     console.log(mongoQuery);
-return mongoQuery;
+    return mongoQuery;
+}
+
+function stringToArray(string) {
+    return string.split(",");
 }
 

@@ -62,6 +62,19 @@
          });
          */
     </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var images = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg', 'bg7.jpg'];
+            $('.jumbotron').css({'background-image': 'url(/UI/assets/images/art/' + images[Math.floor(Math.random() * images.length)] + ')'});
+        });
+    </script>
+    <style type="text/css">
+        .jumbotron
+        {
+            background-repeat: repeat-y;
+            height: inherit;
+        }
+    </style>
 </head>
 <!-- 3. Display the application -->
 <body>
@@ -94,13 +107,14 @@
         </div><!-- /.navbar center -->
     </header>
     <section id="searchSection" class="light-bg img-bg-softer search-section"
-             style="background-image: url(/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg)
-        ;height: 400px;;">
+             style="height: 500px;">
+        <div class="jumbotron">
+
         <div class="container inner">
             <div class="col-md-5 col-sm-10 center-block text-center">
                 <h3>Loading... Please wait</h3>
             </div><!-- /.col -->
-
+        </div>
         </div><!-- /.container -->
 
     </section>

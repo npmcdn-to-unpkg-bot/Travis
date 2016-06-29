@@ -39,24 +39,20 @@ var TripService = (function () {
             query = query + "budget=" + searchTerm.budget + "&";
         if (searchTerm.cities)
             query = query + "cities=" + searchTerm.cities + "&";
-        if (searchTerm.countries)
-            console.log(searchTerm.countries);
-        // query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.countries.length)
+            query = query + "countries=" + searchTerm.countries + "&";
         if (searchTerm.month)
             query = query + "month=" + searchTerm.month + "&";
         if (searchTerm.searchTerm)
             query = query + "searchTerm=" + searchTerm.searchTerm;
         console.log(query);
-        this.http.get(query, { 'headers': headers })
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-        })
-            .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to post a trip:", err);
-        });
+        return this.http.get(query, { 'headers': headers })
+            .toPromise().then(function (res) {
+            if (res)
+                return res.json();
+            else
+                return {};
+        }).catch(this.handleError);
     };
     TripService = __decorate([
         core_1.Injectable(), 

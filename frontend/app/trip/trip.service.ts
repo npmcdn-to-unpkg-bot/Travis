@@ -35,9 +35,8 @@ export class TripService {
             query = query + "budget=" + searchTerm.budget + "&";
         if (searchTerm.cities)
             query = query + "cities=" + searchTerm.cities + "&";
-        if (searchTerm.countries)
-            console.log(searchTerm.countries)
-            // query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.countries.length)
+            query = query + "countries=" + searchTerm.countries + "&";
         if (searchTerm.month)
             query = query + "month=" + searchTerm.month + "&";
         if (searchTerm.searchTerm)
@@ -46,15 +45,11 @@ export class TripService {
 
         console.log(query);
 
-        this.http.get(query, {'headers': headers})
-            .map(res => {
-                console.log(res);
-                let response = res.json();
-                console.log(response);
-            })
-            .subscribe(info => {
-            }, err => {
-                console.error("Failed to post a trip:", err);
-            });
+        return this.http.get(query, {'headers': headers})
+            .toPromise().then(res => {
+                if (res)
+                    return res.json();
+                else return {};
+            }).catch(this.handleError);
     }
 }

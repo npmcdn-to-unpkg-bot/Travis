@@ -107,7 +107,6 @@ var PollComponent = (function () {
                 tempPoll.title = poll['title'];
                 tempPoll.options = poll['options'];
                 tempPoll.date = _this.formatDate(poll['date']);
-                tempPoll.comments = poll['comments'];
                 tempPoll.comments.map(function (comment) {
                     comment.date = _this.formatDate(comment.date);
                 });
