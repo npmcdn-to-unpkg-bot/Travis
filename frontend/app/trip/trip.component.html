@@ -62,11 +62,21 @@
                                   placeholder="Describe your trip ..."
                                   style="height: 60px"></textarea>
                     </fieldset>
-                    <fieldset>
+                    <div class="form-group">
+                        <input type="file" (change)="fileChangeEvent(input)" #input placeholder="Upload file..." multiple/>
+                    <div class="imagePreview" *ngIf="pictures">
+                        <div class="polaroid" *ngFor="let picture of pictures">
+                            <div class="imageContainer">
+                                <img src="{{picture.src}}" alt="{{picture.name}}" style="width:100px;height: 100px;" class="img-thumbnail"/>
+                                <P>{{picture.name}}</P>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                         <button type="submit" class="btn btn-primary btn-block"
                                 [disabled]="!tripCreationForm.form.valid" name="submit" value="Submit">Submit
                         </button>
-                    </fieldset>
+
                 </form>
             </div>
         </div>

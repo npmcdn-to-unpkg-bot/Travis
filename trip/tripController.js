@@ -23,7 +23,7 @@ module.exports.create = function (req, res) {
     console.log("Create a trip");
 
     var tmpTrip = new Trip();
-    console.log(req.body)
+    console.log(req.body);
     tmpTrip.title = req.body.title;
     tmpTrip.budget = req.body.budget;
     tmpTrip.dateTo = req.body.dateTo;

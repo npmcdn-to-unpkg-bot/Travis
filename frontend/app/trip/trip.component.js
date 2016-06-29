@@ -81,6 +81,51 @@ var TripComponent = (function () {
             this.tripModel.countries = [];
         }
     };
+    TripComponent.prototype.resize = function (image) {
+        var mainCanvas = document.createElement("canvas");
+        mainCanvas.width = 100;
+        mainCanvas.height = 100;
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, mainCanvas.width, mainCanvas.height);
+        return mainCanvas.toDataURL("image/jpeg");
+    };
+    ;
+    TripComponent.prototype.fileChangeEvent = function (fileInput) {
+        var images = [];
+        this.filesToUpload = fileInput.files;
+        for (var i = 0; i < this.filesToUpload.length; i++) {
+            var currentFile = this.filesToUpload[i];
+            if (!currentFile.type.match(/image.*/)) {
+                console.log('This is  not an image! ' + currentFile.name);
+                continue;
+            }
+            //console.log(currentFile.name + " size: " + currentFile.size);
+            var img = new Image();
+            //img.src = window.URL.createObjectURL(currentFile);
+            // Create a FileReader
+            var reader = new FileReader();
+            // Add an event listener to deal with the file when the reader is complete
+            reader.addEventListener("load", function (event) {
+                // Get the event.target.result from the reader (base64 of the image)
+                img.src = event.target.result;
+                var pic = new Picture();
+                pic.name = event.target.name;
+                // Resize the image
+                //pic.src = this.resize(img);
+                pic.src = img.src;
+                images.push(pic);
+            }, false);
+            reader.readAsDataURL(currentFile);
+        }
+        this.pictures = images;
+        this.pictures.map(function (pic) {
+            console.log(pic.name);
+        });
+    };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], TripComponent.prototype, "pictures", void 0);
     TripComponent = __decorate([
         core_1.Component({
             selector: 'trip',
@@ -100,4 +145,10 @@ var Trip = (function () {
     return Trip;
 })();
 exports.Trip = Trip;
+var Picture = (function () {
+    function Picture() {
+    }
+    return Picture;
+})();
+exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map

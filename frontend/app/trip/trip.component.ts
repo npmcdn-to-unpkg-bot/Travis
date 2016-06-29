@@ -1,7 +1,7 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-import {Component, Injectable} from '@angular/core';
+import {Component, Injectable, Input} from '@angular/core';
 import {TripService} from './trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
@@ -18,6 +18,10 @@ export class TripComponent {
 
     trips:Trip[];
     tripModel:Trip;
+    filesToUpload: Array<File>;
+
+    @Input()
+    pictures:Picture[];
 
     constructor(private tripService:TripService) {
         this.tripModel = new Trip();
@@ -88,6 +92,59 @@ export class TripComponent {
             this.tripModel.countries = [];
         }
     }
+
+    public resize (image) {
+        let mainCanvas = document.createElement("canvas");
+        mainCanvas.width = 100;
+        mainCanvas.height = 100;
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, mainCanvas.width, mainCanvas.height);
+        return mainCanvas.toDataURL("image/jpeg");
+    };
+
+    public fileChangeEvent(fileInput: any){
+        let images = [];
+        this.filesToUpload = <Array<File>> fileInput.files;
+        for (var i = 0; i < this.filesToUpload.length; i++) {
+            let currentFile = this.filesToUpload[i];
+
+            if(! currentFile.type.match(/image.*/)){
+                console.log('This is  not an image! ' + currentFile.name);
+                continue;
+            }
+
+            //console.log(currentFile.name + " size: " + currentFile.size);
+            let img = new Image();
+            //img.src = window.URL.createObjectURL(currentFile);
+
+            // Create a FileReader
+            let reader = new FileReader();
+
+            // Add an event listener to deal with the file when the reader is complete
+            reader.addEventListener("load", (event) => {
+                // Get the event.target.result from the reader (base64 of the image)
+                img.src = event.target.result;
+
+                let pic = new Picture();
+                pic.name = event.target.name;
+
+                // Resize the image
+                //pic.src = this.resize(img);
+                pic.src = img.src;
+                images.push(pic);
+            }, false);
+
+            reader.readAsDataURL(currentFile);
+            // Push the img src (base64 string) into our array that we display in our html template
+
+
+        }
+        this.pictures = images;
+
+        this.pictures.map( pic =>{
+            console.log(pic.name);
+        });
+    }
 }
 
 export class Trip {
@@ -103,4 +160,9 @@ export class Trip {
     tags:string;
     description:string;
     comments:Object[];
+}
+
+export class Picture{
+    name:string;
+    src:Any;
 }
