@@ -63,11 +63,9 @@ module.exports.getTrips = function (req, res) {
 
 function getMongoQuery(query) {
     var mongoQuery = {};
-    console.log(query);
     if (query.countries) {
         if (typeof  query.countries == 'string') {
             query.countries = stringToArray(query.countries);
-            console.log(query.countries);
         }
         mongoQuery.countries = {$in: query.countries};
     }
@@ -93,7 +91,6 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
-    console.log(mongoQuery);
     return mongoQuery;
 }
 

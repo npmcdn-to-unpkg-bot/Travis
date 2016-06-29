@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -92,12 +93,12 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService])
     ], TripComponent);
     return TripComponent;
-})();
+}());
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-})();
+}());
 exports.Trip = Trip;
 //# sourceMappingURL=trip.component.js.map
