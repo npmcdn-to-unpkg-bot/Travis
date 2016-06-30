@@ -1,12 +1,14 @@
 import {Injectable, EventEmitter} from "@angular/core";
 import {Http, Headers, Response} from '@angular/http'
+import {Trip} from "./trip.component";
 
 @Injectable()
 export class TripService {
 
-    public createTrip(trip) {
+    public createTrip(trip:Trip) {
+
         let body = JSON.stringify(trip);
-        console.log(trip);
+        //console.log(trip);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         this.http.post("http://localhost:3000/rest/trip", body, {'headers': headers})

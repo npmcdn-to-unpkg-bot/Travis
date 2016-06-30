@@ -9,16 +9,15 @@ var Trip = mongoose.Schema({
     dateTo : { type: Date, required: true},
     budget: { type: Number, required: false},
     route: { type: String, required: true},
-    cities: { type: String, required: false},
-    countries : [{text : String,
-        id : { type : String},
-    }],
-    tags: { type: String, required: true},
+    cities:  [{type: String, required: true}],
+    countries : [{text : String, id  : String}],
+    tags: { type: String, required: false},
     description: { type: String, required: true},
     comments : [{text : String,
         user : { type : Schema.Types.ObjectId, ref: 'user' },
         date : { type: Date, default: Date.now },
-    }]
+    }],
+    pictures: [{name:{type:String}, src:{type:Buffer}}]
 });
 
 module.exports = mongoose.model('Trip', Trip);

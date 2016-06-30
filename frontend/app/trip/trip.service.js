@@ -15,7 +15,7 @@ var TripService = (function () {
     }
     TripService.prototype.createTrip = function (trip) {
         var body = JSON.stringify(trip);
-        console.log(trip);
+        //console.log(trip);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         this.http.post("http://localhost:3000/rest/trip", body, { 'headers': headers })

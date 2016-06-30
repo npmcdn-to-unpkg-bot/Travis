@@ -9,7 +9,7 @@
                 <form #tripCreationForm="ngForm" (ngSubmit)="createTrip()">
                     <fieldset class="form-group">
                         <label for="title">Title</label>
-                        <input [(ngModel)]="tripModel.title" type="text" class="form-control" id="title"
+                        <input [(ngModel)]="tripModel.title" ngControl="title" #title="ngForm" required type="text" class="form-control" id="title"
                                placeholder="Enter a title">
                     </fieldset>
                     <fieldset class="form-group">
@@ -22,7 +22,7 @@
                     </script>
                     <fieldset class="form-group">
                         <label for="route">Route</label>
-                        <input [(ngModel)]="tripModel.route" type="url" name="route" id="route"
+                        <input [(ngModel)]="tripModel.route" type="url" name="route" id="route" ngControl="route" #route="ngForm" required
                                placeholder="Paste the link to your route in here"/>
                     </fieldset>
                     <fieldset class="form-group">
@@ -34,13 +34,13 @@
                         <label>Duration</label>
                         <br/>
                         <fieldset class="form-group">
-                            <input [(ngModel)]="tripModel.dateFrom" type="date" id="dateFrom" style="width: 200px">
-                            <input [(ngModel)]="tripModel.dateTo" type="date" id="dateTo" style="width: 200px">
+                            <input [(ngModel)]="tripModel.dateFrom" type="date" id="dateFrom" ngControl="dateFrom" #dateFrom="ngForm" required style="width: 200px">
+                            <input [(ngModel)]="tripModel.dateTo" type="date" id="dateTo" ngControl="dateTo" #dateTo="ngForm" required style="width: 200px">
                         </fieldset>
                     </div>
                     <fieldset class="form-group">
                         <label for="countries">Countries</label>
-                    <div id="countries" name="countries" id="countries" style="margin-bottom: 20px;">
+                    <div id="countries" name="countries" id="countries"  style="margin-bottom: 20px;">
                         <ng-select [data]="countriesValue"
                                    [multiple]="true"
                                    [items]="countriesArray"
@@ -48,25 +48,40 @@
                                    (data)="refreshCountries($event)"
                                    (selected)="selectedCountry($event)"
                                    (removed)="removedCountry($event)"
-                                   placeholder="no country selected"></ng-select>
+                                   placeholder="no country selected" required></ng-select>
                     </div>
                         </fieldset>
+                    <!--
                     <fieldset class="form-group">
                         <label for="cities">Cities</label>
                         <input [(ngModel)]="tripModel.cities" type="text" name="cities" id="cities"
                                placeholder="Enter cities separated by spaces"/>
                     </fieldset>
+                    !-->
+                    <fieldset class="form-group">
+                        <label for="cities">Cities</label>
+                        <tag-input
+                                placeholder="Enter cities separated by Enter"
+                                [(ngModel)]="tripModel.cities"
+                                delimiterCode="188" ngControl="cities" #cities="ngForm" required>
+                        </tag-input>
+
+                    </fieldset>
+
                     <fieldset class="form-group">
                         <label for="description">Description</label>
                         <textarea [(ngModel)]="tripModel.description" class="summary" name="textarea" id="description"
-                                  placeholder="Describe your trip ..."
+                                  placeholder="Describe your trip ..." ngControl="descr" #descr="ngForm" required
                                   style="height: 60px"></textarea>
                     </fieldset>
-                    <div class="form-group">
-                        <input type="file" (change)="fileChangeEvent(input)" #input placeholder="Upload file..." multiple/>
+                    <div class="form-group" style="font-size: 12px">
+                        <input type="file" (change)="uploadfile(input)" #input placeholder="Upload file..." />
                     <div class="imagePreview" *ngIf="pictures">
-                        <div class="polaroid" *ngFor="let picture of pictures">
+                        <div class="polaroid" *ngFor="let picture of pictures; let i=index">
                             <div class="imageContainer">
+                                <button type="button" id="remove-button" (click)="removePic(i)" class="btn btn-default btn-xs">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
                                 <img src="{{picture.src}}" alt="{{picture.name}}" style="width:100px;height: 100px;" class="img-thumbnail"/>
                                 <P>{{picture.name}}</P>
                             </div>

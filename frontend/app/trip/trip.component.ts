@@ -5,30 +5,38 @@ import {Component, Injectable, Input} from '@angular/core';
 import {TripService} from './trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
+import {TagInputComponent} from '../tag-input/tag-input.component';
 
 @Component({
     selector: 'trip',
     templateUrl: 'app/trip/trip.component.html',
     styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
-    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES],
+    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, TagInputComponent],
 })
 
 export class TripComponent {
 
     trips:Trip[];
     tripModel:Trip;
-    filesToUpload: Array<File>;
+    filesToUpload: File[];
 
-    @Input()
     pictures:Picture[];
+    imageInput:HTMLInputElement[];
 
     constructor(private tripService:TripService) {
         this.tripModel = new Trip();
+        this.tripModel.cities = [];
+        this.pictures = [];
+        this.filesToUpload = [];
     }
 
     createTrip() {
-        console.log(this.tripModel);
+        if (!this.countriesValue || this.countriesValue.length == 0){
+            alert("you should choose a country before submiting");
+            return;
+        }
+        this.tripModel.files = this.pictures;
         this.tripService.createTrip(this.tripModel);
     }
 
@@ -102,48 +110,75 @@ export class TripComponent {
         return mainCanvas.toDataURL("image/jpeg");
     };
 
-    public fileChangeEvent(fileInput: any){
-        let images = [];
-        this.filesToUpload = <Array<File>> fileInput.files;
-        for (var i = 0; i < this.filesToUpload.length; i++) {
-            let currentFile = this.filesToUpload[i];
+    public uploadfile(fileInput: any){
+        try{
+            this.imageInput = fileInput;
 
-            if(! currentFile.type.match(/image.*/)){
-                console.log('This is  not an image! ' + currentFile.name);
-                continue;
-            }
+            let recentFile = fileInput.files[0];
+            this.filesToUpload.push(recentFile);
+            if (recentFile){
+                if(!recentFile.type.match(/image.*/)){
+                    console.log('This is  not an image! ' + recentFile.name);
+                    alert('You can only upload an image file! Choose an image please' + recentFile.name);
+                    return;
+                }
+                if(recentFile.size > 1024 * 1024 * 5){
+                    alert("The file is too big! maximum size is 5 MB");
+                    return;
+                }
 
-            //console.log(currentFile.name + " size: " + currentFile.size);
-            let img = new Image();
-            //img.src = window.URL.createObjectURL(currentFile);
+                let sumSize = 0;
+                this.filesToUpload.map(file =>{
+                    sumSize += file.size;
+                });
 
-            // Create a FileReader
-            let reader = new FileReader();
+                if (sumSize + recentFile.size > 1024 * 1024 * 50){
+                    alert("You can't add more pics! The maximum size is 50 MB");
+                    return;
+                }
 
-            // Add an event listener to deal with the file when the reader is complete
-            reader.addEventListener("load", (event) => {
-                // Get the event.target.result from the reader (base64 of the image)
-                img.src = event.target.result;
-
+                //console.log(currentFile.name + " size: " + currentFile.size);
+                let img = new Image();
+                //img.src = window.URL.createObjectURL(currentFile);
                 let pic = new Picture();
-                pic.name = event.target.name;
 
-                // Resize the image
-                //pic.src = this.resize(img);
-                pic.src = img.src;
-                images.push(pic);
-            }, false);
+                // Create a FileReader
+                let reader = new FileReader();
 
-            reader.readAsDataURL(currentFile);
-            // Push the img src (base64 string) into our array that we display in our html template
+                // Add an event listener to deal with the file when the reader is complete
+                reader.addEventListener("load", (event) => {
+                    // Get the event.target.result from the reader (base64 of the image)
+                    img.src = event.target.result;
 
+                    pic.name = event.target.name;
 
+                    // Resize the image
+                    //pic.src = this.resize(img);
+                    pic.src = img.src;
+
+                }, false);
+
+                reader.readAsDataURL(recentFile);
+                this.pictures.push(pic);
+                // Push the img src (base64 string) into our array that we display in our html template
+
+            }
+            else
+                return;
+        }catch(err){
+            console.log(err);
+            alert("image upload failed! try again please");
         }
-        this.pictures = images;
 
-        this.pictures.map( pic =>{
-            console.log(pic.name);
-        });
+    }
+
+    public removePic(index){
+        if(index == this.pictures.length - 1){
+            this.imageInput.value = "";
+        }
+        this.pictures.splice(index,1);
+        this.filesToUpload.splice(index,1);
+
     }
 }
 
@@ -155,11 +190,13 @@ export class Trip {
     dateTo:string;
     budget:number;
     route:string;
-    cities:string;
+    //cities:string;
+    cities:[string];
     countries:[string];
     tags:string;
     description:string;
     comments:Object[];
+    files:Picture[];
 }
 
 export class Picture{

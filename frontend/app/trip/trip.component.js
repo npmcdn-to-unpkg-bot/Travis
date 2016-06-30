@@ -14,6 +14,7 @@ var core_1 = require('@angular/core');
 var trip_service_1 = require('./trip.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
+var tag_input_component_1 = require('../tag-input/tag-input.component');
 var TripComponent = (function () {
     function TripComponent(tripService) {
         this.tripService = tripService;
@@ -48,9 +49,16 @@ var TripComponent = (function () {
         this._disabledV = '0';
         this.disabled = false;
         this.tripModel = new Trip();
+        this.tripModel.cities = [];
+        this.pictures = [];
+        this.filesToUpload = [];
     }
     TripComponent.prototype.createTrip = function () {
-        console.log(this.tripModel);
+        if (!this.countriesValue || this.countriesValue.length == 0) {
+            alert("you should choose a country before submiting");
+            return;
+        }
+        this.tripModel.files = this.pictures;
         this.tripService.createTrip(this.tripModel);
     };
     Object.defineProperty(TripComponent.prototype, "disabledV", {
@@ -90,49 +98,69 @@ var TripComponent = (function () {
         return mainCanvas.toDataURL("image/jpeg");
     };
     ;
-    TripComponent.prototype.fileChangeEvent = function (fileInput) {
-        var images = [];
-        this.filesToUpload = fileInput.files;
-        for (var i = 0; i < this.filesToUpload.length; i++) {
-            var currentFile = this.filesToUpload[i];
-            if (!currentFile.type.match(/image.*/)) {
-                console.log('This is  not an image! ' + currentFile.name);
-                continue;
-            }
-            //console.log(currentFile.name + " size: " + currentFile.size);
-            var img = new Image();
-            //img.src = window.URL.createObjectURL(currentFile);
-            // Create a FileReader
-            var reader = new FileReader();
-            // Add an event listener to deal with the file when the reader is complete
-            reader.addEventListener("load", function (event) {
-                // Get the event.target.result from the reader (base64 of the image)
-                img.src = event.target.result;
+    TripComponent.prototype.uploadfile = function (fileInput) {
+        try {
+            this.imageInput = fileInput;
+            var recentFile = fileInput.files[0];
+            this.filesToUpload.push(recentFile);
+            if (recentFile) {
+                if (!recentFile.type.match(/image.*/)) {
+                    console.log('This is  not an image! ' + recentFile.name);
+                    alert('You can only upload an image file! Choose an image please' + recentFile.name);
+                    return;
+                }
+                if (recentFile.size > 1024 * 1024 * 5) {
+                    alert("The file is too big! maximum size is 5 MB");
+                    return;
+                }
+                var sumSize = 0;
+                this.filesToUpload.map(function (file) {
+                    sumSize += file.size;
+                });
+                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
+                    alert("You can't add more pics! The maximum size is 50 MB");
+                    return;
+                }
+                //console.log(currentFile.name + " size: " + currentFile.size);
+                var img = new Image();
+                //img.src = window.URL.createObjectURL(currentFile);
                 var pic = new Picture();
-                pic.name = event.target.name;
-                // Resize the image
-                //pic.src = this.resize(img);
-                pic.src = img.src;
-                images.push(pic);
-            }, false);
-            reader.readAsDataURL(currentFile);
+                // Create a FileReader
+                var reader = new FileReader();
+                // Add an event listener to deal with the file when the reader is complete
+                reader.addEventListener("load", function (event) {
+                    // Get the event.target.result from the reader (base64 of the image)
+                    img.src = event.target.result;
+                    pic.name = event.target.name;
+                    // Resize the image
+                    //pic.src = this.resize(img);
+                    pic.src = img.src;
+                }, false);
+                reader.readAsDataURL(recentFile);
+                this.pictures.push(pic);
+            }
+            else
+                return;
         }
-        this.pictures = images;
-        this.pictures.map(function (pic) {
-            console.log(pic.name);
-        });
+        catch (err) {
+            console.log(err);
+            alert("image upload failed! try again please");
+        }
     };
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], TripComponent.prototype, "pictures", void 0);
+    TripComponent.prototype.removePic = function (index) {
+        if (index == this.pictures.length - 1) {
+            this.imageInput.value = "";
+        }
+        this.pictures.splice(index, 1);
+        this.filesToUpload.splice(index, 1);
+    };
     TripComponent = __decorate([
         core_1.Component({
             selector: 'trip',
             templateUrl: 'app/trip/trip.component.html',
             styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
-            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES],
+            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, tag_input_component_1.TagInputComponent],
         }), 
         __metadata('design:paramtypes', [trip_service_1.TripService])
     ], TripComponent);

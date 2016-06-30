@@ -23,7 +23,6 @@ module.exports.create = function (req, res) {
     console.log("Create a trip");
 
     var tmpTrip = new Trip();
-    console.log(req.body);
     tmpTrip.title = req.body.title;
     tmpTrip.budget = req.body.budget;
     tmpTrip.dateTo = req.body.dateTo;
@@ -34,8 +33,7 @@ module.exports.create = function (req, res) {
 
     tmpTrip.tags = req.body.tags;
     tmpTrip.description = req.body.description;
-
-    console.log(tmpTrip);
+    tmpTrip.pictures = req.body.pictures;
 
     tmpTrip.save(function (err, success) {
         if (err) {
