@@ -4,7 +4,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router}            from '@angular/router-deprecated';
 import {Navbar} from './navbar.component';
-import {AuthService} from './auth.service'
+import {AuthService} from './auth.service';
 import {DROPDOWN_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
 
