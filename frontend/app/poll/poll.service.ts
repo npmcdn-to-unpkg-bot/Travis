@@ -144,7 +144,7 @@ export class PollService {
         console.log(pollObj);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/poll/Create", body, {'headers':headers})
+        this.http.post("/rest/poll/create", body, {'headers':headers})
             .map(res => {
                 console.log(res);
                 let response = res.json();

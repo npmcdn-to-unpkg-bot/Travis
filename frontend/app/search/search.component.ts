@@ -102,6 +102,7 @@ export class SearchComponent {
 
     public search() {
         console.log(this.searchModel);
+        this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(trips => {trips.map(trip => {
                     let tmpTrip = new Trip();
                     tmpTrip.owner =  trip['owner'];
