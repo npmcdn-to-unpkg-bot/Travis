@@ -140,8 +140,8 @@ module.exports.vote = function(req, res){
     /*Poll.find([{"options._id": req.body.option_id},
     	       {"options.$": true}],*/ 
 	
-	Poll.aggregate([{"$unwind": "$options"},
-		            {"$match": {"options.text": req.body.option}},
+	Poll.aggregate([{"$match": { "_id":req.body.poll_id}},{"$unwind": "$options"},
+		            {"$match": { "options.text": req.body.option}},
 		            {"$project": {"_id": 1, "options": 1}}], function(err, p) {
     	console.log(p);
     	
