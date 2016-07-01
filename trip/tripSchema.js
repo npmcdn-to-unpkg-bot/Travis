@@ -10,7 +10,9 @@ var Trip = mongoose.Schema({
     budget: { type: Number, required: false},
     route: { type: String, required: true},
     cities:  [{type: String, required: true}],
-    countries : [{text : String, id  : String}],
+    countries:  [{type: String, required: true}],
+
+//    countries : [{text : String, id  : String}],
     tags: { type: String, required: false},
     description: { type: String, required: true},
     comments : [{text : String,

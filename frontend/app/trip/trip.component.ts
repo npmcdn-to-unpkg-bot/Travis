@@ -6,6 +6,7 @@ import {TripService} from './trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TagInputComponent} from '../tag-input/tag-input.component';
+import {ImageService} from '../imageService.service';
 
 @Component({
     selector: 'trip',
@@ -13,6 +14,7 @@ import {TagInputComponent} from '../tag-input/tag-input.component';
     styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, TagInputComponent],
+    providers:[ImageService]
 })
 
 export class TripComponent {
@@ -22,13 +24,16 @@ export class TripComponent {
     filesToUpload: File[];
 
     pictures:Picture[];
+    picturesToUpload:Picture[];
     imageInput:HTMLInputElement[];
 
-    constructor(private tripService:TripService) {
+    constructor(private tripService:TripService,private imageService: ImageService) {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
         this.pictures = [];
+        this.picturesToUpload  = [];
         this.filesToUpload = [];
+        //this.filesToUpload = [];
     }
 
     createTrip() {
@@ -36,7 +41,7 @@ export class TripComponent {
             alert("you should choose a country before submiting");
             return;
         }
-        this.tripModel.files = this.pictures;
+        this.tripModel.pictures = this.picturesToUpload;
         this.tripService.createTrip(this.tripModel);
     }
 
@@ -95,20 +100,32 @@ export class TripComponent {
         console.log(value);
         if (value.length > 0) {
             this.countriesValue = value;
-            this.tripModel.countries = value;
+            this.countriesValue.map(countryVal =>this.tripModel.countries = countryVal.text);
+
         } else {
             this.tripModel.countries = [];
         }
     }
 
-    public resize (image) {
+    /*
+    public getImage (image) {
+        let mainCanvas = document.createElement("canvas");
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        return mainCanvas.toDataURL("image/jpeg", 1.0);
+    };
+
+
+
+    private resize(image){
         let mainCanvas = document.createElement("canvas");
         mainCanvas.width = 100;
         mainCanvas.height = 100;
         var ctx = mainCanvas.getContext("2d");
-        ctx.drawImage(image, 0, 0, mainCanvas.width, mainCanvas.height);
-        return mainCanvas.toDataURL("image/jpeg");
-    };
+        ctx.drawImage(image, 0, 0,mainCanvas.width,mainCanvas.height);
+        return mainCanvas.toDataURL("image/jpeg", 0.5);
+    }
+*/
 
     public uploadfile(fileInput: any){
         try{
@@ -122,14 +139,15 @@ export class TripComponent {
                     alert('You can only upload an image file! Choose an image please' + recentFile.name);
                     return;
                 }
-                if(recentFile.size > 1024 * 1024 * 5){
-                    alert("The file is too big! maximum size is 5 MB");
+                if(recentFile.size > 1024 * 1024 * 8){
+                    alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
 
                 let sumSize = 0;
                 this.filesToUpload.map(file =>{
-                    sumSize += file.size;
+                    if (file)
+                        sumSize += file.size;
                 });
 
                 if (sumSize + recentFile.size > 1024 * 1024 * 50){
@@ -140,7 +158,8 @@ export class TripComponent {
                 //console.log(currentFile.name + " size: " + currentFile.size);
                 let img = new Image();
                 //img.src = window.URL.createObjectURL(currentFile);
-                let pic = new Picture();
+                let previewPic = new Picture();
+                let toBeSentPic = new Picture();
 
                 // Create a FileReader
                 let reader = new FileReader();
@@ -150,16 +169,20 @@ export class TripComponent {
                     // Get the event.target.result from the reader (base64 of the image)
                     img.src = event.target.result;
 
-                    pic.name = event.target.name;
-
+                    toBeSentPic.name = recentFile.name;
+                    previewPic.name = toBeSentPic.name;
                     // Resize the image
-                    //pic.src = this.resize(img);
-                    pic.src = img.src;
+
+                    this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
+                    this.imageService.getImageURL(img).then(imageURL => toBeSentPic.src = imageURL);
+
+                    //toBeSentPic.src = this.getImage(img);
 
                 }, false);
 
                 reader.readAsDataURL(recentFile);
-                this.pictures.push(pic);
+                this.pictures.push(previewPic);
+                this.picturesToUpload.push(toBeSentPic);
                 // Push the img src (base64 string) into our array that we display in our html template
 
             }
@@ -178,6 +201,7 @@ export class TripComponent {
         }
         this.pictures.splice(index,1);
         this.filesToUpload.splice(index,1);
+        this.picturesToUpload(index,1);
 
     }
 }
@@ -193,10 +217,10 @@ export class Trip {
     //cities:string;
     cities:[string];
     countries:[string];
-    tags:string;
+    tags:[string];
     description:string;
     comments:Object[];
-    files:Picture[];
+    pictures:Picture[];
 }
 
 export class Picture{

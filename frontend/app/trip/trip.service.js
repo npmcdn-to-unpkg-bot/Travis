@@ -23,6 +23,7 @@ var TripService = (function () {
             console.log(res);
             var response = res.json();
             console.log(response);
+            alert(response);
         })
             .subscribe(function (info) {
         }, function (err) {

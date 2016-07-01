@@ -31,6 +31,12 @@ module.exports.create = function (req, res) {
     tmpTrip.cities = req.body.cities;
     tmpTrip.countries = req.body.countries;
 
+    if (typeof  tmpTrip.cities == 'string')
+        tmpTrip.cities = [tmpTrip.cities];
+    if (typeof  tmpTrip.countries == 'string')
+        tmpTrip.countries = [tmpTrip.countries];
+
+
     tmpTrip.tags = req.body.tags;
     tmpTrip.description = req.body.description;
     tmpTrip.pictures = req.body.pictures;
@@ -41,7 +47,7 @@ module.exports.create = function (req, res) {
             return;
         }
 
-        res.status(201).json(success);
+        res.status(201).json("successfully added trip: " + success.title);
     });
 };
 

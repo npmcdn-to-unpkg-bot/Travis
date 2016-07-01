@@ -35,7 +35,7 @@ var TagInputItemComponent = (function () {
         core_1.Component({
             selector: 'tag-input-item',
             template: "{{text}}\n  <span\n  class=\"ng2-tag-input-remove\"\n  (click)=\"removeTag()\">&times;</span>",
-            styles: ["\n    :host {\n      display: inline-block;\n      background: #ccc;\n      padding: 7px;\n      border-radius: 90px;\n      margin-right: 10px;\n    }\n\n    :host.ng2-tag-input-item-selected {\n      color: white;\n      background: #0d8bff;\n    }\n\n    .ng2-tag-input-remove {\n      cursor: pointer;\n      display: inline-block;\n      padding: 0 3px;\n    }\n  "],
+            styles: ["\n    :host {\n      display: inline-block;\n      padding: 7px;\n      background: #eff2f5;\n      font-size: 13px;\n      border-radius: 100px;\n      margin-right: 10px;\n    }\n\n    :host.ng2-tag-input-item-selected {\n      color: white;\n      background: #0d8bff;\n    }\n\n    .ng2-tag-input-remove {\n      cursor: pointer;\n      display: inline-block;\n      padding: 0 3px;\n    }\n  "],
             host: {
                 '[class.ng2-tag-input-item-selected]': 'selected'
             }

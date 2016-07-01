@@ -16,6 +16,7 @@ export class TripService {
                 console.log(res);
                 let response = res.json();
                 console.log(response);
+                alert(response);
             })
             .subscribe(info => {
             }, err => {

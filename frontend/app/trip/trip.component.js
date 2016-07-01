@@ -15,9 +15,11 @@ var trip_service_1 = require('./trip.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var tag_input_component_1 = require('../tag-input/tag-input.component');
+var imageService_service_1 = require('../imageService.service');
 var TripComponent = (function () {
-    function TripComponent(tripService) {
+    function TripComponent(tripService, imageService) {
         this.tripService = tripService;
+        this.imageService = imageService;
         this.countriesArray = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
             'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
             'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan',
@@ -51,14 +53,16 @@ var TripComponent = (function () {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
         this.pictures = [];
+        this.picturesToUpload = [];
         this.filesToUpload = [];
+        //this.filesToUpload = [];
     }
     TripComponent.prototype.createTrip = function () {
         if (!this.countriesValue || this.countriesValue.length == 0) {
             alert("you should choose a country before submiting");
             return;
         }
-        this.tripModel.files = this.pictures;
+        this.tripModel.pictures = this.picturesToUpload;
         this.tripService.createTrip(this.tripModel);
     };
     Object.defineProperty(TripComponent.prototype, "disabledV", {
@@ -79,26 +83,38 @@ var TripComponent = (function () {
         console.log('Removed value is: ', value);
     };
     TripComponent.prototype.refreshCountries = function (value) {
+        var _this = this;
         console.log("refreshCountries");
         console.log(value);
         if (value.length > 0) {
             this.countriesValue = value;
-            this.tripModel.countries = value;
+            this.countriesValue.map(function (countryVal) { return _this.tripModel.countries = countryVal.text; });
         }
         else {
             this.tripModel.countries = [];
         }
     };
-    TripComponent.prototype.resize = function (image) {
-        var mainCanvas = document.createElement("canvas");
+    /*
+    public getImage (image) {
+        let mainCanvas = document.createElement("canvas");
+        var ctx = mainCanvas.getContext("2d");
+        ctx.drawImage(image, 0, 0);
+        return mainCanvas.toDataURL("image/jpeg", 1.0);
+    };
+
+
+
+    private resize(image){
+        let mainCanvas = document.createElement("canvas");
         mainCanvas.width = 100;
         mainCanvas.height = 100;
         var ctx = mainCanvas.getContext("2d");
-        ctx.drawImage(image, 0, 0, mainCanvas.width, mainCanvas.height);
-        return mainCanvas.toDataURL("image/jpeg");
-    };
-    ;
+        ctx.drawImage(image, 0, 0,mainCanvas.width,mainCanvas.height);
+        return mainCanvas.toDataURL("image/jpeg", 0.5);
+    }
+*/
     TripComponent.prototype.uploadfile = function (fileInput) {
+        var _this = this;
         try {
             this.imageInput = fileInput;
             var recentFile = fileInput.files[0];
@@ -109,13 +125,14 @@ var TripComponent = (function () {
                     alert('You can only upload an image file! Choose an image please' + recentFile.name);
                     return;
                 }
-                if (recentFile.size > 1024 * 1024 * 5) {
-                    alert("The file is too big! maximum size is 5 MB");
+                if (recentFile.size > 1024 * 1024 * 8) {
+                    alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
                 var sumSize = 0;
                 this.filesToUpload.map(function (file) {
-                    sumSize += file.size;
+                    if (file)
+                        sumSize += file.size;
                 });
                 if (sumSize + recentFile.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
@@ -124,20 +141,24 @@ var TripComponent = (function () {
                 //console.log(currentFile.name + " size: " + currentFile.size);
                 var img = new Image();
                 //img.src = window.URL.createObjectURL(currentFile);
-                var pic = new Picture();
+                var previewPic = new Picture();
+                var toBeSentPic = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
                     img.src = event.target.result;
-                    pic.name = event.target.name;
+                    toBeSentPic.name = recentFile.name;
+                    previewPic.name = toBeSentPic.name;
                     // Resize the image
-                    //pic.src = this.resize(img);
-                    pic.src = img.src;
+                    _this.imageService.resizeImage(img).then(function (imageURL) { return previewPic.src = imageURL; });
+                    _this.imageService.getImageURL(img).then(function (imageURL) { return toBeSentPic.src = imageURL; });
+                    //toBeSentPic.src = this.getImage(img);
                 }, false);
                 reader.readAsDataURL(recentFile);
-                this.pictures.push(pic);
+                this.pictures.push(previewPic);
+                this.picturesToUpload.push(toBeSentPic);
             }
             else
                 return;
@@ -153,6 +174,7 @@ var TripComponent = (function () {
         }
         this.pictures.splice(index, 1);
         this.filesToUpload.splice(index, 1);
+        this.picturesToUpload(index, 1);
     };
     TripComponent = __decorate([
         core_1.Component({
@@ -161,8 +183,9 @@ var TripComponent = (function () {
             styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, tag_input_component_1.TagInputComponent],
+            providers: [imageService_service_1.ImageService]
         }), 
-        __metadata('design:paramtypes', [trip_service_1.TripService])
+        __metadata('design:paramtypes', [trip_service_1.TripService, imageService_service_1.ImageService])
     ], TripComponent);
     return TripComponent;
 })();

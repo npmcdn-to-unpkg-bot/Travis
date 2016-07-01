@@ -11,9 +11,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styles: [`
     :host {
       display: inline-block;
-      background: #ccc;
       padding: 7px;
-      border-radius: 90px;
+      background: #eff2f5;
+      font-size: 13px;
+      border-radius: 100px;
       margin-right: 10px;
     }
 

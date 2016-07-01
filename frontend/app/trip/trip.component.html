@@ -25,11 +25,17 @@
                         <input [(ngModel)]="tripModel.route" type="url" name="route" id="route" ngControl="route" #route="ngForm" required
                                placeholder="Paste the link to your route in here"/>
                     </fieldset>
+
                     <fieldset class="form-group">
-                        <label for="route">Tags</label>
-                        <input [(ngModel)]="tripModel.tags" type="text" name="tags" id="tags"
-                               placeholder="Enter tags separated by spaces"/>
+                        <label for="tags">Tags</label>
+                        <tag-input
+                                placeholder="Enter tags separated by Enter"
+                                [(ngModel)]="tripModel.cities"
+                                delimiterCode="188" ngControl="tags" #tags="ngForm" required name="tags" id="tags">
+                        </tag-input>
+
                     </fieldset>
+
                     <div class="form-group center-block">
                         <label>Duration</label>
                         <br/>
@@ -51,13 +57,6 @@
                                    placeholder="no country selected" required></ng-select>
                     </div>
                         </fieldset>
-                    <!--
-                    <fieldset class="form-group">
-                        <label for="cities">Cities</label>
-                        <input [(ngModel)]="tripModel.cities" type="text" name="cities" id="cities"
-                               placeholder="Enter cities separated by spaces"/>
-                    </fieldset>
-                    !-->
                     <fieldset class="form-group">
                         <label for="cities">Cities</label>
                         <tag-input
@@ -83,7 +82,6 @@
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
                                 <img src="{{picture.src}}" alt="{{picture.name}}" style="width:100px;height: 100px;" class="img-thumbnail"/>
-                                <P>{{picture.name}}</P>
                             </div>
                         </div>
                     </div>
