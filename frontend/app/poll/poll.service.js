@@ -151,7 +151,7 @@ var PollService = (function () {
         console.log(pollObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/poll/Create", body, { 'headers': headers })
+        this.http.post("/rest/poll/create", body, { 'headers': headers })
             .map(function (res) {
             console.log(res);
             var response = res.json();

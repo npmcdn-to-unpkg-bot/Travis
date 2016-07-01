@@ -130,7 +130,6 @@ export class PollComponent implements OnInit{
 
                     this.polls.push(tempPoll);
                 });
-
             });
     }
 

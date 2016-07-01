@@ -87,11 +87,12 @@ var SearchComponent = (function () {
         return value
             .map(function (item) {
             return item.text;
-        }).join(',');
+        }).join(', ');
     };
     SearchComponent.prototype.search = function () {
         var _this = this;
         console.log(this.searchModel);
+        this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function (trips) {
             trips.map(function (trip) {
                 var tmpTrip = new trip_component_1.Trip();
@@ -114,7 +115,7 @@ var SearchComponent = (function () {
         core_1.Component({
             selector: 'search',
             templateUrl: 'app/search/search.component.html',
-            styleUrls: ['app/search/search.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+            styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
         }), 
