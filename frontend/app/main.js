@@ -15,13 +15,16 @@ var auth_service_1 = require('./auth.service');
 require('rxjs/add/operator/map');
 var app_component_1 = require('./app.component');
 var poll_service_1 = require("./poll/poll.service");
+//enableProdMode();
+var trip_service_1 = require("./trip/trip.service");
 platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     http_1.HTTP_PROVIDERS,
     router_deprecated_1.ROUTER_PROVIDERS,
     auth_service_1.AuthService,
     poll_service_1.PollService,
+    trip_service_1.TripService,
     window_service_1.WindowService,
     common_2.COMMON_DIRECTIVES,
-    core_1.provide(common_1.LocationStrategy, { useClass: common_1.HashLocationStrategy }),
+    core_1.provide(common_1.LocationStrategy, { useClass: common_1.PathLocationStrategy }),
 ]);
 //# sourceMappingURL=main.js.map

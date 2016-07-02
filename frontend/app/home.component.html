@@ -1,16 +1,11 @@
-<!-- ============================================================= SECTION – SELECTED WORKS ============================================================= -->
-
-    <section id="selected-works" class="light-bg img-bg-softer search-section" style="background-image: url(/UI/assets/images/art/skyline-buildings-new-york-skyscrapers.jpg);">
-        <div class="container inner">
-            <div class="col-md-5 col-sm-10 center-block text-center">
-                <form id="search" class="navbar-form" role="search">
-                    <input type="search" class="form-control" placeholder="type keyword(s)">
-                    <button type="submit" class="btn btn-default btn-submit">Search</button>
-                </form>
-            </div><!-- /.col -->
-
-        </div><!-- /.container -->
-
-    </section>
-
-<!-- ============================================================= SECTION – SELECTED WORKS : END ============================================================= -->
+<section id="home" class="light-bg img-bg-softer search-section"
+         style="background-image: url(/UI/assets/images/art/bg7.jpg);">
+    <div class="container inner">
+        <div class="col-md-5 col-sm-10 center-block text-center">
+            <form #searchForm="ngForm" id="search" class="navbar-form" role="search">
+                <input type="search" [(ngModel)]="searchTerm" id="searchTerm" class="form-control" placeholder="type in keyword(s)"/>
+                <a type="button" class="btn btn-default btn-submit" [routerLink]="['Search', {searchTerm: searchTerm}]">Search</a>
+            </form>
+        </div>
+    </div><!-- /.container -->
+</section>

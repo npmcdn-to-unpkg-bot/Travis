@@ -13,26 +13,28 @@ var router_deprecated_1 = require('@angular/router-deprecated');
 var navbar_component_1 = require("./navbar.component");
 var poll_component_1 = require("./poll/poll.component");
 var home_component_1 = require("./home.component");
-var share_component_1 = require("./share/share.component");
+var trip_component_1 = require("./trip/trip.component");
+var search_component_1 = require("./search/search.component");
 var loggedInOutLet_1 = require('./loggedInOutLet');
 var AppComponent = (function () {
     function AppComponent(viewContainerRef) {
-        // You need this small hack in order to catch application root view container ref
+        // Need in order to catch application root view container ref
         this.viewContainerRef = viewContainerRef;
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'travis',
-            template: "\n    <header></header>\n    <main-comp></main-comp>\n    <router-outlet></router-outlet>\n  ",
-            providers: [router_deprecated_1.ROUTER_PROVIDERS,
-            ],
+            template: "\n    <header></header>\n    <router-outlet></router-outlet>\n  ",
+            providers: [router_deprecated_1.ROUTER_PROVIDERS,],
             styleUrls: ['app/app.component.css'],
             directives: [loggedInOutLet_1.LoggedInRouterOutlet, navbar_component_1.Navbar],
         }),
         router_deprecated_1.RouteConfig([
             { path: '/', name: 'Home', component: home_component_1.HomeComponent, useAsDefault: true },
+            { path: '/trip', name: 'Trip', component: trip_component_1.TripComponent },
             { path: '/poll', name: 'Poll', component: poll_component_1.PollComponent },
-            { path: '/share', name: 'Share', component: share_component_1.ShareComponent }
+            { path: '/search/:searchTerm', name: 'Search', component: search_component_1.SearchComponent },
+            { path: '/search', name: 'Search', component: search_component_1.SearchComponent }
         ]), 
         __metadata('design:paramtypes', [core_1.ViewContainerRef])
     ], AppComponent);

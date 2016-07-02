@@ -1,11 +1,10 @@
 var mongoose = require('mongoose');
+require('../user/userSchema');
 var Schema = mongoose.Schema;
-var User = require('../user/userSchema');
-
 
 
 var Poll = mongoose.Schema({
-	owner    : { type : Schema.Types.ObjectId, ref: 'User' }, 
+	owner    : { type : Schema.Types.ObjectId, ref: 'User' },
 	title    : {type: String,required: false},   
 	date     : { type: Date, default: Date.now },
 	
@@ -21,10 +20,4 @@ var Poll = mongoose.Schema({
 				}]
 });
 
-
-
-
-
-
-module.exports = mongoose.model('User', User);
 module.exports = mongoose.model('Poll', Poll);

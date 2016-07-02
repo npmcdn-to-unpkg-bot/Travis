@@ -120,10 +120,23 @@ var polls:Object[] = [
 @Injectable()
 export class PollService {
 
-    public getLatestPolls(){
-        return new Promise<Object[]>(resolve =>
-            setTimeout(()=>resolve(polls), 200) // 200m seconds
-        );
+    public getLatestPolls() :Promise<Object> {
+        console.log("poll service is called!");
+        return this.http.get("http://localhost:3000/rest/poll/")
+            .toPromise().then(res => {
+                if (res)
+                    return res.json();
+                else return {};
+            }).catch(this.handleError);
+    }
+
+    private handleError (error: any) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable.throw(errMsg);
     }
 
     public postPoll(pollObj){
@@ -131,7 +144,7 @@ export class PollService {
         console.log(pollObj);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/poll/Create", body, {'headers':headers})
+        this.http.post("/rest/poll/create", body, {'headers':headers})
             .map(res => {
                 console.log(res);
                 let response = res.json();

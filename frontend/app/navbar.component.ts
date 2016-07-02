@@ -19,7 +19,6 @@ import {TravisUser} from "./auth_user";
 })
 export class Navbar implements OnInit{
     user:any;
-    newUser:any;
     _subscription:any;
 
     constructor(private location:Location, private router:Router, private authService:AuthService) {
@@ -29,8 +28,8 @@ export class Navbar implements OnInit{
             console.log("notified!");
             console.log(value);
             this.user = new TravisUser();
-            this.user.name = tempUser.name;
-            this.user.image = tempUser.image;
+            this.user.firstName = tempUser.firstName;
+            this.user.imageURL = tempUser.imageURL;
             this.authenticated();
         });
     }
@@ -52,7 +51,7 @@ export class Navbar implements OnInit{
     public getUserInfo(){
         console.log("calling get user info from navbar");
         this.authService.getUserInfo().then(user => {
-            console.log("THen getting user from service");
+            console.log("Then getting user from service");
             this.user = user;
             console.log(this.user);
         }

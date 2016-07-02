@@ -4,7 +4,6 @@ var jwt = require('jwt-simple');
 var Poll = require('./pollSchema');
 
 
-
 //var Strategy = require('passport-facebook').Strategy;
 
 module.exports.create = function(req, res){
@@ -25,7 +24,7 @@ module.exports.create = function(req, res){
 	// respond if token is valid
 	if (user_id != undefined){
 	
-	// set the id of the user as owner
+			// set the id of the user as owner
 			var pollObj = {};
 			pollObj.options = [];
 			pollObj.owner = user_id;
@@ -33,7 +32,7 @@ module.exports.create = function(req, res){
 			var options = req.body.options;
 			if (options != undefined){
 				options.map(item =>{
-					var temp = {}
+					var temp = {};
 					temp.text = item;
 					temp.vote = [];
 					pollObj.options.push(temp);
@@ -90,93 +89,57 @@ module.exports.remove = function(req, res){
     });
 };
 module.exports.getPoll = function(req, res){
-	
-var populateQuery = [{path:'owner', select:'firstName imageURL'},
-                     {path:'comments.user', select:'firstName imageURL'}];
 
-    Poll.find({}).populate(populateQuery).exec(function(err, poll) {
+	console.log("ko");
+	/*
+	Poll.aggregate(
+		[ {$unwind: "$comments"},
+			{ $limit : 3 },
+			{$project: {"_id": 1, "owner": 1, "options":1,"comments": 1}}]
+		,function (err, result) {
+		if (err) {
+			console.log(err);
+			res.status(500).send("internal server error");
+			return;
+		}
+		console.log(result);
+			res.status(200).json({'polls': result});
+	});
+	*/
+
+	Poll.find({}).populate("owner").populate("comments.user").exec(function(err, polls) {
         if (err) {
             res.status(500).send(err);
             return;
-        }
-       
-        res.json(poll);
-    });
-    
-    
-    
-    
+        }else if (polls){
+			polls.map( (poll) => {
+				console.log(poll);
+				var temp = {};
+				temp.firstName = poll.owner.firstName;
+				temp.imageURL = poll.owner.imageURL;
+				temp._id = poll.owner._id;
+				poll.owner = temp;
+
+				// filter the info of the users of the comments
+				if (poll.comments){
+					poll.comments.map((comment) => {
+						var temp = {};
+						temp.firstName = comment.user.firstName;
+						temp.imageURL = comment.user.imageURL;
+						temp._id = comment.user._id;
+						comment.user = temp;
+					});
+				}
+
+			});
+			return res.status(200).json(polls);
+		}
+		});
 };
 
 
 
 module.exports.vote = function(req, res){
-
-  /*  if(!req.body.token){
-        res.status(400).send('token required');
-        return;
-    }
-
-    /*var token = req.body.token;
-	var decoded =  jwt.decode(token, Config.auth.jwtSecret);
-	var user_id = decoded.user._id;
-	if (user_id != undefined){
-*/
-	
-/*	Question.update(
-			  { 
-			    _id: req.body.poll_id
-			  },
-			  { 
-			    $push: { 
-			      "vote": "sdsa"
-			    }
-			  }
-			);*/
-	
-
-
-	
-    /*Poll.find([{"options._id": req.body.option_id},
-    	       {"options.$": true}],*/ 
-	
-	Poll.aggregate([{"$match": { "_id":req.body.poll_id}},{"$unwind": "$options"},
-		            {"$match": { "options.text": req.body.option}},
-		            {"$project": {"_id": 1, "options": 1}}], function(err, p) {
-    	console.log(p);
-    	
-        if (err) {
-            res.status(500).send(err);
-            return;
-        }
-        
-        if(!p){
-        	/*var newComment = {
-                "text": "great",
-                "user": user_id
-                }; 
-        	p.comments.push();
-        	p.save(function(err, pUpdated){
-        	    if(err) { return res.status(500).send(err);}
-        	    return res.send(pUpdated);
-        	});*/
-            
-            
-            res.sendStatus(200);
-
-        }else
-        {
-        	res.sendStatus(200);
-        }
-
-    });
-	
-	//}
-	
-	
-
-	
-	
 };
 
 

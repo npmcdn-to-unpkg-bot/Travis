@@ -21,7 +21,8 @@
          // The Boolean following each route below
          // denotes whether the route requires authentication to view
          this.publicRoutes = {
-                     '/': true,
+             '/': true,
+             '/search' : true,
              '': true,
          };
      }

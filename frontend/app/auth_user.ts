@@ -2,14 +2,15 @@
  * Created by Arash on 27-May-16.
  */
 export class TravisUser{
-    public image:string;
+    public imageURL:string;
     public gender:string;
-    public name:string;
+    public firstName:string;
+    public lastName:string;
     public _id:string;
     accessToken:string;
     authenticated:boolean;
     expires:any;
-    userId:string;
+    userID:string;
 }
 
 export class GoogleUser{

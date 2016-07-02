@@ -23,6 +23,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
+var Observable_1 = require("rxjs/Observable");
 var router_deprecated_1 = require('@angular/router-deprecated');
 var polls = [
     {
@@ -129,18 +130,29 @@ var PollService = (function () {
         this.router = router;
     }
     PollService.prototype.getLatestPolls = function () {
-        return new Promise(function (resolve) {
-            return setTimeout(function () { return resolve(polls); }, 200);
-        } // 200m seconds
-         // 200m seconds
-        );
+        console.log("poll service is called!");
+        return this.http.get("http://localhost:3000/rest/poll/")
+            .toPromise().then(function (res) {
+            if (res)
+                return res.json();
+            else
+                return {};
+        }).catch(this.handleError);
+    };
+    PollService.prototype.handleError = function (error) {
+        // In a real world app, we might use a remote logging infrastructure
+        // We'd also dig deeper into the error to get a better message
+        var errMsg = (error.message) ? error.message :
+            error.status ? error.status + " - " + error.statusText : 'Server error';
+        console.error(errMsg); // log to console instead
+        return Observable_1.Observable.throw(errMsg);
     };
     PollService.prototype.postPoll = function (pollObj) {
         var body = JSON.stringify(pollObj);
         console.log(pollObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("http://localhost:3000/poll/Create", body, { 'headers': headers })
+        this.http.post("/rest/poll/create", body, { 'headers': headers })
             .map(function (res) {
             console.log(res);
             var response = res.json();

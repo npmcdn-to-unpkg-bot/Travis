@@ -27,6 +27,8 @@ button:disabled {
     color: #aaa;
     cursor: auto;
 }
+
+
 /* everywhere else */
 * {
     font-family: Arial, Helvetica, sans-serif;

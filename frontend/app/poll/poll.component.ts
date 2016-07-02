@@ -120,13 +120,26 @@ export class PollComponent implements OnInit{
                     tempPoll.owner =  poll['owner'];
                     tempPoll.title = poll['title'];
                     tempPoll.options = poll['options'];
-                    tempPoll.date =  poll['date'];
-                    tempPoll.comments =  poll['comments'];
+                    tempPoll.date =  this.formatDate(poll['date']);
+                    tempPoll.comments = poll['comments'];
+                    if (tempPoll.comments){
+                        tempPoll.comments.map(comment =>{
+                            comment.date = this.formatDate(comment.date);
+                        });
+                    }
 
                     this.polls.push(tempPoll);
                 });
-
             });
+    }
+
+    private formatDate(dateStr): string{
+        let options = {
+            year: "numeric", month: "short",
+            day: "numeric", hour: "2-digit", minute: "2-digit"
+        };
+        var temp_date = new Date(dateStr);
+        return temp_date.toLocaleTimeString("en-us", options);
     }
 
 }

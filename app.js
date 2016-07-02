@@ -29,14 +29,15 @@ var app = express();
  */
 
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb',
     extended: true
 }));
 
 app.use('/', express.static(__dirname + '/frontend'));
 app.use('/poll', express.static(__dirname + '/frontend'));
-
+app.use('/trip', express.static(__dirname + '/frontend'));
+app.use('/search', express.static(__dirname + '/frontend'));
 
 /*
 app.use('/*', function(req, res){
@@ -59,11 +60,10 @@ jwtConfig(passport);
 
 var userRoutes = require("./user/userRoutes");
 var pollRoutes = require("./poll/pollRoutes");
-var movieRoutes = require("./movie/movieRoutes");
+var tripRoutes = require("./trip/tripRoutes");
 
-app.use('/api', movieRoutes(passport));
 app.use('/user', userRoutes(passport));
-app.use('/poll', pollRoutes(passport));
-
+app.use('/rest/poll', pollRoutes(passport));
+app.use('/rest/trip', tripRoutes(passport));
 
 module.exports = app;

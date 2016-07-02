@@ -13,23 +13,23 @@ import {Http, Headers, Response} from '@angular/http'
 import 'rxjs/Rx';
 import { Subject }    from 'rxjs/Subject';
 import {Observable} from "rxjs/Observable";
+import 'rxjs/add/operator/map'
+
 import {GoogleUser, TravisUser} from './auth_user';
 import {Router} from '@angular/router-deprecated';
 
 @Injectable()
 export class AuthService {
     private oAuthCallbackUrl:string;
-    private oAuthTokenUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
+    private googleOAuthTokenUrl = "https://accounts.google.com/o/oauth2/v2/auth?" +
         "scope=https://www.googleapis.com/auth/plus.me " +
         "https://www.googleapis.com/auth/userinfo.email&" +
         "redirect_uri=http://localhost:3000&" +
         "response_type=token&client_id=393670407860-jmlf11bfh5eu404k5tuoi2lsok89uqqd.apps.googleusercontent.com" +
         "&prompt=consent&" +
         "include_granted_scopes=true";
-    private validationUrl  = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=";
-    private userInfoUrl = "https://www.googleapis.com/plus/v1/people/";
-
-    //TODO server side facebook
+    private GooglevalidationUrl  = "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=";
+    private GoogleuserInfoUrl = "https://www.googleapis.com/plus/v1/people/";
 
     private authenticated = false;
     private user = new TravisUser();
@@ -43,23 +43,44 @@ export class AuthService {
     authChange: Subject<any> = new Subject<any>();
 
     notify(name, image){
-        this.authMsg.name = name;
-        this.authMsg.image = image;
+        this.authMsg.firstName = name;
+        this.authMsg.imageURL = image;
         this.authChange.next(this.authMsg);
     }
 
     constructor(private windows:WindowService, private http:Http, private router: Router) {
         console.log("service is created!");
         this.oAuthCallbackUrl += "&nonce=" + "ThisIsAStringRandomString!";
-        this.authMsg = {'image':'', 'name':''};
+        this.authMsg = {'imageURL':'', 'firstName':''};
     }
 
-    public doLogin() {
+    private getTokenFromGoogleURL(href:string) {
+
+        let accessToken = null;
+        // got this code from google to extract token information
+        var params = {}, queryString = href.substring(1),
+            regex = /([^&=]+)=([^&]*)/g, m;
+        while (m = regex.exec(queryString)) {
+            params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        }
+
+        var key:any;
+        for (key in params) {
+            if (key.indexOf('access_token') >= 0) {
+                console.log(params[key]);
+                accessToken = params[key];
+                break;
+            }
+        }
+        return {accessToken:accessToken, expires:params['expires_in']};
+    }
+
+    public GoogleLogin() {
         if (this.isAuthenticated()){
             console.log("Already authenticated");
             return;
         }
-        this.windowHandle = this.windows.createWindow(this.oAuthTokenUrl, 'OAuthLoginTravis');
+        this.windowHandle = this.windows.createWindow(this.googleOAuthTokenUrl, 'OAuthLoginTravis');
         this.intervalId = setInterval(() => {
             setTimeout(() =>{
                 var href:string;
@@ -72,32 +93,22 @@ export class AuthService {
 
                 if (href != null) {
                     clearInterval(this.intervalId);
-
                     // got this code from google to extract token information
-                    var params = {}, queryString = href.substring(1),
-                        regex = /([^&=]+)=([^&]*)/g, m;
-                    while (m = regex.exec(queryString)) {
-                        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                    }
-
-                    var key:any;
-
-                    for (key in params) {
-                        if (key.indexOf('access_token') >= 0) {
-                            console.log(params[key]);
-                            this.user.accessToken = params[key];
-                            break;
-                        }
-                    }
+                    let googleToken = this.getTokenFromGoogleURL(href);
+                    this.user.accessToken = googleToken['accessToken'];
                     if (this.user.accessToken) {
                         let now = new Date();
-                        this.user.expires = now.setSeconds(now.getSeconds() + Number(params['expires_in']));
+                        this.user.expires = now.setSeconds(now.getSeconds() + Number(googleToken['expires_in']));
+
+                        // validate the token
+                        this.googleValidateOAuthToken(this.user.accessToken);
+                    }else {
+                        console.warn(href);
+                        alert("Google Auth failed! The token is empty");
                     }
                     this.windowHandle.close();
-                    this.validateOAuthToken();
                 }
             },500);
-
             //}
             }, this.intervalLength);
 
@@ -116,65 +127,53 @@ export class AuthService {
         window.location.reload();
     }
 
-    private validateOAuthToken(){
-        var validationAccToken = this.validationUrl + this.user.accessToken;
-        if (this.user.accessToken != null) {
+    private googleValidateOAuthToken(accessToken:string){
+        var validationAccToken = this.GooglevalidationUrl + accessToken;
+        if (accessToken != null) {
             this.http.get(validationAccToken)
-                .map(res =>
-                {
-                    // getting the id of the user of the google
-                    this.user.userId = res.json()['sub'];
-                    this.fetchUserInfo();
-                }).
-            subscribe(response => {
-                console.log(response);
+                .map(res => res.json()['sub']).subscribe(id => {
+                console.log(id);
+                this.user.userID = id;
+                this.fetchGoogleUserInfo(this.user.accessToken,this.user.userID);
             }, err =>{
                 console.log(err);
+                alert("Google authentication failed!");
             });
         }
     }
 
-    private fetchUserInfo() {
+    private fetchGoogleUserInfo(accessToken:string,id:string) {
         // fetch the user info from google and send it to server
         // and get back a jwt token
-        if (this.user.accessToken != null) {
-            var tempUrl = this.userInfoUrl + this.user.userId + "?access_token=" + this.user.accessToken;
-            console.log(tempUrl);
+        if (accessToken != null) {
+            var tempUrl = this.GoogleuserInfoUrl + id + "?access_token=" + accessToken;
             this.http.get(tempUrl)
-                .map(res => {
-                    let google_user = res.json();
+                .map(res => res.json()
+                ).subscribe(jsonResponse => {
+                    let google_user = jsonResponse;
                     console.log(google_user);
-                    this.user.name = google_user['name'];
+                    this.user.firstName = google_user['name']['givenName'];
                     this.user.gender = google_user['gender'];
-                    this.user.image = google_user['image']['url'];
+                    this.user.imageURL = google_user['image']['url'];
 
-                    //storing the pics/info in session
-                    let travisUser = new TravisUser();
-                    travisUser.name = google_user['name']['givenName'];
-                    travisUser.image = google_user['image']['url'];
-
-                    localStorage.setItem('user', JSON.stringify(travisUser));
+                    localStorage.setItem('user', JSON.stringify(this.user));
                     // tell the navbar
-                    this.notify(google_user['name']['givenName'],google_user['image']['url']);
+                    this.notify(this.user.firstName,this.user.imageURL);
 
+                    this.user['email'] = google_user['emails'][0]['value'];
+                    this.user.lastName = google_user['name']['familyName'];
+                    this.user['userID'] = google_user['id'];
+                    this.user['type'] = 'Google';
                     // get and store the token from the server
-                    this.sendTOServer(google_user,'Google');
-                })
-                .subscribe(info => {
+                    this.sendTOServer(this.user);
+
                 }, err => {
                     console.error("Failed to fetch user info:", err);
                 });
         }
     }
 
-    public sendTOServer(socialObj, type:string){
-        //returns a token in return after user registeration/logging in
-        socialObj['imageURL'] = socialObj['image']['url'];
-        socialObj['lastName'] = socialObj['lastName'];
-        socialObj['fisrtName'] = socialObj['givenName'];
-        socialObj['userID'] = socialObj['id'];
-        socialObj['email'] = socialObj['emails'][0]['value'];
-        socialObj['type'] = type;
+    public sendTOServer(socialObj){
         let body = JSON.stringify(socialObj);
         console.log(socialObj);
         var headers = new Headers();
@@ -195,10 +194,13 @@ export class AuthService {
                 localStorage.setItem('user', JSON.stringify(travisUser));
                 this.user.authenticated = true;
                 this.authenticated = true;
+                // or navigate to home
+                window.location.reload();
             })
             .subscribe(info => {
             }, err => {
                 console.error("Failed to fetch user info:", err);
+                alert("Login failed due to server error! Please try again");
             });
     }
 
@@ -219,14 +221,14 @@ export class AuthService {
 
                     //storing the pics/info in session
                     let travisUser = new TravisUser();
-                    travisUser.name = response['firstName'];
-                    travisUser.image = response['imageURL'];
+                    travisUser.firstName = response['firstName'];
+                    travisUser.imageURL = response['imageURL'];
                     travisUser._id = response['_id'];
 
 
                     localStorage.setItem('user', JSON.stringify(travisUser));
                     // tell the navbar
-                    this.notify(travisUser.name,travisUser.image);
+                    this.notify(travisUser.firstName,travisUser.imageURL);
 
                     // now service is authenthicated
                     localStorage.setItem('token',token);
@@ -260,13 +262,13 @@ export class AuthService {
 
                 //storing the pics/info in session
                 let travisUser = new TravisUser();
-                travisUser.name = userObj['firstName'];
-                travisUser.image = userObj['imageURL'];
+                travisUser.firstName = userObj['firstName'];
+                travisUser.imageURL = userObj['imageURL'];
                 travisUser._id = userId;
 
                 localStorage.setItem('user', JSON.stringify(travisUser));
                 // tell the navbar
-                this.notify(travisUser.name,travisUser.image);
+                this.notify(travisUser.firstName,travisUser.imageURL);
             })
             .subscribe(info => {
             }, err => {
@@ -278,17 +280,23 @@ export class AuthService {
         let user = localStorage.getItem('user');
         console.log("getting user from cache");
         console.log(user);
-        user = JSON.parse(user);
-        if (user != null)
-            return Promise.resolve(user);
-        else if (this.user.authenticated)
-            return Promise.resolve(this.user);
-        else if (localStorage.getItem('token')){
+        user = user != null ? user : this.user;
+
+        if (user == null) {
             let token = localStorage.getItem('token');
-            return Promise.resolve(this.getUserFromServer(token));
-        }else
-            return Promise.resolve(null);
-    }
+            user = this.getUserFromServer(token);
+        }else{
+            user = JSON.parse(user) ;
+        }
+
+        if(user != null){
+            this.notify(user.firstName,user.imageURL);
+            return Promise.resolve(user);
+        }
+
+        return Promise.resolve(null);
+
+}
 
     private getUserFromServer(token){
         let body = JSON.stringify({"token":token});
@@ -316,23 +324,28 @@ export class AuthService {
     }
 
 
-    public socialLogin(socialObject:Object){
-        console.log(socialObject);
+    public facebookLogin(facebookResponse:Object){
+        console.log(facebookResponse);
+        let travisUser = new TravisUser();
+        travisUser['type'] = 'Facebook';
+        travisUser.userID = facebookResponse['id'];
+
+        travisUser.imageURL = facebookResponse['picture']['data']['url'];
+
+        travisUser.gender = facebookResponse['gender'];
+        travisUser.firstName = facebookResponse['first_name'];
+        travisUser.lastName = facebookResponse['last_name'];
+        travisUser["email"] = facebookResponse['email'] ? facebookResponse['email']: "null";
+
         this.user.authenticated = true;
         this.authenticated = true;
 
-        this.user.name = socialObject['first_name'];
-        this.user.gender = socialObject['gender'];
-        this.user.image = socialObject['picture'];
+        this.user.firstName = travisUser['firstName'];
+        this.user.gender = travisUser['gender'];
+        this.user.imageURL = travisUser['imageURL'];
 
-        //storign in session
-        let travisUser = new TravisUser();
-        travisUser.name = socialObject['first_name'];
-        travisUser.image = socialObject['picture'];
-
-        localStorage.setItem('user', JSON.stringify(travisUser));
-        this.notify(socialObject['first_name'],socialObject['picture']);
-        this.sendTOServer(socialObject, 'Facebook');
-        location.reload();
+        localStorage.setItem('user', JSON.stringify(this.user));
+        this.notify(travisUser.firstName,travisUser.imageURL);
+        this.sendTOServer(travisUser);
     }
 }

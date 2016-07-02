@@ -14,7 +14,7 @@ function pollRoutes(passport) {
     router.use(mw.unless({method: ['GET', 'OPTIONS']}));
 */
 
-    router.post('/'       , pollController.getPoll);
+    router.get('/'       , pollController.getPoll);
     router.post('/Create' , pollController.create);
     router.post('/Remove' , pollController.remove);
     router.post('/Vote'   , pollController.vote);
