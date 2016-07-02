@@ -11,7 +11,7 @@ import {ImageService} from '../imageService.service';
 @Component({
     selector: 'trip',
     templateUrl: 'app/trip/trip.component.html',
-    styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+    styleUrls: ['app/trip/trip.component.css', '/ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, TagInputComponent],
     providers:[ImageService]
@@ -30,19 +30,28 @@ export class TripComponent {
     constructor(private tripService:TripService,private imageService: ImageService) {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
+        this.tripModel.tags = [];
+        this.tripModel.countries = [];
         this.pictures = [];
         this.picturesToUpload  = [];
         this.filesToUpload = [];
-        //this.filesToUpload = [];
     }
 
     createTrip() {
-        if (!this.countriesValue || this.countriesValue.length == 0){
-            alert("you should choose a country before submiting");
+        if (!this.tripModel.countries || this.tripModel.countries.length == 0){
+            alert("Please choose a country before submitting.");
+            return;
+        }
+        if (this.tripModel.dateFrom > this.tripModel.dateTo) {
+            alert("The entered dates are wrong. Time travel is not possible (if so and you have proof, please contact us!");
             return;
         }
         this.tripModel.pictures = this.picturesToUpload;
         this.tripService.createTrip(this.tripModel);
+
+        // reset form
+        // TODO: somehow the tags & countries do not reset themselves ...
+        this.tripModel = new Trip();
     }
 
     public countriesArray:Array<string> = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
@@ -96,15 +105,19 @@ export class TripComponent {
     }
 
     public refreshCountries(value:any):void {
-        console.log("refreshCountries");
-        console.log(value);
+        console.log("RefreshCountries: ", value);
         if (value.length > 0) {
-            this.countriesValue = value;
-            this.countriesValue.map(countryVal =>this.tripModel.countries = countryVal.text);
-
+            this.tripModel.countries = this.transformCountries(value);
         } else {
             this.tripModel.countries = [];
         }
+    }
+
+    public transformCountries(value:Array<any> = []):Array<string>{
+        var str = value.map((item:any) => {
+                return item.text;
+            }).join(', ');
+        return str.split(', ');
     }
 
     /*
@@ -192,7 +205,6 @@ export class TripComponent {
             console.log(err);
             alert("image upload failed! try again please");
         }
-
     }
 
     public removePic(index){
@@ -202,7 +214,6 @@ export class TripComponent {
         this.pictures.splice(index,1);
         this.filesToUpload.splice(index,1);
         this.picturesToUpload(index,1);
-
     }
 }
 
@@ -214,7 +225,6 @@ export class Trip {
     dateTo:string;
     budget:number;
     route:string;
-    //cities:string;
     cities:[string];
     countries:[string];
     tags:[string];
@@ -225,5 +235,5 @@ export class Trip {
 
 export class Picture{
     name:string;
-    src:Any;
+    src:any;
 }

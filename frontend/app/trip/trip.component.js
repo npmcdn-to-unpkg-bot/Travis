@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -52,18 +53,26 @@ var TripComponent = (function () {
         this.disabled = false;
         this.tripModel = new Trip();
         this.tripModel.cities = [];
+        this.tripModel.tags = [];
+        this.tripModel.countries = [];
         this.pictures = [];
         this.picturesToUpload = [];
         this.filesToUpload = [];
-        //this.filesToUpload = [];
     }
     TripComponent.prototype.createTrip = function () {
-        if (!this.countriesValue || this.countriesValue.length == 0) {
-            alert("you should choose a country before submiting");
+        if (!this.tripModel.countries || this.tripModel.countries.length == 0) {
+            alert("Please choose a country before submitting.");
+            return;
+        }
+        if (this.tripModel.dateFrom > this.tripModel.dateTo) {
+            alert("The entered dates are wrong. Time travel is not possible (if so and you have proof, please contact us!");
             return;
         }
         this.tripModel.pictures = this.picturesToUpload;
         this.tripService.createTrip(this.tripModel);
+        // reset form
+        // TODO: somehow the tags & countries do not reset themselves ...
+        this.tripModel = new Trip();
     };
     Object.defineProperty(TripComponent.prototype, "disabledV", {
         get: function () {
@@ -83,16 +92,20 @@ var TripComponent = (function () {
         console.log('Removed value is: ', value);
     };
     TripComponent.prototype.refreshCountries = function (value) {
-        var _this = this;
-        console.log("refreshCountries");
-        console.log(value);
+        console.log("RefreshCountries: ", value);
         if (value.length > 0) {
-            this.countriesValue = value;
-            this.countriesValue.map(function (countryVal) { return _this.tripModel.countries = countryVal.text; });
+            this.tripModel.countries = this.transformCountries(value);
         }
         else {
             this.tripModel.countries = [];
         }
+    };
+    TripComponent.prototype.transformCountries = function (value) {
+        if (value === void 0) { value = []; }
+        var str = value.map(function (item) {
+            return item.text;
+        }).join(', ');
+        return str.split(', ');
     };
     /*
     public getImage (image) {
@@ -117,48 +130,48 @@ var TripComponent = (function () {
         var _this = this;
         try {
             this.imageInput = fileInput;
-            var recentFile = fileInput.files[0];
-            this.filesToUpload.push(recentFile);
-            if (recentFile) {
-                if (!recentFile.type.match(/image.*/)) {
-                    console.log('This is  not an image! ' + recentFile.name);
-                    alert('You can only upload an image file! Choose an image please' + recentFile.name);
+            var recentFile_1 = fileInput.files[0];
+            this.filesToUpload.push(recentFile_1);
+            if (recentFile_1) {
+                if (!recentFile_1.type.match(/image.*/)) {
+                    console.log('This is  not an image! ' + recentFile_1.name);
+                    alert('You can only upload an image file! Choose an image please' + recentFile_1.name);
                     return;
                 }
-                if (recentFile.size > 1024 * 1024 * 8) {
+                if (recentFile_1.size > 1024 * 1024 * 8) {
                     alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
-                var sumSize = 0;
+                var sumSize_1 = 0;
                 this.filesToUpload.map(function (file) {
                     if (file)
-                        sumSize += file.size;
+                        sumSize_1 += file.size;
                 });
-                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
+                if (sumSize_1 + recentFile_1.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
                     return;
                 }
                 //console.log(currentFile.name + " size: " + currentFile.size);
-                var img = new Image();
+                var img_1 = new Image();
                 //img.src = window.URL.createObjectURL(currentFile);
-                var previewPic = new Picture();
-                var toBeSentPic = new Picture();
+                var previewPic_1 = new Picture();
+                var toBeSentPic_1 = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
-                    img.src = event.target.result;
-                    toBeSentPic.name = recentFile.name;
-                    previewPic.name = toBeSentPic.name;
+                    img_1.src = event.target.result;
+                    toBeSentPic_1.name = recentFile_1.name;
+                    previewPic_1.name = toBeSentPic_1.name;
                     // Resize the image
-                    _this.imageService.resizeImage(img).then(function (imageURL) { return previewPic.src = imageURL; });
-                    _this.imageService.getImageURL(img).then(function (imageURL) { return toBeSentPic.src = imageURL; });
+                    _this.imageService.resizeImage(img_1).then(function (imageURL) { return previewPic_1.src = imageURL; });
+                    _this.imageService.getImageURL(img_1).then(function (imageURL) { return toBeSentPic_1.src = imageURL; });
                     //toBeSentPic.src = this.getImage(img);
                 }, false);
-                reader.readAsDataURL(recentFile);
-                this.pictures.push(previewPic);
-                this.picturesToUpload.push(toBeSentPic);
+                reader.readAsDataURL(recentFile_1);
+                this.pictures.push(previewPic_1);
+                this.picturesToUpload.push(toBeSentPic_1);
             }
             else
                 return;
@@ -180,7 +193,7 @@ var TripComponent = (function () {
         core_1.Component({
             selector: 'trip',
             templateUrl: 'app/trip/trip.component.html',
-            styleUrls: ['app/trip/trip.component.css', 'node_modules/ng2-select/components/css/ng2-select.css'],
+            styleUrls: ['app/trip/trip.component.css', '/ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, tag_input_component_1.TagInputComponent],
             providers: [imageService_service_1.ImageService]
@@ -188,18 +201,18 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, imageService_service_1.ImageService])
     ], TripComponent);
     return TripComponent;
-})();
+}());
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-})();
+}());
 exports.Trip = Trip;
 var Picture = (function () {
     function Picture() {
     }
     return Picture;
-})();
+}());
 exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map

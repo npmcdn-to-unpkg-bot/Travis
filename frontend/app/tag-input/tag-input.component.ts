@@ -10,7 +10,7 @@ import {TagInputItemComponent} from './tag-input-item.component';
     [index]="index"
     [selected]="selectedTag === index"
     (tagRemoved)="_removeTag($event)"
-    *ngFor="#tag of tagsList; #index = index">
+    *ngFor="let tag of tagsList; let index = index">
   </tag-input-item>
   <input
     class="ng2-tag-input-field"

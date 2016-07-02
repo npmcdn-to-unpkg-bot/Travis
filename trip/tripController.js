@@ -13,7 +13,6 @@ module.exports.getAll = function (req, res) {
             res.status(500).send(err);
             return;
         }
-
         res.json(trip);
     });
 };
@@ -30,14 +29,17 @@ module.exports.create = function (req, res) {
     tmpTrip.route = req.body.route;
     tmpTrip.cities = req.body.cities;
     tmpTrip.countries = req.body.countries;
+    tmpTrip.tags = req.body.tags;
 
     if (typeof  tmpTrip.cities == 'string')
         tmpTrip.cities = [tmpTrip.cities];
+
     if (typeof  tmpTrip.countries == 'string')
         tmpTrip.countries = [tmpTrip.countries];
 
-
-    tmpTrip.tags = req.body.tags;
+    if (typeof  tmpTrip.tags == 'string') {
+        tmpTrip.tags = [tmpTrip.tags];
+    }
     tmpTrip.description = req.body.description;
     tmpTrip.pictures = req.body.pictures;
 
@@ -46,7 +48,6 @@ module.exports.create = function (req, res) {
             res.status(500).send(err);
             return;
         }
-
         res.status(201).json("successfully added trip: " + success.title);
     });
 };
@@ -67,14 +68,21 @@ module.exports.getTrips = function (req, res) {
 
 function getMongoQuery(query) {
     var mongoQuery = {};
+
+    if (query.searchTerm) {
+        if (typeof query.searchTerm == 'string') {
+            query.searchTerm = stringToArray(query.searchTerm);
+        }
+        mongoQuery.tags = {$in: query.searchTerm};
+    }
     if (query.countries) {
-        if (typeof  query.countries == 'string') {
+        if (typeof query.countries == 'string') {
             query.countries = stringToArray(query.countries);
         }
         mongoQuery.countries = {$in: query.countries};
     }
     if (query.cities) {
-        if (typeof  query.cities == 'string')
+        if (typeof query.cities == 'string')
             query.cities = [query.cities];
         mongoQuery.cities = {$in: query.cities};
     }
@@ -95,6 +103,7 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
+    console.log(mongoQuery);
     return mongoQuery;
 }
 

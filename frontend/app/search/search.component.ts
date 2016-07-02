@@ -1,33 +1,36 @@
 /**
  * Created by Nadine on 6/2/16.
  */
-import { Component, Injectable } from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {TripService} from '../trip/trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TripComponent} from '../trip/trip.service';
 import {Trip} from "../trip/trip.component";
+import {RouteParams} from "@angular/router-deprecated";
+
 
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
-    styleUrls:  ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
-    viewProviders:[BS_VIEW_PROVIDERS],
+    styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
+    viewProviders: [BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
 })
 
 export class SearchComponent {
 
-    terms:string[];
     searchModel:SearchTerm;
     resultTripModel:Trip;
-    trips: Trip[];
+    trips:Trip[];
 
-    constructor(private tripService:TripService) {
+    constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
+        this.searchModel.searchTerm = params.get('searchTerm');
         this.resultTripModel = new Trip();
         this.trips = [];
+        this.search();
     }
 
     public countriesArray:Array<string> = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
@@ -58,9 +61,9 @@ export class SearchComponent {
         'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
         'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
 
-    private countriesValue:any = [];
+    // private countriesValue
+    // :any = [];
 
-    private _disabledV:string = '0';
     private disabled:boolean = false;
 
     private get disabledV():string {
@@ -81,13 +84,9 @@ export class SearchComponent {
     }
 
     public refreshCountries(value:any):void {
-        this.countriesValue = value;
-
+        // this.countriesValue = value;
         if (value.length > 0) {
-            console.log("countries ...");
-            console.log(value)
             this.searchModel.countries = this.itemsToString(value);
-            console.log(this.searchModel.countries)
         } else {
             this.searchModel.countries = "";
         }
@@ -101,34 +100,41 @@ export class SearchComponent {
     }
 
     public search() {
-        console.log(this.searchModel);
+        var searchModel = this.searchModel;
+        var terms:string = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
         this.trips = [];
-        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(trips => {trips.map(trip => {
-                    let tmpTrip = new Trip();
-                    tmpTrip.owner =  trip['owner'];
-                    tmpTrip.title = trip['title'];
-                    tmpTrip.tags = trip['tags'];
-                    tmpTrip.budget =  trip['budget'];
-                    tmpTrip.comments =  trip['comments'];
-                    tmpTrip.cities = trip['cities'];
-                    tmpTrip.countries = trip['countries'];
-                    tmpTrip.dateFrom = trip['dateFrom'];
-                    tmpTrip.dateTo = trip['dateTo'];
-                    tmpTrip.route = trip['route'];
-                    tmpTrip.description = trip['description'];
+        var searchResultTrips = this.tripService.searchForTrip(searchModel).then(trips => {
+            trips.map(trip => {
+                let tmpTrip = new Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
 
-                    this.trips.push(tmpTrip);
-                });
+                this.trips.push(tmpTrip);
+            });
         });
+        this.searchModel.searchTerm = terms.replace(", ",/\s/g);
     }
 }
 
 export class SearchTerm {
-    _id: number;
-    owner: Object;
-    month: string;
-    budget: number;
-    countries: [string];
-    cities: [string];
-    searchTerm: string;
+    _id:number;
+    owner:Object;
+    month:string;
+    budget:number;
+    countries:[string];
+    cities:[string];
+    searchTerm:string;
 }

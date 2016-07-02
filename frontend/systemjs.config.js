@@ -94,7 +94,7 @@
             }
         },
         map: map,
-
+        baseUrl: '/',
         packages: packages
     }
 

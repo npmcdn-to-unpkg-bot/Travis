@@ -63,7 +63,7 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var images = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg', 'bg7.jpg'];
+            var images = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg', 'bg6.jpg', 'bg7.jpg', 'bg8.jpg'];
             $('.jumbotron').css({'background-image': 'url(/UI/assets/images/art/' + images[Math.floor(Math.random() * images.length)] + ')'});
         });
     </script>
@@ -72,6 +72,7 @@
         {
             background-repeat: repeat-y;
             height: inherit;
+            background-position: center;
         }
     </style>
 </head>
@@ -106,7 +107,7 @@
         </div><!-- /.navbar center -->
     </header>
     <section id="searchSection" class="light-bg img-bg-softer search-section"
-             style="height: 500px;">
+             style="height: 500px; background-color: #FFF;">
         <div class="jumbotron">
 
         <div class="container inner">
@@ -171,7 +172,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="node_modules/ng2-bootstrap/bundles/ng2-bootstrap.min.js"></script>
-<script src="node_modules/ng2-select/bundles/ng2-select.min.js"></script>
+<script src="/ng2-select/bundles/ng2-select.min.js"></script>
 
 
 

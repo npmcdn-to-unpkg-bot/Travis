@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16,8 +17,9 @@ var trip_service_1 = require('../trip/trip.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var trip_component_1 = require("../trip/trip.component");
+var router_deprecated_1 = require("@angular/router-deprecated");
 var SearchComponent = (function () {
-    function SearchComponent(tripService) {
+    function SearchComponent(tripService, params) {
         this.tripService = tripService;
         this.countriesArray = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
             'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
@@ -46,12 +48,14 @@ var SearchComponent = (function () {
             'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
             'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
             'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
-        this.countriesValue = [];
-        this._disabledV = '0';
+        // private countriesValue
+        // :any = [];
         this.disabled = false;
         this.searchModel = new SearchTerm();
+        this.searchModel.searchTerm = params.get('searchTerm');
         this.resultTripModel = new trip_component_1.Trip();
         this.trips = [];
+        this.search();
     }
     Object.defineProperty(SearchComponent.prototype, "disabledV", {
         get: function () {
@@ -71,12 +75,9 @@ var SearchComponent = (function () {
         console.log('Removed value is: ', value);
     };
     SearchComponent.prototype.refreshCountries = function (value) {
-        this.countriesValue = value;
+        // this.countriesValue = value;
         if (value.length > 0) {
-            console.log("countries ...");
-            console.log(value);
             this.searchModel.countries = this.itemsToString(value);
-            console.log(this.searchModel.countries);
         }
         else {
             this.searchModel.countries = "";
@@ -91,9 +92,14 @@ var SearchComponent = (function () {
     };
     SearchComponent.prototype.search = function () {
         var _this = this;
-        console.log(this.searchModel);
+        var searchModel = this.searchModel;
+        var terms = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
         this.trips = [];
-        var searchResultTrips = this.tripService.searchForTrip(this.searchModel).then(function (trips) {
+        var searchResultTrips = this.tripService.searchForTrip(searchModel).then(function (trips) {
             trips.map(function (trip) {
                 var tmpTrip = new trip_component_1.Trip();
                 tmpTrip.owner = trip['owner'];
@@ -110,6 +116,7 @@ var SearchComponent = (function () {
                 _this.trips.push(tmpTrip);
             });
         });
+        this.searchModel.searchTerm = terms.replace(", ", /\s/g);
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -119,15 +126,15 @@ var SearchComponent = (function () {
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
         }), 
-        __metadata('design:paramtypes', [trip_service_1.TripService])
+        __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map
