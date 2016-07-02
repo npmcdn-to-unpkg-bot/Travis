@@ -18,6 +18,7 @@ var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var trip_component_1 = require("../trip/trip.component");
 var router_deprecated_1 = require("@angular/router-deprecated");
+var rating_component_1 = require('../rating/rating.component');
 var SearchComponent = (function () {
     function SearchComponent(tripService, params) {
         this.tripService = tripService;
@@ -113,10 +114,15 @@ var SearchComponent = (function () {
                 tmpTrip.dateTo = trip['dateTo'];
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
+                tmpTrip.rating = trip['rating'];
                 _this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ", /\s/g);
+    };
+    SearchComponent.prototype.ratingComponetClick = function (clickObj, trip) {
+        trip.rating = clickObj.rating;
+        this.tripService.rateTrip(trip);
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -124,7 +130,7 @@ var SearchComponent = (function () {
             templateUrl: 'app/search/search.component.html',
             styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
-            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
+            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES, rating_component_1.RatingComponent],
         }), 
         __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);

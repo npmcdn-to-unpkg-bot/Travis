@@ -49,4 +49,24 @@ export class TripService {
                 else return {};
             }).catch(this.handleError);
     }
+
+    public rateTrip(trip) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        var query = "/rest/trip/rate";
+        let body = JSON.stringify(trip);
+        console.log("trip");
+        console.log(body);
+        this.http.put(query, body, {'headers': headers})
+            .map(res => {
+                console.log(res);
+                let response = res.json();
+                console.log(response);
+                alert(response);
+            })
+            .subscribe(info => {
+            }, err => {
+                console.error("Failed to post a trip:", err);
+            });
+    }
 }

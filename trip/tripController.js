@@ -111,3 +111,27 @@ function stringToArray(string) {
     return string.split(", ");
 }
 
+module.exports.rateTrip = function (req, res) {
+    console.log("RATE TRIP");
+
+    console.log(req.body);
+    console.log(req.body._id);
+    var mongoQuery = getTrip(req.query);
+    console.log(mongoQuery);
+    Trip.findOneAndUpdate(mongoQuery, req.body.rating).exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        res.status(201).json(trip);
+    });
+};
+
+function getTrip(query) {
+    var mongoQuery = {};
+
+    mongoQuery.id =  {owner: query.owner};
+    console.log(mongoQuery);
+    return mongoQuery;
+}

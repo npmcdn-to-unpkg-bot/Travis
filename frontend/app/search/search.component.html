@@ -96,7 +96,12 @@
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
+
                                 </div>
+                                <trip-rating [rating]='trip.rating'
+                                            [itemId]='trip.id'
+                                            (ratingClick)='ratingComponetClick($event, trip)'>
+                                </trip-rating>
                             </div>
                         </div>
                     </div>

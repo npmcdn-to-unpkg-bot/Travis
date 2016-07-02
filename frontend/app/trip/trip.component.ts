@@ -231,6 +231,7 @@ export class Trip {
     description:string;
     comments:Object[];
     pictures:Picture[];
+    rating: number;
 }
 
 export class Picture{

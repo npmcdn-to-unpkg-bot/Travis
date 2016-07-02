@@ -54,6 +54,25 @@ var TripService = (function () {
                 return {};
         }).catch(this.handleError);
     };
+    TripService.prototype.rateTrip = function (trip) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var query = "/rest/trip/rate";
+        var body = JSON.stringify(trip);
+        console.log("trip");
+        console.log(body);
+        this.http.put(query, body, { 'headers': headers })
+            .map(function (res) {
+            console.log(res);
+            var response = res.json();
+            console.log(response);
+            alert(response);
+        })
+            .subscribe(function (info) {
+        }, function (err) {
+            console.error("Failed to post a trip:", err);
+        });
+    };
     TripService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

@@ -9,6 +9,7 @@ import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TripComponent} from '../trip/trip.service';
 import {Trip} from "../trip/trip.component";
 import {RouteParams} from "@angular/router-deprecated";
+import {RatingComponent} from '../rating/rating.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import {RouteParams} from "@angular/router-deprecated";
     templateUrl: 'app/search/search.component.html',
     styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
-    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
+    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, RatingComponent],
 })
 
 export class SearchComponent {
@@ -121,11 +122,15 @@ export class SearchComponent {
                 tmpTrip.dateTo = trip['dateTo'];
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
-
+                tmpTrip.rating = trip['rating'];
                 this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);
+    }
+    ratingComponetClick(clickObj: any, trip:Trip): void {
+        trip.rating = clickObj.rating;
+        this.tripService.rateTrip(trip);
     }
 }
 
