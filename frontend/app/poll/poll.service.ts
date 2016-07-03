@@ -120,23 +120,52 @@ var polls:Object[] = [
 @Injectable()
 export class PollService {
 
-    public getLatestPolls() :Promise<Object> {
-        console.log("poll service is called!");
-        return this.http.get("http://localhost:3000/rest/poll/")
-            .toPromise().then(res => {
-                if (res)
-                    return res.json();
-                else return {};
-            }).catch(this.handleError);
+
+    constructor(private http:Http, private router: Router) {
     }
 
-    private handleError (error: any) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
+    public getLatestPolls(token) :Promise<Object> {
+        console.log(token);
+        var headers = new Headers();
+        headers.append('token', token);
+        return this.http.get("http://localhost:3000/rest/poll/",{'headers':headers})
+            .timeout(8000, new Error('server timeout exceeded! could not get the polls'))
+            .toPromise().then(res => {
+                if (res)
+                {
+                    let serviceResponse = {};
+                    if(res.status <= 299)
+                        serviceResponse = res.json();
+                    else if(res.status >= 400){
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
+
+                else return {};
+            }).catch(res => this.handleError(res));
+    }
+
+    private handleError (res: any) {
+        if(res.status >= 400){
+            let serviceResponse = {};
+            serviceResponse['error'] = true;
+            serviceResponse['msg'] = res.text();
+            console.log(serviceResponse);
+            return serviceResponse;
+        }else{
+            let error = res;
+            let errMsg = (error.message) ? error.message :
+                error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+            console.error(errMsg); // log to console instead
+            return {
+                error : true,
+                msg: "server did not respond!"
+            };
+            //return Observable.throw(errMsg);
+        }
     }
 
     public postPoll(pollObj){
@@ -144,19 +173,28 @@ export class PollService {
         console.log(pollObj);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("/rest/poll/create", body, {'headers':headers})
-            .map(res => {
-                console.log(res);
-                let response = res.json();
-                console.log(response);
-            })
-            .subscribe(info => {
-            }, err => {
-                console.error("Failed to post a poll:", err);
-            });
+        return this.http.post("/rest/poll/create", body, {'headers':headers})
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(res => {
+                    if (res)
+                    {
+                        console.log(res);
+                        let serviceResponse = {};
+                        if(res.status <= 299){
+                            serviceResponse['msg'] = res.text();
+                            serviceResponse['success']=true;
+                        }
+                        else if(res.status >= 400){
+                            serviceResponse['error'] = true;
+                            serviceResponse['msg'] = res.text();
+                            console.log(serviceResponse);
+                        }
+                        return serviceResponse;
+                    }
+
+                    else return {warn:true, msg:"no Response from the server!"};
+                }).catch(res => this.handleError(res));
     }
 
-    constructor(private http:Http, private router: Router) {
-    }
 
 }

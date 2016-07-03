@@ -139,3 +139,35 @@ module.exports.rateTrip = function (req, res) {
         res.status(201).json(doc);
     });
 };
+
+module.exports.comment = function (req, res) {
+    console.log('sdklj');
+    // user should send his token for each request
+    /*if(!req.body.token){
+     res.status(400).send('token required');
+     return;
+     }
+
+     // get the token
+     var token = req.body.token;
+     var decoded =  jwt.decode(token, Config.auth.jwtSecret);
+     var user_id = decoded.user._id;
+     */
+    var comment = new Comment();
+
+    comment.text = req.body.text;
+    comment.user = user_id;
+    comment.user = req.body.userID;
+
+    Poll.findByIdAndUpdate(
+        req.body.poll_id,
+        {$push: {"comments": comment}},
+        {safe: true, upsert: true},
+        function (err, model) {
+
+
+            res.status(200).send('ok');
+            return;
+        }
+    );
+};

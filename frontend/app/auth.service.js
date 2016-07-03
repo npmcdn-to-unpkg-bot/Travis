@@ -297,6 +297,12 @@ var AuthService = (function () {
             return true;
         return false;
     };
+    AuthService.prototype.getToken = function () {
+        if (localStorage.getItem('token'))
+            return localStorage.getItem('token');
+        else
+            this.doLogout();
+    };
     AuthService.prototype.facebookLogin = function (facebookResponse) {
         console.log(facebookResponse);
         var travisUser = new auth_user_1.TravisUser();

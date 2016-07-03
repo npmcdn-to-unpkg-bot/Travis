@@ -323,6 +323,13 @@ export class AuthService {
         return false;
     }
 
+    public getToken() {
+        if (localStorage.getItem('token'))
+            return localStorage.getItem('token');
+        else
+            this.doLogout();
+    }
+
 
     public facebookLogin(facebookResponse:Object){
         console.log(facebookResponse);

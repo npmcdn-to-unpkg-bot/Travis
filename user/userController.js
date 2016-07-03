@@ -56,10 +56,6 @@ module.exports.signup = function(req, res){
     user.password = req.body.password;
     user.type = req.body.type;
     user.userID = req.body.userID;
-    /*
-	user.firstName = req.body.name.givenName;
-    user.lastName = req.body.name.familyName;
-	*/
 	user.firstName = req.body.firstName;
     user.lastName = req.body.lastName;
 	
@@ -127,7 +123,6 @@ module.exports.update = function(req, res){
 
     var userProfile = new User();
 
-   // user.email = req.body.email;
     userProfile.password = req.body.password;
     userProfile.type = req.body.type;
     userProfile.userID = req.body.userID;
@@ -162,14 +157,7 @@ module.exports.update = function(req, res){
      message: 'user with email ' + req.body.email + ' can not be found.'
    });
  }
- 
- // Update the course model
-/* User.update({email: req.body.email},userProfile,'' ,function(err, user) {
-
-   res.status(200).json(user);
-
- });*/
-});
+    });
 
 };
 

@@ -21,7 +21,7 @@ function tripRoutes(passport) {
     router.put('/rate' , tripController.rateTrip);
 
     // router.delete('/Remove' , tripController.remove);
-    // router.post('/Comment', tripController.comment);
+    router.post('/comment', tripController.comment);
     
     return router;
 }

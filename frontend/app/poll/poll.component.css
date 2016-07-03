@@ -301,5 +301,6 @@ li { list-style: none; }
 
 #createPollModal {
     height: auto;
+    min-height: 500px;
     top: 60px;
 }

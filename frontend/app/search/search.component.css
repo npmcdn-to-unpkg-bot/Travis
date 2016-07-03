@@ -38,7 +38,13 @@
 }
 
 .trip-card {
-    width: 100%;
+    /*width: 100%;*/
+    -webkit-box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
+    -moz-box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
+    box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
     border: 0px;
     position: relative;
     font-family: inherit;
@@ -130,10 +136,17 @@
 }
 
 .route {
+    /*
     padding: 20px;
     margin-bottom: 70px;
     width: inherit;
     height: inherit;
+    */
+
+    padding-top: 30px;
+    margin-bottom: 70px;
+    width: 300px;
+    height: 300px;
 }
 
 .row {
