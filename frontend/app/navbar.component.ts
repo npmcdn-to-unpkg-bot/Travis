@@ -16,7 +16,7 @@ import {TravisUser} from "./auth_user";
     pipes: [],
     viewProviders:[BS_VIEW_PROVIDERS],
     templateUrl: 'app/navbar.component.html',
-    styleUrls:  ['app/poll/poll.component.css', 'app/navbar.component.css', 'app/login.component.css'],
+    styleUrls:  ['app/poll/poll.component.css', 'app/login.component.css'],
 })
 
 export class Navbar implements OnInit{

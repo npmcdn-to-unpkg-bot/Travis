@@ -98,23 +98,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                <trip-rating [rating]='trip.rating'
+                                        <trip-rating [rating]='trip.rating'
                                              [itemId]='trip.id'
                                              (ratingClick)='ratingComponetClick($event, trip)'>
                                 </trip-rating>
                                 <div *ngIf="trip.rating" id="tripRating" style="float: inherit">
                                     <p>{{ratingLabel}} users voted, average: {{trip.rating}} stars</p>
                                 </div>
-
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <button id="loadMoreTripsButton" type="button" class="btn btn-primary" (click)="loadMoreTrips()">
                     load more trips ...
                 </button>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
 </section>
