@@ -49,7 +49,7 @@
             </div>
             <div class="container center-block text-center">
                 <div class="row">
-                    <div class="col-sm-8 col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips">
+                    <div class=" col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips">
                         <div class="trip-card">
                             <img class="route"
                                  src="https://blog.gerbenjacobs.nl/img/blog/scandinavia/scandinavian-roadtrip-route.png"/>
@@ -103,7 +103,7 @@
                                              [itemId]='trip.id'
                                              (ratingClick)='ratingComponetClick($event, trip)'>
                                 </trip-rating>
-                                <div *ngIf="trip.rating" id="tripRating" style="float: right">
+                                <div *ngIf="trip.rating" id="tripRating" style="float: inherit">
                                     <p>{{ratingLabel}} users voted, average: {{trip.rating}} stars</p>
                                 </div>
                             </div>

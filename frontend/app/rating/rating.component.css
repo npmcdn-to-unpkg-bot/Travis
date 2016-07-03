@@ -1,6 +1,9 @@
 .rating {
     /*float: left;*/
     margin-top: 50px;
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
 }
 /***************************
 Hide radio buttons
@@ -27,7 +30,7 @@ Default stars style
 Adds the star symbol to the labels
 ***************************/
 .rating:not(:checked) > label:before {
-    content: '★ ';
+    content: '★';
 }
 /***************************
 Colour for the applied rating stars
@@ -49,4 +52,8 @@ Colour for hovered stars when decreasing the rating
 .rating > input:checked ~ label:hover ~ label,
 .rating > label:hover ~ input:checked ~ label {
     color: #ea0;
+}
+
+fieldset {
+    padding: .35em .625em .75em;
 }

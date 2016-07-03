@@ -52,6 +52,7 @@ export class TripComponent {
         // reset form
         // TODO: somehow the tags & countries do not reset themselves ...
         this.tripModel = new Trip();
+        // location.reload();
     }
 
     public countriesArray:Array<string> = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
