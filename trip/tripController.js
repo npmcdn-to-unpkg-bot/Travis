@@ -24,7 +24,6 @@ module.exports.getAll = function (req, res) {
 function createTrip(req,res,user_id){
 
     console.log("Create a trip");
-
     var tmpTrip = new Trip();
     tmpTrip.title = req.body.title;
     tmpTrip.budget = req.body.budget;
@@ -65,7 +64,6 @@ function createTrip(req,res,user_id){
 }
 
 module.exports.create = function (req, res) {
-
     if(!req.body.token){
         res.status(401).send('Unauthorized! token is required');
         return;
@@ -73,7 +71,17 @@ module.exports.create = function (req, res) {
     var token = req.body.token;
     // user should send his token for each request
     passportManager.verifyToken(token,req,res,createTrip);
+};
 
+module.exports.delete = function (req, res) {
+    console.log("CALLED DELETE");
+    if(!req.headers.token){
+        res.status(401).send('Unauthorized! token is required');
+        return;
+    }
+    var token = req.headers.token;
+    // user should send his token for each request
+    passportManager.verifyToken(token,req,res,deleteTrip);
 };
 
 module.exports.getTrips = function (req, res) {
@@ -92,10 +100,24 @@ module.exports.getTrips = function (req, res) {
     });
 };
 
-module.exports.getMoreTrips = function (req, res) {
-    console.log("REQ");
-    console.log(req);
+function getTrips(req, res, user_id) {
+    seenIds = [];
+    var mongoQuery = getMongoQuery(req.query);
+    mongoQuery.owner = {$in: user_id};
+    Trip.find(mongoQuery).sort('-date').exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
+    });
+}
 
+module.exports.getMoreTrips = function (req, res) {
     var mongoQuery = getMongoQuery(req.query);
 
     mongoQuery._id = {$nin: seenIds};
@@ -111,6 +133,17 @@ module.exports.getMoreTrips = function (req, res) {
         });
         res.status(201).json(trip);
     });
+};
+
+
+module.exports.getTripsFromUser = function (req, res) {
+    if(!req.headers.token){
+        res.status(401).send('Unauthorized! token is required');
+        return;
+    }
+    var token = req.headers.token;
+    // user should send his token for each request
+    passportManager.verifyToken(token,req,res,getTrips);
 };
 
 function getMongoQuery(query) {
@@ -136,7 +169,6 @@ function getMongoQuery(query) {
         mongoQuery.budget = {$lte: parseFloat(query.budget)};
     if (query.tags)
         mongoQuery.tags = {$in: query.tags};
-
     if (query.from) {
         var tempDate = new Date(query.from);
         if (!isNaN(tempDate.getTime()))
@@ -149,7 +181,6 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
-    // console.log(mongoQuery);
     return mongoQuery;
 }
 
@@ -181,6 +212,18 @@ module.exports.rateTrip = function (req, res) {
 
         doc.save();
         res.status(201).json(doc);
+    });
+};
+
+function deleteTrip (req, res, user_id) {
+    var ObjectId = mongoose.Types.ObjectId;
+    Trip.find({_id: new ObjectId(req.query.id)}).remove().exec( function (err, success) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        res.status(201).json("Trip was deleted");
     });
 };
 

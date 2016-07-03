@@ -48,10 +48,6 @@ export class TripComponent {
         }
         this.tripModel.pictures = this.pictures;
 
-        // reset form
-        // TODO: somehow the tags & countries do not reset themselves ...
-        // this.tripModel = new Trip();
-        // location.reload();
         let token = this.authService.getToken();
         this.tripModel['token'] = token;
         console.log(this.tripModel);
@@ -234,12 +230,7 @@ export class Trip {
 }
 
 export class Picture{
-<<<<<<< HEAD
-    _id:string;
+    //_id:string;
     name:string;
     src:any;
-=======
-    name: string;
-    src: any;
->>>>>>> 7081e58eb7e9400555e2497841eacc8868b1037b
 }

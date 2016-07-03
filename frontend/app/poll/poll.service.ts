@@ -120,7 +120,6 @@ var polls:Object[] = [
 @Injectable()
 export class PollService {
 
-
     constructor(private http:Http, private router: Router) {
     }
 
@@ -128,7 +127,7 @@ export class PollService {
         console.log(token);
         var headers = new Headers();
         headers.append('token', token);
-        return this.http.get("http://localhost:3000/rest/poll/",{'headers':headers})
+        return this.http.get("/rest/poll/",{'headers':headers})
             .timeout(8000, new Error('server timeout exceeded! could not get the polls'))
             .toPromise().then(res => {
                 if (res)
@@ -143,7 +142,6 @@ export class PollService {
                     }
                     return serviceResponse;
                 }
-
                 else return {};
             }).catch(res => this.handleError(res));
     }

@@ -2,7 +2,6 @@ module.exports = tripRoutes;
 
 function tripRoutes(passport) {
 
-
     var tripController = require('./tripController');
     var router = require('express').Router();
     /* var unless = require('express-unless');
@@ -14,14 +13,14 @@ function tripRoutes(passport) {
      router.use(mw.unless({method: ['GET', 'OPTIONS']}));
      */
 
-    router.get('/'       , tripController.getAll);
-    // router.get('/{ID}'       , tripController.getById(ID));
+    router.get('/', tripController.getAll);
     router.post('/' , tripController.create);
+    router.delete('/' , tripController.delete);
     router.get('/search' , tripController.getTrips);
     router.get('/searchMore' , tripController.getMoreTrips);
+    router.get('/getUserTrips' , tripController.getTripsFromUser);
     router.put('/rate' , tripController.rateTrip);
 
-    // router.delete('/Remove' , tripController.remove);
     router.post('/comment', tripController.comment);
     
     return router;

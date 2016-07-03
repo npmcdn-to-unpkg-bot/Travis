@@ -5,6 +5,7 @@ import {PollComponent} from "./poll/poll.component";
 import {HomeComponent} from "./home.component";
 import {TripComponent} from "./trip/trip.component";
 import {SearchComponent} from "./search/search.component";
+import {MyTripsComponent} from "./user-management/myTrips.component";
 import {LoggedInRouterOutlet} from './loggedInOutLet';
 
 @Component({
@@ -22,7 +23,8 @@ import {LoggedInRouterOutlet} from './loggedInOutLet';
     { path: '/trip', name: 'Trip', component: TripComponent},
     { path: '/poll', name: 'Poll', component: PollComponent},
     { path: '/search/:searchTerm', name: 'Search', component: SearchComponent},
-    { path: '/search', name: 'Search', component: SearchComponent}
+    { path: '/search', name: 'Search', component: SearchComponent},
+    { path: '/myTrips', name: 'MyTrips', component: MyTripsComponent}
 ])
 
 export class AppComponent {
