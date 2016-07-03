@@ -1,0 +1,67 @@
+<div id='searchResults' class="container center-block text-center">
+    <div class="row">
+        <div class=" col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips">
+            <div class="trip-card">
+                <img class="route"
+                     src="https://blog.gerbenjacobs.nl/img/blog/scandinavia/scandinavian-roadtrip-route.png"/>
+                <div class="trip-card-details">
+                    <div class="trip-card-header">
+                        <h1> {{trip.title}} </h1>
+                        <h3> {{trip.tags.join(', ')}} </h3>
+                    </div>
+                    <div class="trip-card-detail">
+                        <div id="tripDurationDate">
+                            <p><b>{{trip.dateFrom | date:'dd/MM/yyyy'}}</b>&emsp;&mdash;&emsp;<b>{{trip.dateTo
+                                | date:'dd/MM/yyyy'}}</b></p>
+                        </div>
+                        <div *ngIf="trip.budget" id="tripBudget">
+                            <p>Budget:&emsp;<b>{{trip.budget}}</b></p>
+                        </div>
+                        <div *ngIf="trip.cities" id="tripCities">
+                            <p>Cities:&emsp;<b>{{trip.cities.join(', ')}}</b></p>
+                        </div>
+                        <div *ngIf="trip.countries" id="tripCountries">
+                            <p>Countries:&emsp;<b>{{trip.countries.join(', ')}}</b></p>
+                        </div>
+                        <div id="tripDescription">
+                            <h4>Details</h4>
+                            <p>{{trip.description}}</p>
+                        </div>
+                        <div id="imageCarousel" class="carousel slide" data-ride="carousel"
+                             *ngIf="trip.pictures">
+                            <ol class="carousel-indicators">
+                                <li data-target="#imageCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#imageCarousel" data-slide-to="1"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item" *ngFor="let img of trip.pictures">
+                                    <img src={{img.src}} width="460"
+                                         height="345">
+                                </div>
+                            </div>
+                            <a class="left carousel-control" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                    </div>
+                    <trip-rating [rating]='trip.rating'
+                                 [itemId]='trip.id'
+                                 (ratingClick)='ratingComponetClick($event, trip)'>
+                    </trip-rating>
+                    <div *ngIf="trip.rating" id="tripRating" style="float: inherit">
+                        <p>{{ratingLabel}} users voted, average: {{trip.rating}} stars</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="loadMoreTripsButton" type="button" class="btn btn-primary" (click)="loadMoreTrips()">
+        load more trips ...
+    </button>
+</div>

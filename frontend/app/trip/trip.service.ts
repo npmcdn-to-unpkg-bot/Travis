@@ -69,7 +69,33 @@ export class TripService {
             query = query + "month=" + searchTerm.month + "&";
         if (searchTerm.searchTerm)
             query = query + "searchTerm=" + searchTerm.searchTerm;
+        if (searchTerm.owner)
+            query = query + "owner=" + searchTerm.owner;
         console.log("Searching for trips, query: " + query);
+
+        return this.http.get(query, {'headers': headers})
+            .toPromise().then(res => {
+                if (res) {
+                    let serviceResponse = {};
+                    if (res.status <= 299)
+                        serviceResponse = res.json();
+                    else if (res.status >= 400) {
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
+                else return {};
+            }).catch(res => this.handleError(res));
+    }
+
+    public getUserTrips(token) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('token', token);
+
+        var query = "/rest/trip/getUserTrips";
 
         return this.http.get(query, {'headers': headers})
             .toPromise().then(res => {
@@ -121,21 +147,44 @@ export class TripService {
                 else return {};
             }).catch(res => this.handleError(res));
     }
-    
+
     public rateTrip(trip) {
-            var headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-            var query = "/rest/trip/rate";
-            let body = JSON.stringify(trip);
-            console.log("trip");
-            console.log(body);
-            return this.http.put(query, body, {'headers': headers})
-                .toPromise().then(res => {
-                    if (res) {
-                        let response = JSON.parse(res._body);
-                        return response.rating;
-                    } else return {};
-                }).catch(this.handleError);
-        }
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        var query = "/rest/trip/rate";
+        let body = JSON.stringify(trip);
+        return this.http.put(query, body, {'headers': headers})
+            .toPromise().then(res => {
+                if (res) {
+                    let response = JSON.parse(res._body);
+                    return response.rating;
+                } else return {};
+            }).catch(this.handleError);
+    }
+
+    public deleteTrip(trip, token) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('token', token);
+
+        var url = "/rest/trip?" + "id=" + trip._id;
+        return this.http.delete(url, {'headers': headers})
+            .toPromise().then(res => {
+                if (res) {
+                    let serviceResponse = {};
+                    if (res.status <= 299) {
+                        serviceResponse['success'] = true;
+                        serviceResponse['msg'] = res.text();
+                    }
+                    else if (res.status >= 400) {
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
+                else return {};
+            })
+            .catch(res => this.handleError(res));
     }
 }

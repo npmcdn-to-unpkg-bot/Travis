@@ -30,7 +30,7 @@ export class TripComponent {
     picturesToUpload:Picture[];
     imageInput:HTMLInputElement[];
 
-    constructor(private tripService:TripService,private authService: AuthService,
+    constructor(private tripService:TripService, private authService: AuthService,
                 private imageService: ImageService,  public toastr: ToastsManager) {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
@@ -53,10 +53,6 @@ export class TripComponent {
         }
         this.tripModel.pictures = this.picturesToUpload;
 
-        // reset form
-        // TODO: somehow the tags & countries do not reset themselves ...
-        // this.tripModel = new Trip();
-        // location.reload();
         let token = this.authService.getToken();
         this.tripModel['token'] = token;
         console.log(this.tripModel);

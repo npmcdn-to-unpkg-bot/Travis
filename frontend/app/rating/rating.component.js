@@ -22,6 +22,7 @@ var RatingComponent = (function () {
             itemId: this.itemId,
             rating: rating
         });
+        $(this).attr('disabled', 'disabled');
     };
     __decorate([
         core_1.Input(), 

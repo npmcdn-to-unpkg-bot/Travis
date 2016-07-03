@@ -8,7 +8,7 @@
                 <a class="navbar-brand" href="#"></a>
                 <div class="navbar-inner center">
                     <ul class="nav navbar-nav center">
-                        <li class="active"><a [routerLink]="['Home']">Search</a></li>
+                        <li><a [routerLink]="['Search']">Search</a></li>
                         <li *ngIf="authenticated()"><a [routerLink]="['Trip']">Share</a></li>
                         <li *ngIf="authenticated()"><a [routerLink]="['Poll']">Poll</a></li>
                     </ul>
@@ -23,15 +23,16 @@
                                     <li>
                                         <div class="row">
                                             <div class="col-md-12 text-center center-block">
-                                                <span style="margin-bottom: 5px;">Menu</span>
+                                                <span style="margin-bottom: 5px; font-size: 16px; font-weight: 200">Menu</span>
                                                 <div><img class="img-circle" style='padding-top: 5px;' src="{{user?.imageURL}}"/></div>
-                                                <button role="link" class="btn-link" style="padding-top: 5px;padding-bottom: 5px; font-size: 15px">My trips
+                                                <br>
+                                                <button role="link" class="btn-link" style="padding-top: 5px;padding-bottom: 5px; font-size: 15px" [routerLink]="['MyTrips']">My trips
                                                 </button>
                                             </div>
                                             <div class="bottom text-center">
                                                 <button role="link" (click)="logout()" class="btn-link" style="font-size: 15px">Logout
                                                 </button>
-                                            </div>
+                                            </div>'
                                         </div>
                                     </li>
                                 </ul>
@@ -39,7 +40,7 @@
                         </mydiv>
                     </ul>
                 </div>
-            </div><!-- /.row -->
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.yamm -->
-</div><!-- /.navbar center -->
+            </div>
+        </div>
+    </div>
+</div>
