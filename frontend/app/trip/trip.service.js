@@ -93,6 +93,39 @@ var TripService = (function () {
                 return {};
         }).catch(function (res) { return _this.handleError(res); });
     };
+    TripService.prototype.searchForMoreTrips = function (searchTerm) {
+        var _this = this;
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        var query = "/rest/trip/searchMore?";
+        if (searchTerm.budget)
+            query = query + "budget=" + searchTerm.budget + "&";
+        if (searchTerm.cities)
+            query = query + "cities=" + searchTerm.cities + "&";
+        if (searchTerm.countries)
+            query = query + "countries=" + searchTerm.countries + "&";
+        if (searchTerm.month)
+            query = query + "month=" + searchTerm.month + "&";
+        if (searchTerm.searchTerm)
+            query = query + "searchTerm=" + searchTerm.searchTerm;
+        console.log("Searching for trips, query: " + query);
+        return this.http.get(query, { 'headers': headers })
+            .toPromise().then(function (res) {
+            if (res) {
+                var serviceResponse = {};
+                if (res.status <= 299)
+                    serviceResponse = res.json();
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return {};
+        }).catch(function (res) { return _this.handleError(res); });
+    };
     TripService.prototype.rateTrip = function (trip) {
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');

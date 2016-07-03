@@ -39,7 +39,7 @@
                             </div>
                             <input type="text" [(ngModel)]="searchModel.cities" id="searchCities"
                                    style="width: 300px; margin-left: 4px; margin-top: 5px; display: table-cell;"
-                                   placeholder="Search for cities"/>
+                                   placeholder="search for cities"/>
                         </div>
                         <button type="submit" class="btn btn-default btn-submit btn-small">Search</button>
                     </form>
@@ -110,6 +110,9 @@
                         </div>
                     </div>
                 </div>
+                <button id="loadMoreTripsButton" type="button" class="btn btn-primary" (click)="loadMoreTrips()">
+                    load more trips ...
+                </button>
             </div>
         </div>
     </div>

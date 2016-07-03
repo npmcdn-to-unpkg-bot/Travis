@@ -138,6 +138,34 @@ export class SearchComponent {
             this.ratingLabel = rating.numRates;
         });
     }
+    public loadMoreTrips() {
+        var searchModel = this.searchModel;
+        var terms:string = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
+        var searchResultTrips = this.tripService.searchForMoreTrips(searchModel).then(trips => {
+            trips.map(trip => {
+                let tmpTrip = new Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
+                this.trips.push(tmpTrip);
+            });
+        });
+        this.searchModel.searchTerm = terms.replace(", ",/\s/g);
+    }
 }
 
 export class SearchTerm {

@@ -130,6 +130,35 @@ var SearchComponent = (function () {
             _this.ratingLabel = rating.numRates;
         });
     };
+    SearchComponent.prototype.loadMoreTrips = function () {
+        var _this = this;
+        var searchModel = this.searchModel;
+        var terms = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
+        var searchResultTrips = this.tripService.searchForMoreTrips(searchModel).then(function (trips) {
+            trips.map(function (trip) {
+                var tmpTrip = new trip_component_1.Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
+                _this.trips.push(tmpTrip);
+            });
+        });
+        this.searchModel.searchTerm = terms.replace(", ", /\s/g);
+    };
     SearchComponent = __decorate([
         core_1.Component({
             selector: 'search',

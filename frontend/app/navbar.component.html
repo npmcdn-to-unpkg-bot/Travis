@@ -15,7 +15,27 @@
                         <ul class="nav navbar-nav navbar-right">
                             <login *ngIf="!authenticated()"></login>
                             <mydiv *ngIf="authenticated()">
-                                <span style="font-size: 15px">Welcome {{user?.firstName}} </span>
+                                <div class="btn-group" dropdown [(isOpen)]="status.isopen">
+                                    <button id="single-button" type="button" class="btn btn-primary">
+                                        Hello {{user?.firstName}}! <span class="caret"></span>
+                                    </button>
+                                    <ul id="login-dp" class="dropdown-menu">
+                                        <li>
+                                            <div class="row">
+                                                <div class="col-md-12 text-center">
+                                                    <span style="margin-bottom: 5px;">Login via</span>
+                                                    <div class="social-buttons center">
+                                                        <button class="btn btn-fb">Facebook</button>
+                                                        <button class="btn btn-google">Google</button>
+                                                    </div>
+                                                </div>
+                                                <div class="bottom text-center">
+                                                    New here? <a (click)="register.show()"><b>Sign up</b></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <img class="img-circle" style='padding-top: 5px;' src="{{user?.imageURL}}"/>
                                 <button role="link" (click)="logout()" class="btn-link" style="font-size: 15px">Logout</button>
                             </mydiv>

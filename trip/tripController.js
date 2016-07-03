@@ -6,11 +6,10 @@ var passportManager = require('../passport/auth.js');
 var Trip = require('./tripSchema');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var seenIds;
 
 module.exports.getAll = function (req, res) {
-
     console.log("Get all trips");
-
     Trip.find().sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
@@ -70,8 +69,7 @@ module.exports.create = function (req, res) {
 };
 
 module.exports.getTrips = function (req, res) {
-
-    console.log(req.query);
+    seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
     Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
@@ -79,6 +77,30 @@ module.exports.getTrips = function (req, res) {
             res.status(500).send("Server error!");
             return;
         }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
+    });
+};
+
+module.exports.getMoreTrips = function (req, res) {
+    console.log("REQ");
+    console.log(req);
+
+    var mongoQuery = getMongoQuery(req.query);
+
+    mongoQuery._id = {$nin: seenIds};
+
+    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
         res.status(201).json(trip);
     });
 };
@@ -90,7 +112,6 @@ function getMongoQuery(query) {
         if (typeof query.searchTerm == 'string') {
             query.searchTerm = stringToArray(query.searchTerm);
         }
-        mongoQuery.tags = {$in: query.searchTerm};
     }
     if (query.countries) {
         if (typeof query.countries == 'string') {
@@ -120,7 +141,7 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
-    console.log(mongoQuery);
+    // console.log(mongoQuery);
     return mongoQuery;
 }
 
