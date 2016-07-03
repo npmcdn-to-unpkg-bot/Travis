@@ -76,15 +76,24 @@
                                         <h4>Details</h4>
                                         <p>{{trip.description}}</p>
                                     </div>
+                                    <div *ngIf="trip.pictures" style="height: auto">
+                                    <div class="imageContainer" *ngFor="let pic of trip.pictures" >
+                                        <button type="button" id="remove-button" class="btn btn-default btn-xs">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </button>
+                                        <img src="{{pic.src}}" alt="{{pic.name}}" style="width:100%;height: 100%;" class="img-thumbnail"/>
+                                    </div>
+                                    </div>
+                                    <!--
                                     <div id="imageCarousel" class="carousel slide" data-ride="carousel" *ngIf="trip.pictures">
                                         <ol class="carousel-indicators">
                                             <li data-target="#imageCarousel" data-slide-to="0" class="active"></li>
                                             <li data-target="#imageCarousel" data-slide-to="1"></li>
                                         </ol>
                                         <div class="carousel-inner" role="listbox" >
-                                            <div class="item" *ngFor="let img of trip.pictures">
-                                                <img src={{img.src}} width="460"
-                                                     height="345">
+                                            <div class="item" *ngFor="let pic of trip.pictures">
+                                                <img src="{{pic.src}}" width="460"
+                                                     height="345" style="width:100px;height: 100px;" class="img-thumbnail"/>
                                             </div>
                                         </div>
                                         <a class="left carousel-control" role="button" data-slide="prev">
@@ -96,7 +105,9 @@
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
+                                    !-->
                                 </div>
+
                             </div>
                         </div>
                     </div>

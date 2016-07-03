@@ -27,7 +27,6 @@ export class TripComponent {
     filesToUpload: File[];
 
     pictures:Picture[];
-    picturesToUpload:Picture[];
     imageInput:HTMLInputElement[];
 
     constructor(private tripService:TripService,private authService: AuthService,
@@ -37,7 +36,6 @@ export class TripComponent {
         this.tripModel.tags = [];
         this.tripModel.countries = [];
         this.pictures = [];
-        this.picturesToUpload  = [];
         this.filesToUpload = [];
     }
 
@@ -51,7 +49,7 @@ export class TripComponent {
             alert("The entered dates are wrong. Time travel is not possible (if so and you have proof, please contact us!");
             return;
         }
-        this.tripModel.pictures = this.picturesToUpload;
+        this.tripModel.pictures = this.pictures;
 
         let token = this.authService.getToken();
         this.tripModel['token'] = token;
@@ -62,10 +60,13 @@ export class TripComponent {
             else if (response.success){
 
                 this.toastr.success("success! " + response.msg);
+
                 // clearing form
                 // reset form
                 // TODO: somehow the tags & countries do not reset themselves ...
                 this.tripModel = new Trip();
+                this.pictures = [];
+                this.imageInput.value = "";
             }
             else{
                 this.toastr.error("Creating trip failed !" + response.msg);
@@ -149,26 +150,6 @@ export class TripComponent {
         return str.split(', ');
     }
 
-    /*
-    public getImage (image) {
-        let mainCanvas = document.createElement("canvas");
-        var ctx = mainCanvas.getContext("2d");
-        ctx.drawImage(image, 0, 0);
-        return mainCanvas.toDataURL("image/jpeg", 1.0);
-    };
-
-
-
-    private resize(image){
-        let mainCanvas = document.createElement("canvas");
-        mainCanvas.width = 100;
-        mainCanvas.height = 100;
-        var ctx = mainCanvas.getContext("2d");
-        ctx.drawImage(image, 0, 0,mainCanvas.width,mainCanvas.height);
-        return mainCanvas.toDataURL("image/jpeg", 0.5);
-    }
-*/
-
     public uploadfile(fileInput: any){
         try{
             this.imageInput = fileInput;
@@ -197,11 +178,7 @@ export class TripComponent {
                     return;
                 }
 
-                //console.log(currentFile.name + " size: " + currentFile.size);
-                let img = new Image();
-                //img.src = window.URL.createObjectURL(currentFile);
-                let previewPic = new Picture();
-                let toBeSentPic = new Picture();
+                let pic = new Picture();
 
                 // Create a FileReader
                 let reader = new FileReader();
@@ -209,22 +186,16 @@ export class TripComponent {
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", (event) => {
                     // Get the event.target.result from the reader (base64 of the image)
-                    img.src = event.target.result;
+                    pic.src = event.target.result;
 
-                    toBeSentPic.name = recentFile.name;
-                    previewPic.name = toBeSentPic.name;
+                    pic.name = toBeSentPic.name;
                     // Resize the image
-
-                    this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
-                    this.imageService.getImageURL(img).then(imageURL => toBeSentPic.src = imageURL);
-
-                    //toBeSentPic.src = this.getImage(img);
+                    //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
 
                 }, false);
 
                 reader.readAsDataURL(recentFile);
-                this.pictures.push(previewPic);
-                this.picturesToUpload.push(toBeSentPic);
+                this.pictures.push(pic);
                 // Push the img src (base64 string) into our array that we display in our html template
 
             }
@@ -242,7 +213,6 @@ export class TripComponent {
         }
         this.pictures.splice(index,1);
         this.filesToUpload.splice(index,1);
-        this.picturesToUpload(index,1);
     }
 }
 
@@ -263,6 +233,7 @@ export class Trip {
 }
 
 export class Picture{
+    _id:string;
     name:string;
     src:any;
 }

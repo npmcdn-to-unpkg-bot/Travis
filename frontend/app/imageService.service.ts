@@ -18,8 +18,8 @@ export class ImageService {
         mainCanvas.width = 100;
         mainCanvas.height = 100;
         var ctx = mainCanvas.getContext("2d");
-        ctx.drawImage(image, 0, 0,mainCanvas.width,mainCanvas.height);
-            resolve(mainCanvas.toDataURL("image/jpeg", 0.5));
+        ctx.drawImage(image, 0, 0);
+            resolve(mainCanvas.toDataURL("image/jpeg", 1.0));
         });
     }
 }

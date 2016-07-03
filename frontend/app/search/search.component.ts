@@ -9,6 +9,7 @@ import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TripComponent} from '../trip/trip.service';
 import {Trip} from "../trip/trip.component";
 import {RouteParams} from "@angular/router-deprecated";
+import {ImageService} from '../imageService.service';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {RouteParams} from "@angular/router-deprecated";
     templateUrl: 'app/search/search.component.html',
     styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
+    providers:[ImageService],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
 })
 
@@ -25,7 +27,7 @@ export class SearchComponent {
     resultTripModel:Trip;
     trips:Trip[];
 
-    constructor(private tripService:TripService, params: RouteParams) {
+    constructor(private tripService:TripService, params: RouteParams,private imageService: ImageService) {
         this.searchModel = new SearchTerm();
         this.searchModel.searchTerm = params.get('searchTerm');
         this.resultTripModel = new Trip();
@@ -121,11 +123,13 @@ export class SearchComponent {
                 tmpTrip.dateTo = trip['dateTo'];
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
-
+                tmpTrip.pictures = trip['pictures'];
                 this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);
+
+
     }
 }
 

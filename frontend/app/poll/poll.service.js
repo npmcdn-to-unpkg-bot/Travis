@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -197,11 +196,65 @@ var PollService = (function () {
                 return { warn: true, msg: "no Response from the server!" };
         }).catch(function (res) { return _this.handleError(res); });
     };
+    PollService.prototype.postPollVote = function (pollObj) {
+        var _this = this;
+        var body = JSON.stringify(pollObj);
+        console.log(pollObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post("/rest/poll/vote", body, { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(function (res) {
+            if (res) {
+                console.log(res);
+                var serviceResponse = {};
+                if (res.status <= 299) {
+                    serviceResponse['msg'] = res.text();
+                    serviceResponse['success'] = true;
+                }
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return { warn: true, msg: "no Response from the server!" };
+        }).catch(function (res) { return _this.handleError(res); });
+    };
+    PollService.prototype.postPollComment = function (pollObj) {
+        var _this = this;
+        var body = JSON.stringify(pollObj);
+        console.log(pollObj);
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post("/rest/poll/create", body, { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(function (res) {
+            if (res) {
+                console.log(res);
+                var serviceResponse = {};
+                if (res.status <= 299) {
+                    serviceResponse['msg'] = res.text();
+                    serviceResponse['success'] = true;
+                }
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return { warn: true, msg: "no Response from the server!" };
+        }).catch(function (res) { return _this.handleError(res); });
+    };
     PollService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-}());
+})();
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map
