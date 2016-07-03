@@ -15,14 +15,12 @@ var trip_service_1 = require('./trip.service');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var tag_input_component_1 = require('../tag-input/tag-input.component');
-var imageService_service_1 = require('../imageService.service');
 var ng2_toastr_1 = require('ng2-toastr/ng2-toastr');
 var auth_service_1 = require('../auth.service');
 var TripComponent = (function () {
-    function TripComponent(tripService, authService, imageService, toastr) {
+    function TripComponent(tripService, authService, toastr) {
         this.tripService = tripService;
         this.authService = authService;
-        this.imageService = imageService;
         this.toastr = toastr;
         this.countriesArray = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
             'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
@@ -194,9 +192,8 @@ var TripComponent = (function () {
             styleUrls: ['app/trip/trip.component.css', '/ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, tag_input_component_1.TagInputComponent],
-            providers: [imageService_service_1.ImageService]
         }), 
-        __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, imageService_service_1.ImageService, ng2_toastr_1.ToastsManager])
+        __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, ng2_toastr_1.ToastsManager])
     ], TripComponent);
     return TripComponent;
 })();

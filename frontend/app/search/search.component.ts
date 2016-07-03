@@ -4,20 +4,19 @@
 import {Component, Injectable} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {TripService} from '../trip/trip.service';
-import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
+import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS,
+    Ng2BootstrapConfig, Ng2BootstrapTheme} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TripComponent} from '../trip/trip.service';
 import {Trip} from "../trip/trip.component";
 import {RouteParams} from "@angular/router-deprecated";
-import {ImageService} from '../imageService.service';
-
+import { CAROUSEL_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap/components/carousel';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
     styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
-    providers:[ImageService],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
 })
 
@@ -27,7 +26,8 @@ export class SearchComponent {
     resultTripModel:Trip;
     trips:Trip[];
 
-    constructor(private tripService:TripService, params: RouteParams,private imageService: ImageService) {
+
+    constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
         this.searchModel.searchTerm = params.get('searchTerm');
         this.resultTripModel = new Trip();
@@ -128,9 +128,8 @@ export class SearchComponent {
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);
-
-
     }
+
 }
 
 export class SearchTerm {

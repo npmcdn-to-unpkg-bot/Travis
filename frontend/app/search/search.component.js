@@ -17,11 +17,9 @@ var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var trip_component_1 = require("../trip/trip.component");
 var router_deprecated_1 = require("@angular/router-deprecated");
-var imageService_service_1 = require('../imageService.service');
 var SearchComponent = (function () {
-    function SearchComponent(tripService, params, imageService) {
+    function SearchComponent(tripService, params) {
         this.tripService = tripService;
-        this.imageService = imageService;
         this.countriesArray = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
             'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
             'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan',
@@ -126,10 +124,9 @@ var SearchComponent = (function () {
             templateUrl: 'app/search/search.component.html',
             styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
-            providers: [imageService_service_1.ImageService],
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
         }), 
-        __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams, imageService_service_1.ImageService])
+        __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);
     return SearchComponent;
 })();

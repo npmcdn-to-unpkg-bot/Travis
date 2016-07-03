@@ -6,7 +6,6 @@ import {TripService} from './trip.service';
 import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TagInputComponent} from '../tag-input/tag-input.component';
-import {ImageService} from '../imageService.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {AuthService} from '../auth.service';
 
@@ -17,7 +16,6 @@ import {AuthService} from '../auth.service';
     styleUrls: ['app/trip/trip.component.css', '/ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
     directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, TagInputComponent],
-    providers:[ImageService]
 })
 
 export class TripComponent {
@@ -29,8 +27,7 @@ export class TripComponent {
     pictures:Picture[];
     imageInput:HTMLInputElement[];
 
-    constructor(private tripService:TripService,private authService: AuthService,
-                private imageService: ImageService,  public toastr: ToastsManager) {
+    constructor(private tripService:TripService,private authService: AuthService,  public toastr: ToastsManager) {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
         this.tripModel.tags = [];
