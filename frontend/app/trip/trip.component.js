@@ -64,6 +64,7 @@ var TripComponent = (function () {
         this.filesToUpload = [];
     }
     TripComponent.prototype.createTrip = function () {
+        var _this = this;
         if (!this.tripModel.countries || this.tripModel.countries.length == 0) {
             alert("Please choose a country before submitting.");
             return;
@@ -73,8 +74,36 @@ var TripComponent = (function () {
             return;
         }
         this.tripModel.pictures = this.picturesToUpload;
+        // reset form
+        // TODO: somehow the tags & countries do not reset themselves ...
         this.tripModel = new Trip();
         // location.reload();
+        var token = this.authService.getToken();
+        this.tripModel['token'] = token;
+        console.log(this.tripModel);
+        this.tripService.createTrip(this.tripModel).then(function (response) {
+            if (response.warn)
+                _this.toastr.warning("warning! " + response.msg);
+            else if (response.success) {
+                _this.toastr.success("success! " + response.msg);
+                // clearing form
+                // reset form
+                // TODO: somehow the tags & countries do not reset themselves ...
+                _this.tripModel = new Trip();
+            }
+            else {
+                _this.toastr.error("Creating trip failed !" + response.msg);
+                var msg = response.msg.toLowerCase();
+                if (msg && msg.indexOf('token') >= 0) {
+                    setTimeout(function () {
+                        _this.toastr.error("Token is not valid! Logging Out....");
+                        setTimeout(function () {
+                            _this.authService.doLogout();
+                        }, 1000);
+                    }, 2000);
+                }
+            }
+        });
     };
     Object.defineProperty(TripComponent.prototype, "disabledV", {
         get: function () {

@@ -53,12 +53,10 @@ export class TripComponent {
         }
         this.tripModel.pictures = this.picturesToUpload;
 
-<<<<<<< HEAD
         // reset form
         // TODO: somehow the tags & countries do not reset themselves ...
         this.tripModel = new Trip();
         // location.reload();
-=======
         let token = this.authService.getToken();
         this.tripModel['token'] = token;
         console.log(this.tripModel);
@@ -86,8 +84,6 @@ export class TripComponent {
                 }
             }
         });
-
->>>>>>> ab7810bc7aa8ebb7197c1dbc709665887cf15631
     }
 
     public countriesArray:Array<string> = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',

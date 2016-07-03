@@ -22,6 +22,7 @@ import {TravisUser} from "./auth_user";
 export class Navbar implements OnInit{
     user:any;
     _subscription:any;
+
     public status:{isopen:boolean} = {isopen: false};
 
     constructor(private location:Location, private router:Router, private authService:AuthService) {
@@ -69,7 +70,7 @@ export class Navbar implements OnInit{
         this.status.isopen = !this.status.isopen;
     }
 
-    private dropdownMenu($event:any):void {
+    private dropdownUserMenu($event:any):void {
         $event.preventDefault();
         $event.stopPropagation();
         this.status.isopen = !this.status.isopen;
