@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -17,12 +16,13 @@ var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var comment_component_1 = require('../comment/comment.component');
 var poll_service_1 = require('./poll.service');
 var auth_service_1 = require('../auth.service');
+var ng2_toastr_1 = require('ng2-toastr/ng2-toastr');
 var Option = (function () {
     function Option() {
         this.vote = [];
     }
     return Option;
-}());
+})();
 exports.Option = Option;
 var Poll = (function () {
     function Poll() {
@@ -38,15 +38,11 @@ var Poll = (function () {
     };
     Poll.prototype.getVotes = function (currentOp) {
         var votes = 0;
-        console.log("getting votes for option ");
-        console.log(currentOp);
         this.options.map(function (tempOp) {
-            console.log(tempOp.text);
             if (tempOp.text == currentOp) {
                 votes = tempOp.vote.length;
             }
         });
-        console.log("votes: " + votes);
         return votes;
     };
     Poll.prototype.getVotesPercentage = function (option) {
@@ -58,22 +54,22 @@ var Poll = (function () {
         this.options.map(function (tempOp) {
             votes += tempOp.vote.length;
         });
-        console.log("number of votes for " + this.title + " is: " + votes);
         return votes;
     };
     return Poll;
-}());
+})();
 exports.Poll = Poll;
 var pollForm = (function () {
     function pollForm() {
     }
     return pollForm;
-}());
+})();
 exports.pollForm = pollForm;
 var PollComponent = (function () {
-    function PollComponent(authService, pollService) {
+    function PollComponent(authService, pollService, toastr) {
         this.authService = authService;
         this.pollService = pollService;
+        this.toastr = toastr;
         this.pollModel = new pollForm();
         this.polls = [];
         this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
@@ -84,16 +80,49 @@ var PollComponent = (function () {
         var states = ["success", "info", "warning", "danger"];
         return states[len];
     };
-    PollComponent.prototype.submitPoll = function () {
-        // for creating a poll
-        var options = this.pollModel.options.split('\n');
-        var validOptions = [];
-        options.map(function (option) {
-            if (option != "" && option != null)
-                validOptions.push(option);
-        });
-        var pollObj = { token: localStorage.getItem('token'), title: this.pollModel.title, options: validOptions };
-        this.pollService.postPoll(pollObj);
+    PollComponent.prototype.submitPoll = function (submitedForm, pollModal) {
+        var _this = this;
+        var ngForm = submitedForm;
+        var pollModal = pollModal;
+        try {
+            // for creating a poll
+            var options = this.pollModel.options.split('\n');
+            var validOptions = [];
+            options.map(function (option) {
+                if (option != "" && option != null)
+                    validOptions.push(option);
+            });
+            var pollObj = { token: this.authService.getToken(), title: this.pollModel.title, options: validOptions };
+            this.pollService.postPoll(pollObj).then(function (response) {
+                if (response.warn)
+                    _this.toastr.warning("warning! " + response.msg);
+                else if (response.success) {
+                    pollModal.hide();
+                    _this.toastr.success("success! " + response.msg);
+                    // clearing form
+                    ngForm.form.controls["title"].updateValue("");
+                    ngForm.form.controls["title"]['_pristine'] = true;
+                    ngForm.form.controls["pollOptions"].updateValue("");
+                    ngForm.form.controls["pollOptions"]['_pristine'] = true;
+                }
+                else {
+                    _this.toastr.error("Creating poll failed !" + response.msg);
+                    var msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >= 0) {
+                        setTimeout(function () {
+                            _this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(function () {
+                                _this.authService.doLogout();
+                            }, 1000);
+                        }, 2000);
+                    }
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+            this.toastr.error("posting the polls failed!");
+        }
     };
     PollComponent.prototype.ngOnInit = function () {
         console.log("OnInit poll component");
@@ -101,22 +130,43 @@ var PollComponent = (function () {
     };
     PollComponent.prototype.getPolls = function () {
         var _this = this;
-        this.pollService.getLatestPolls().then(function (polls) {
-            polls.map(function (poll) {
-                var tempPoll = new Poll();
-                tempPoll.owner = poll['owner'];
-                tempPoll.title = poll['title'];
-                tempPoll.options = poll['options'];
-                tempPoll.date = _this.formatDate(poll['date']);
-                tempPoll.comments = poll['comments'];
-                if (tempPoll.comments) {
-                    tempPoll.comments.map(function (comment) {
-                        comment.date = _this.formatDate(comment.date);
+        try {
+            var token = this.authService.getToken();
+            this.pollService.getLatestPolls(token).then(function (response) {
+                if (!response.error) {
+                    var polls = response;
+                    polls.map(function (poll) {
+                        var tempPoll = new Poll();
+                        tempPoll.owner = poll['owner'];
+                        tempPoll.title = poll['title'];
+                        tempPoll.options = poll['options'];
+                        tempPoll.date = _this.formatDate(poll['date']);
+                        tempPoll.comments = poll['comments'];
+                        if (tempPoll.comments) {
+                            tempPoll.comments.map(function (comment) {
+                                comment.date = _this.formatDate(comment.date);
+                            });
+                        }
+                        _this.polls.push(tempPoll);
                     });
                 }
-                _this.polls.push(tempPoll);
+                else {
+                    _this.toastr.error("Getting the polls failed " + response.msg);
+                    var msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >= 0) {
+                        setTimeout(function () {
+                            _this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(function () {
+                                _this.authService.doLogout();
+                            }, 1000);
+                        }, 2000);
+                    }
+                }
             });
-        });
+        }
+        catch (err) {
+            this.toastr.error("getting the polls failed!");
+        }
     };
     PollComponent.prototype.formatDate = function (dateStr) {
         var options = {
@@ -134,9 +184,9 @@ var PollComponent = (function () {
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, comment_component_1.CommentComponent, ng2_bootstrap_1.PROGRESSBAR_DIRECTIVES, common_1.CORE_DIRECTIVES],
             styleUrls: ['app/poll/poll.component.css'],
         }), 
-        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], PollComponent);
     return PollComponent;
-}());
+})();
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map

@@ -68,7 +68,7 @@
                 <h4 class="modal-title">Create a new poll</h4>
             </div>
             <div class="modal-body">
-                <form #pollCreationForm="ngForm" (ngSubmit)="submitPoll()">
+                <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll(pollCreationForm, createPollModal)">
                     <p>Please enter a question:</p>
                     <input type="text" [(ngModel)]="pollModel.title" name="title" class="questionText"
                            placeholder="Where should I go?" ngControl="title" #title="ngForm" required/>
@@ -84,7 +84,7 @@
                         Minimum one Option is required
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block" (click)="createPollModal.hide()"
+                    <button type="submit" class="btn btn-primary btn-block"
                             [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit
                     </button>
                 </form>

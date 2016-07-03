@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,7 +22,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require('@angular/http');
 require('rxjs/Rx');
-var Observable_1 = require("rxjs/Observable");
 var router_deprecated_1 = require('@angular/router-deprecated');
 var polls = [
     {
@@ -129,45 +127,80 @@ var PollService = (function () {
         this.http = http;
         this.router = router;
     }
-    PollService.prototype.getLatestPolls = function () {
-        console.log("poll service is called!");
-        return this.http.get("http://localhost:3000/rest/poll/")
+    PollService.prototype.getLatestPolls = function (token) {
+        var _this = this;
+        console.log(token);
+        var headers = new http_1.Headers();
+        headers.append('token', token);
+        return this.http.get("http://localhost:3000/rest/poll/", { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not get the polls'))
             .toPromise().then(function (res) {
-            if (res)
-                return res.json();
+            if (res) {
+                var serviceResponse = {};
+                if (res.status <= 299)
+                    serviceResponse = res.json();
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
             else
                 return {};
-        }).catch(this.handleError);
+        }).catch(function (res) { return _this.handleError(res); });
     };
-    PollService.prototype.handleError = function (error) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
-        var errMsg = (error.message) ? error.message :
-            error.status ? error.status + " - " + error.statusText : 'Server error';
-        console.error(errMsg); // log to console instead
-        return Observable_1.Observable.throw(errMsg);
+    PollService.prototype.handleError = function (res) {
+        if (res.status >= 400) {
+            var serviceResponse = {};
+            serviceResponse['error'] = true;
+            serviceResponse['msg'] = res.text();
+            console.log(serviceResponse);
+            return serviceResponse;
+        }
+        else {
+            var error = res;
+            var errMsg = (error.message) ? error.message :
+                error.status ? error.status + " - " + error.statusText : 'Server error';
+            console.error(errMsg); // log to console instead
+            return {
+                error: true,
+                msg: "server did not respond!"
+            };
+        }
     };
     PollService.prototype.postPoll = function (pollObj) {
+        var _this = this;
         var body = JSON.stringify(pollObj);
         console.log(pollObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("/rest/poll/create", body, { 'headers': headers })
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-        })
-            .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to post a poll:", err);
-        });
+        return this.http.post("/rest/poll/create", body, { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(function (res) {
+            if (res) {
+                console.log(res);
+                var serviceResponse = {};
+                if (res.status <= 299) {
+                    serviceResponse['msg'] = res.text();
+                    serviceResponse['success'] = true;
+                }
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return { warn: true, msg: "no Response from the server!" };
+        }).catch(function (res) { return _this.handleError(res); });
     };
     PollService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-}());
+})();
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map

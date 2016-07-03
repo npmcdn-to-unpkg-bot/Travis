@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -130,48 +129,48 @@ var TripComponent = (function () {
         var _this = this;
         try {
             this.imageInput = fileInput;
-            var recentFile_1 = fileInput.files[0];
-            this.filesToUpload.push(recentFile_1);
-            if (recentFile_1) {
-                if (!recentFile_1.type.match(/image.*/)) {
-                    console.log('This is  not an image! ' + recentFile_1.name);
-                    alert('You can only upload an image file! Choose an image please' + recentFile_1.name);
+            var recentFile = fileInput.files[0];
+            this.filesToUpload.push(recentFile);
+            if (recentFile) {
+                if (!recentFile.type.match(/image.*/)) {
+                    console.log('This is  not an image! ' + recentFile.name);
+                    alert('You can only upload an image file! Choose an image please' + recentFile.name);
                     return;
                 }
-                if (recentFile_1.size > 1024 * 1024 * 8) {
+                if (recentFile.size > 1024 * 1024 * 8) {
                     alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
-                var sumSize_1 = 0;
+                var sumSize = 0;
                 this.filesToUpload.map(function (file) {
                     if (file)
-                        sumSize_1 += file.size;
+                        sumSize += file.size;
                 });
-                if (sumSize_1 + recentFile_1.size > 1024 * 1024 * 50) {
+                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
                     return;
                 }
                 //console.log(currentFile.name + " size: " + currentFile.size);
-                var img_1 = new Image();
+                var img = new Image();
                 //img.src = window.URL.createObjectURL(currentFile);
-                var previewPic_1 = new Picture();
-                var toBeSentPic_1 = new Picture();
+                var previewPic = new Picture();
+                var toBeSentPic = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
-                    img_1.src = event.target.result;
-                    toBeSentPic_1.name = recentFile_1.name;
-                    previewPic_1.name = toBeSentPic_1.name;
+                    img.src = event.target.result;
+                    toBeSentPic.name = recentFile.name;
+                    previewPic.name = toBeSentPic.name;
                     // Resize the image
-                    _this.imageService.resizeImage(img_1).then(function (imageURL) { return previewPic_1.src = imageURL; });
-                    _this.imageService.getImageURL(img_1).then(function (imageURL) { return toBeSentPic_1.src = imageURL; });
+                    _this.imageService.resizeImage(img).then(function (imageURL) { return previewPic.src = imageURL; });
+                    _this.imageService.getImageURL(img).then(function (imageURL) { return toBeSentPic.src = imageURL; });
                     //toBeSentPic.src = this.getImage(img);
                 }, false);
-                reader.readAsDataURL(recentFile_1);
-                this.pictures.push(previewPic_1);
-                this.picturesToUpload.push(toBeSentPic_1);
+                reader.readAsDataURL(recentFile);
+                this.pictures.push(previewPic);
+                this.picturesToUpload.push(toBeSentPic);
             }
             else
                 return;
@@ -201,18 +200,18 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, imageService_service_1.ImageService])
     ], TripComponent);
     return TripComponent;
-}());
+})();
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-}());
+})();
 exports.Trip = Trip;
 var Picture = (function () {
     function Picture() {
     }
     return Picture;
-}());
+})();
 exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map

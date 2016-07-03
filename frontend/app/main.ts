@@ -25,6 +25,13 @@ import {enableProdMode} from '@angular/core';
 
 //enableProdMode();
 import {TripService} from "./trip/trip.service";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {ToastOptions} from "ng2-toastr/ng2-toastr";
+
+let toastOptions = {
+    toastLife: 4000,
+    positionClass: 'toast-top-center',
+};
 
 bootstrap(AppComponent, [
     HTTP_PROVIDERS,
@@ -34,5 +41,7 @@ bootstrap(AppComponent, [
     TripService,
     WindowService,
     COMMON_DIRECTIVES,
+    ToastsManager,
     provide(LocationStrategy, {useClass: PathLocationStrategy}),
+    provide(ToastOptions, { useValue: new ToastOptions(toastOptions)})
 ]);

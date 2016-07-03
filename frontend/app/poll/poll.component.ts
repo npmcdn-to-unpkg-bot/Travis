@@ -9,6 +9,8 @@ import { NgForm}    from '@angular/common';
 import { CommentComponent } from '../comment/comment.component';
 import {PollService} from './poll.service'
 import {AuthService} from '../auth.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 
 export class Option{
     text: string;
@@ -35,15 +37,11 @@ export class Poll {
 
     public getVotes(currentOp:string){
         let votes = 0;
-        console.log("getting votes for option ");
-        console.log(currentOp);
         this.options.map(tempOp =>{
-           console.log(tempOp.text);
-            if (tempOp.text == currentOp){
+           if (tempOp.text == currentOp){
                votes = tempOp.vote.length;
            }
         });
-        console.log("votes: " + votes);
         return votes;
     }
 
@@ -58,7 +56,6 @@ export class Poll {
         this.options.map(tempOp =>{
             votes += tempOp.vote.length;
         });
-        console.log("number of votes for " + this.title + " is: " + votes);
         return votes;
     }
 
@@ -83,7 +80,7 @@ export class PollComponent implements OnInit{
     pollModel:pollForm;
     userId:string;
 
-    constructor(private authService: AuthService, private pollService: PollService) {
+    constructor(private authService: AuthService, private pollService: PollService, public toastr: ToastsManager) {
         this.pollModel = new pollForm();
         this.polls = [];
         this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
@@ -96,7 +93,12 @@ export class PollComponent implements OnInit{
         return states[len];
     }
 
-    submitPoll(){
+
+    submitPoll(submitedForm, pollModal){
+        let ngForm = submitedForm;
+        let pollModal = pollModal;
+
+        try{
         // for creating a poll
         let options = this.pollModel.options.split('\n');
         let validOptions = [];
@@ -104,8 +106,41 @@ export class PollComponent implements OnInit{
             if (option != "" && option != null)
                 validOptions.push(option);
         });
-        let pollObj = {token: localStorage.getItem('token'), title:this.pollModel.title, options:validOptions};
-        this.pollService.postPoll(pollObj);
+        let pollObj = {token: this.authService.getToken(), title:this.pollModel.title, options:validOptions};
+
+            this.pollService.postPoll(pollObj).then(response=>{
+                if(response.warn)
+                    this.toastr.warning("warning! " + response.msg);
+                else if (response.success){
+
+                    pollModal.hide();
+
+                    this.toastr.success("success! " + response.msg);
+                    // clearing form
+                    ngForm.form.controls["title"].updateValue("");
+                    ngForm.form.controls["title"]['_pristine'] = true;
+                    ngForm.form.controls["pollOptions"].updateValue("");
+                    ngForm.form.controls["pollOptions"]['_pristine'] = true;
+
+                }
+                else{
+                    this.toastr.error("Creating poll failed !" + response.msg);
+                    let msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >=0) {
+                        setTimeout(()=>{
+                            this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(()=>{
+                                this.authService.doLogout();
+                            },1000);
+                        },2000);
+                    }
+                }
+            });
+
+        } catch (err){
+            console.log(err);
+            this.toastr.error("posting the polls failed!");
+        }
     }
 
     ngOnInit() {
@@ -114,23 +149,45 @@ export class PollComponent implements OnInit{
     }
 
     private getPolls(){
-            this.pollService.getLatestPolls().then(polls => {
-                polls.map(poll=>{
-                    let tempPoll = new Poll();
-                    tempPoll.owner =  poll['owner'];
-                    tempPoll.title = poll['title'];
-                    tempPoll.options = poll['options'];
-                    tempPoll.date =  this.formatDate(poll['date']);
-                    tempPoll.comments = poll['comments'];
-                    if (tempPoll.comments){
-                        tempPoll.comments.map(comment =>{
-                            comment.date = this.formatDate(comment.date);
-                        });
-                    }
+        try{
+            let token = this.authService.getToken();
+            this.pollService.getLatestPolls(token).then(response => {
+                if (!response.error){
+                    let polls = response;
+                    polls.map(poll=>{
+                        let tempPoll = new Poll();
+                        tempPoll.owner =  poll['owner'];
+                        tempPoll.title = poll['title'];
+                        tempPoll.options = poll['options'];
+                        tempPoll.date =  this.formatDate(poll['date']);
+                        tempPoll.comments = poll['comments'];
+                        if (tempPoll.comments){
+                            tempPoll.comments.map(comment =>{
+                                comment.date = this.formatDate(comment.date);
+                            });
+                        }
 
-                    this.polls.push(tempPoll);
-                });
+                        this.polls.push(tempPoll);
+                    });
+                }else{
+                    this.toastr.error("Getting the polls failed " + response.msg);
+                    let msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >=0) {
+                        setTimeout(()=>{
+                            this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(()=>{
+                                this.authService.doLogout();
+                            },1000);
+
+                        },2000);
+                    }
+                }
+
             });
+        } catch (err){
+            this.toastr.error("getting the polls failed!");
+        }
+
     }
 
     private formatDate(dateStr): string{
