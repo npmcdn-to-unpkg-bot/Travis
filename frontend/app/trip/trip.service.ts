@@ -187,4 +187,30 @@ export class TripService {
             })
             .catch(res => this.handleError(res));
     }
+    public updateTrip(trip:Trip, token) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('token', token);
+        let body = JSON.stringify(trip);
+        console.log(body);
+        var query = "/rest/trip?" + "id=" + trip._id;
+        return this.http.put(query, body, {'headers': headers})
+            .toPromise().then(res => {
+                if (res) {
+                    let serviceResponse = {};
+                    if (res.status <= 299) {
+                        serviceResponse['success'] = true;
+                        serviceResponse['msg'] = res.text();
+                    }
+                    else if (res.status >= 400) {
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
+                else return {};
+            })
+            .catch(res => this.handleError(res));
+    }
 }
