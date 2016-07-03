@@ -7,6 +7,9 @@ import {MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TagInputComponent} from '../tag-input/tag-input.component';
 import {ImageService} from '../imageService.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {AuthService} from '../auth.service';
+
 
 @Component({
     selector: 'trip',
@@ -27,7 +30,8 @@ export class TripComponent {
     picturesToUpload:Picture[];
     imageInput:HTMLInputElement[];
 
-    constructor(private tripService:TripService,private imageService: ImageService) {
+    constructor(private tripService:TripService,private authService: AuthService,
+                private imageService: ImageService,  public toastr: ToastsManager) {
         this.tripModel = new Trip();
         this.tripModel.cities = [];
         this.tripModel.tags = [];
@@ -38,6 +42,7 @@ export class TripComponent {
     }
 
     createTrip() {
+
         if (!this.tripModel.countries || this.tripModel.countries.length == 0){
             alert("Please choose a country before submitting.");
             return;
@@ -47,11 +52,35 @@ export class TripComponent {
             return;
         }
         this.tripModel.pictures = this.picturesToUpload;
-        this.tripService.createTrip(this.tripModel);
 
-        // reset form
-        // TODO: somehow the tags & countries do not reset themselves ...
-        this.tripModel = new Trip();
+        let token = this.authService.getToken();
+        this.tripModel['token'] = token;
+        console.log(this.tripModel);
+        this.tripService.createTrip(this.tripModel).then(response =>{
+            if(response.warn)
+                this.toastr.warning("warning! " + response.msg);
+            else if (response.success){
+
+                this.toastr.success("success! " + response.msg);
+                // clearing form
+                // reset form
+                // TODO: somehow the tags & countries do not reset themselves ...
+                this.tripModel = new Trip();
+            }
+            else{
+                this.toastr.error("Creating trip failed !" + response.msg);
+                let msg = response.msg.toLowerCase();
+                if (msg && msg.indexOf('token') >=0) {
+                    setTimeout(()=>{
+                        this.toastr.error("Token is not valid! Logging Out....");
+                        setTimeout(()=>{
+                            this.authService.doLogout();
+                        },1000);
+                    },2000);
+                }
+            }
+        });
+
     }
 
     public countriesArray:Array<string> = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',

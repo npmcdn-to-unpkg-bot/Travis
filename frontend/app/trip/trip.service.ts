@@ -5,25 +5,54 @@ import {Trip} from "./trip.component";
 @Injectable()
 export class TripService {
 
+    constructor(private http:Http) {    }
+
     public createTrip(trip:Trip) {
         let body = JSON.stringify(trip);
         console.log(trip);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("/rest/trip", body, {'headers': headers})
-            .map(res => {
-                console.log(res);
-                let response = res.json();
-                console.log(response);
-                alert(response);
+        return this.http.post("/rest/trip", body, {'headers': headers})
+            .timeout(8000, new Error('server timeout exceeded! could not create a new Trip'))
+            .toPromise().then(res => {
+                if (res)
+                {
+                    let serviceResponse = {};
+                    if(res.status <= 299){
+                        serviceResponse['success'] = true;
+                        serviceResponse['msg'] = res.text();
+                    }
+                    else if(res.status >= 400){
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
+                else return {};
             })
-            .subscribe(info => {
-            }, err => {
-                console.error("Failed to post a trip:", err);
-            });
+            .catch(res => this.handleError(res));
     }
-    
-    constructor(private http:Http) {    }
+
+    private handleError (res: any) {
+        if(res.status >= 400){
+            let serviceResponse = {};
+            serviceResponse['error'] = true;
+            serviceResponse['msg'] = res.text();
+            console.log(serviceResponse);
+            return serviceResponse;
+        }else{
+            let error = res;
+            let errMsg = (error.message) ? error.message :
+                error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+            console.error(errMsg); // log to console instead
+            return {
+                error : true,
+                msg: "server did not respond!"
+            };
+            //return Observable.throw(errMsg);
+        }
+    }
 
     public searchForTrip(searchTerm) {
         var headers = new Headers();
@@ -45,8 +74,18 @@ export class TripService {
         return this.http.get(query, {'headers': headers})
             .toPromise().then(res => {
                 if (res)
-                    return res.json();
+                {
+                    let serviceResponse = {};
+                    if(res.status <= 299)
+                        serviceResponse = res.json();
+                    else if(res.status >= 400){
+                        serviceResponse['error'] = true;
+                        serviceResponse['msg'] = res.text();
+                        console.log(serviceResponse);
+                    }
+                    return serviceResponse;
+                }
                 else return {};
-            }).catch(this.handleError);
+            }).catch(res => this.handleError(res));
     }
 }
