@@ -74,11 +74,10 @@ var PollComponent = (function () {
         this.polls = [];
         this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
     }
-    PollComponent.prototype.getBarType = function (name) {
-        var len = name.length;
-        len = len % 4;
+    PollComponent.prototype.getBarType = function (id) {
+        var type = id % 4;
         var states = ["success", "info", "warning", "danger"];
-        return states[len];
+        return states[type];
     };
     PollComponent.prototype.submitPoll = function (submitedForm, pollModal) {
         var _this = this;

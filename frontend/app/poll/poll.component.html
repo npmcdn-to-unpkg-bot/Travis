@@ -26,7 +26,7 @@
                             <fieldset>
                                 <legend>{{poll.title}}</legend>
                                 <div class="list-group">
-                                    <li class="list-group-item" *ngFor="let option of poll.options">
+                                    <li class="list-group-item" *ngFor="let option of poll.options; let i=index">
                                         <div class="option-choose">
                                         <div class="radio">
                                             <label>
@@ -38,7 +38,7 @@
                                         <div class="percentage">
                                         <progressbar class="progress-striped"
                                                      value={{poll.getVotesPercentage(option.text)}}
-                                                     type={{getBarType(option.text)}}><i>
+                                                     type={{getBarType(i)}}><i>
                                             {{poll.getVotes(option.text)}} / {{poll.getNumOfVotes()}}</i>
                                         </progressbar>
                                         </div>

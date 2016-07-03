@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
-var poll_service_1 = require('./poll.service');
+var poll_service_1 = require('../poll/poll.service');
 var auth_service_1 = require('../auth.service');
 var ng2_toastr_1 = require('ng2-toastr/ng2-toastr');
 var Comment = (function () {
@@ -44,10 +44,9 @@ var CommentComponent = (function () {
             templateUrl: 'app/comment/comment.component.html',
             styleUrls: ['app/comment/comment.component.css']
         }), 
-        __metadata('design:paramtypes', [auth_service_1.AuthService, (typeof (_a = typeof poll_service_1.PollService !== 'undefined' && poll_service_1.PollService) === 'function' && _a) || Object, ng2_toastr_1.ToastsManager])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], CommentComponent);
     return CommentComponent;
-    var _a;
 })();
 exports.CommentComponent = CommentComponent;
 //# sourceMappingURL=comment.component.js.map

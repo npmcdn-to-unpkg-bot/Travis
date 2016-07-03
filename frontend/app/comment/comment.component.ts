@@ -2,7 +2,7 @@
  * Created by Nadine on 6/2/16.
  */
 import { Component, Input } from '@angular/core';
-import {PollService} from './poll.service'
+import {PollService} from '../poll/poll.service'
 import {AuthService} from '../auth.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -14,13 +14,6 @@ export class Comment{
     text:string;
     date:string;
 
-    /*
-    get formattedDate(): string{
-        console.log("here");
-        var temp_date = new Date(this.date);
-        return temp_date.toLocaleTimeString("en-us", this.options);
-    }
-    */
 }
 
 
