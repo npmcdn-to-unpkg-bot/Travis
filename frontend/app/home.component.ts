@@ -22,9 +22,4 @@ export class HomeComponent {
                 private authService:AuthService) {
         this.searchTerm = [];
     }
-
-    public searchForTrips() {
-        console.log("this.searchTerm");
-        console.log(this.searchTerm);
-    }
 }

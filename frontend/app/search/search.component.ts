@@ -10,14 +10,14 @@ import {SELECT_DIRECTIVES} from 'ng2-select/ng2-select';
 import {TripComponent} from '../trip/trip.service';
 import {Trip} from "../trip/trip.component";
 import {RouteParams} from "@angular/router-deprecated";
-import { CAROUSEL_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap/components/carousel';
+import {RatingComponent} from '../rating/rating.component';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
     styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
-    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES],
+    directives: [MODAL_DIRECTVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, RatingComponent],
 })
 
 export class SearchComponent {
@@ -25,6 +25,7 @@ export class SearchComponent {
     searchModel:SearchTerm;
     resultTripModel:Trip;
     trips:Trip[];
+    ratingLabel:string;
 
 
     constructor(private tripService:TripService, params: RouteParams) {
@@ -124,7 +125,45 @@ export class SearchComponent {
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
                 tmpTrip.pictures = trip['pictures'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
                 this.trips.push(tmpTrip);
+            });
+        });
+        this.searchModel.searchTerm = terms.replace(", ",/\s/g);
+    }
+    ratingComponetClick(clickObj: any, trip:Trip): void {
+        trip.rating = clickObj.rating;
+        var rating = this.tripService.rateTrip(trip).then(rating => {
+            trip.rating = rating.value;
+            this.resultTripModel.rating = trip.rating;
+            this.ratingLabel = rating.numRates;
+        });
+    }
+    public loadMoreTrips() {
+        var searchModel = this.searchModel;
+        var terms:string = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
+        var searchResultTrips = this.tripService.searchForMoreTrips(searchModel).then(trips => {
+            trips.map(trip => {
+                let tmpTrip = new Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
+>               this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);

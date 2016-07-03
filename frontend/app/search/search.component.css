@@ -13,12 +13,13 @@
     padding-bottom: 40px;
     margin-bottom: 0;
 }
+
 .filter:before,
 .format-filter:before {
     border-bottom: 1px solid #0F6660;
 }
 
-.btn-submit{
+.btn-submit {
     width: 300px;
     margin-top: 5px;
 }
@@ -26,8 +27,6 @@
 .selectableList {
     background-color: #eff2f5;
 }
-
-
 
 .animate {
     -webkit-transition: all 0.3s ease-in-out;
@@ -38,11 +37,10 @@
 }
 
 .trip-card {
-    /*width: 100%;*/
-    -webkit-box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
-    -moz-box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
-    box-shadow: 1px -1px 13px 5px rgba(150,144,150,0.61);
-    width: 80%;
+    -webkit-box-shadow: 1px -1px 13px 5px rgba(150, 144, 150, 0.61);
+    -moz-box-shadow: 1px -1px 13px 5px rgba(150, 144, 150, 0.61);
+    box-shadow: 1px -1px 13px 5px rgba(150, 144, 150, 0.61);
+    width: 100%;
     margin-right: auto;
     margin-left: auto;
     border: 0px;
@@ -54,8 +52,15 @@
     color:grey;
 }
 
+.route {
+    padding: 20px;
+    margin-bottom: 70px;
+    width: inherit;
+    height: inherit;
+}
+
 .trip-card .trip-card-details,
-.trip-card .trip-card-details .trip-card-header  {
+.trip-card .trip-card-details .trip-card-header {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -65,19 +70,24 @@
     background: rgb(255, 255, 255);
     text-align: center;
 }
+
 .trip-card .trip-card-details::-webkit-scrollbar {
     width: 8px;
 }
+
 .trip-card .trip-card-details::-webkit-scrollbar-button {
     width: 8px;
     height: 0px;
 }
+
 .trip-card .trip-card-details::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .trip-card .trip-card-details::-webkit-scrollbar-thumb {
     background: rgb(160, 160, 160);
 }
+
 .trip-card .trip-card-details::-webkit-scrollbar-thumb:hover {
     background: rgb(130, 130, 130);
 }
@@ -87,17 +97,20 @@
     bottom: 100%;
     padding: 10px 5px;
 }
+
 .trip-card:hover .trip-card-details {
     bottom: 0px;
-    overflow: auto;
+    overflow-x: hidden;
     padding-bottom: 25px;
 }
+
 .trip-card:hover .trip-card-details .trip-card-header {
     position: relative;
     bottom: 0px;
     padding-top: 45px;
     padding-bottom: 25px;
 }
+
 .trip-card .trip-card-details .trip-card-header h1 {
     color: #052421;
     font-size: 22px;
@@ -115,6 +128,7 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+
 .trip-card .trip-card-details .trip-card-header h3 {
     /*color: #0F6660;*/
     font-size: 15px;
@@ -124,6 +138,8 @@
 
 .trip-card .trip-card-details .trip-card-header h4{
     color: #FF6485;
+.trip-card .trip-card-details .trip-card-header h4 {
+    color: #0F6660;
     font-size: 15px;
     font-weight: 300;
     margin-top: 10px;
@@ -154,39 +170,37 @@
 
 
 .route {
-    /*
     padding: 20px;
     margin-bottom: 70px;
     width: inherit;
     height: inherit;
-    */
-
-    padding-top: 30px;
-    margin-bottom: 70px;
-    width: 300px;
-    height: 300px;
 }
 
 .row {
     margin-left: -15px;
     margin-right: -15px;
 }
+
 #tripDurationDate, #tripBudget, #tripDescription {
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#tripDurationDate{
+
+#tripDurationDate {
     margin-top: 15px;
 }
-#tripDescription h4{
+
+#tripDescription h4 {
     margin-top: 25px;
     margin-bottom: 5px;
 }
+
 .trip-card p {
     font-size: 15px;
 }
+
 #tripDurationDate, #tripBudget, #tripDescription, #tripCities, #tripCountries {
     margin-left: 10px;
     margin-right: 10px;
@@ -200,28 +214,30 @@
     padding-bottom: 10px;
 }
 
-
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
     width: 70%;
     margin: auto;
 }
-#imageCarousel{
+
+#imageCarousel {
     margin-top: 30px;
 }
 
 .carousel-control {
-    top:50%;
-    width:auto;
-    height:1em;
-    background:transparent;
+    top: 50%;
+    width: auto;
+    height: 1em;
+    background: transparent;
 }
-.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right  {
-    position:static;
-    display:block;
-    width:auto;
+
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right {
+    position: static;
+    display: block;
+    width: auto;
     color: #0F6660;
 }
+
 .carousel-control .glyphicon-chevron-left:before {
     margin-left:0;
 }
@@ -247,4 +263,21 @@
     height: auto;
     min-height: 500px;
     top: 60px;
+}
+/*
+    margin-left: 0;
+}*/
+
+.row {
+    width: auto;
+}
+
+@media (max-width: 991px) {
+    .trip-card{
+        width: 80%;
+    }
+    .route {
+        padding: 30px;
+        margin-bottom: 70px;
+    }
 }

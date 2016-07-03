@@ -6,11 +6,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Trip = require('./tripSchema');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var seenIds;
 
 module.exports.getAll = function (req, res) {
-
     console.log("Get all trips");
-
     Trip.find().sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
@@ -76,16 +77,39 @@ module.exports.create = function (req, res) {
 };
 
 module.exports.getTrips = function (req, res) {
-
-    console.log(req.query);
+    seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
-    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trips) {
+    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
             return;
         }
-        res.status(201).json(trips);
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
+    });
+};
+
+module.exports.getMoreTrips = function (req, res) {
+    console.log("REQ");
+    console.log(req);
+
+    var mongoQuery = getMongoQuery(req.query);
+
+    mongoQuery._id = {$nin: seenIds};
+
+    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
     });
 };
 
@@ -96,7 +120,6 @@ function getMongoQuery(query) {
         if (typeof query.searchTerm == 'string') {
             query.searchTerm = stringToArray(query.searchTerm);
         }
-        mongoQuery.tags = {$in: query.searchTerm};
     }
     if (query.countries) {
         if (typeof query.countries == 'string') {
@@ -126,7 +149,7 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
-    console.log(mongoQuery);
+    // console.log(mongoQuery);
     return mongoQuery;
 }
 
@@ -134,38 +157,61 @@ function stringToArray(string) {
     return string.split(", ");
 }
 
-module.exports.comment = function(req, res){
-	console.log('sdklj');
-	// user should send his token for each request
-	/*if(!req.body.token){
-        res.status(400).send('token required');
-        return;
-    }
+module.exports.rateTrip = function (req, res) {
+    var ObjectId = mongoose.Types.ObjectId;
+    Trip.findOne({_id: new ObjectId(req.body._id)}, function (err, doc) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
 
-	// get the token 
-	var token = req.body.token;
-	var decoded =  jwt.decode(token, Config.auth.jwtSecret);
-	var user_id = decoded.user._id;
-	*/
-	var comment = new Comment();
-	
-	comment.text= req.body.text;
-	comment.user= user_id;
-	comment.user= req.body.userID;
-	
-	Poll.findByIdAndUpdate(
-		    req.body.poll_id,
-		    {$push: {"comments": comment}},
-		    {safe: true, upsert: true},
-		    function(err, model) {
-		        
-		        
-		        res.status(200).send('ok');
-		        return;
-		    }
-		);
-	
+        // check if rating already exists
+        doc.rating.value || (doc.rating.value = 1);
+        doc.rating.numRates || (doc.rating.numRates = 0);
+
+        doc.rating.numRates++;
+
+        // calculate new average
+        var avg = doc.rating.value;
+        var numValues = doc.rating.numRates;
+        avg = (avg + ((req.body.rating - avg) / numValues));
+
+        doc.rating.value = Math.round(avg);
+
+        doc.save();
+        res.status(201).json(doc);
+    });
 };
 
+module.exports.comment = function (req, res) {
+    console.log('sdklj');
+    // user should send his token for each request
+    /*if(!req.body.token){
+     res.status(400).send('token required');
+     return;
+     }
+
+     // get the token
+     var token = req.body.token;
+     var decoded =  jwt.decode(token, Config.auth.jwtSecret);
+     var user_id = decoded.user._id;
+     */
+    var comment = new Comment();
+
+    comment.text = req.body.text;
+    comment.user = user_id;
+    comment.user = req.body.userID;
+
+    Poll.findByIdAndUpdate(
+        req.body.poll_id,
+        {$push: {"comments": comment}},
+        {safe: true, upsert: true},
+        function (err, model) {
 
 
+            res.status(200).send('ok');
+            return;
+        }
+    );
+};

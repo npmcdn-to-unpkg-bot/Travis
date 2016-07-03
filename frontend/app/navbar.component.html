@@ -1,27 +1,45 @@
-    <div class="navbar center">
-        <div class="yamm">
-            <div class="navbar-static-top">
-                <div class="container">
-                    <a href="index.html">
-                        <img src="../UI/assets/images/art/travis_logo_small.png" width="50" height="58">
-                    </a>
-                    <a class="navbar-brand" href="#"></a>
-                    <div class="navbar-inner center">
-                        <ul class="nav navbar-nav center">
-                            <li class="active"><a [routerLink]="['Home']">Search</a></li>
-                            <li *ngIf="authenticated()"><a [routerLink]="['Trip']">Share</a></li>
-                            <li *ngIf="authenticated()"><a [routerLink]="['Poll']">Poll</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <login *ngIf="!authenticated()"></login>
-                            <mydiv *ngIf="authenticated()">
-                                <span style="font-size: 15px">Welcome {{user?.firstName}} </span>
-                                <img class="img-circle" style='padding-top: 5px;' src="{{user?.imageURL}}"/>
-                                <button role="link" (click)="logout()" class="btn-link" style="font-size: 15px">Logout</button>
-                            </mydiv>
-                        </ul>
-                    </div>
-                </div><!-- /.row -->
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.yamm -->
-    </div><!-- /.navbar center -->
+<div class="navbar center">
+    <div class="yamm">
+        <div class="navbar-static-top">
+            <div class="container">
+                <a [routerLink]="['Home']">
+                    <img src="../UI/assets/images/art/travis_logo_small.png" width="50" height="58">
+                </a>
+                <a class="navbar-brand" href="#"></a>
+                <div class="navbar-inner center">
+                    <ul class="nav navbar-nav center">
+                        <li class="active"><a [routerLink]="['Home']">Search</a></li>
+                        <li *ngIf="authenticated()"><a [routerLink]="['Trip']">Share</a></li>
+                        <li *ngIf="authenticated()"><a [routerLink]="['Poll']">Poll</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <login *ngIf="!authenticated()"></login>
+                        <mydiv *ngIf="authenticated()">
+                            <div class="btn-group" dropdown [(isOpen)]="status.isopen">
+                                <button id="single-button" type="button" class="btn btn-primary" (click)="dropdownUserMenu($event)">
+                                    Hello {{user?.firstName}}! <span class="caret"></span>
+                                </button>
+                                <ul id="login-dp" class="dropdown-menu">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-12 text-center center-block">
+                                                <span style="margin-bottom: 5px;">Menu</span>
+                                                <div><img class="img-circle" style='padding-top: 5px;' src="{{user?.imageURL}}"/></div>
+                                                <button role="link" class="btn-link" style="padding-top: 5px;padding-bottom: 5px; font-size: 15px">My trips
+                                                </button>
+                                            </div>
+                                            <div class="bottom text-center">
+                                                <button role="link" (click)="logout()" class="btn-link" style="font-size: 15px">Logout
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </mydiv>
+                    </ul>
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.yamm -->
+</div><!-- /.navbar center -->

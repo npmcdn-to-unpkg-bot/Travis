@@ -1,0 +1,31 @@
+<fieldset class="rating">
+    <input type="radio"
+           value="5"
+           [name]="inputName"
+           [checked]="rating===5" />
+    <label title="Awesome trip!" (click)='onClick(5)'>5 stars</label>
+
+    <input type="radio"
+           value="4"
+           [name]="inputName"
+           [checked]="rating===4" />
+    <label title="Pretty cool" (click)='onClick(4)'>4 stars</label>
+
+    <input type="radio"
+           value="3"
+           [name]="inputName"
+           [checked]="rating===3" />
+    <label title="Ok-ish" (click)='onClick(3)'>3 stars</label>
+
+    <input type="radio"
+           value="2"
+           [name]="inputName"
+           [checked]="rating===2" />
+    <label title="Meh" (click)='onClick(2)'>2 stars</label>
+
+    <input type="radio"
+           value="1"
+           [name]="inputName"
+           [checked]="rating===1" />
+    <label title="Not my cup of tea" (click)='onClick(1)'>1 star</label>
+</fieldset>

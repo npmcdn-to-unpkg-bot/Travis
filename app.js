@@ -5,7 +5,7 @@ var Config = require('./config/config.js');
  */
 
 var mongoose = require('mongoose');
-mongoose.connect([Config.db.host, '/', Config.db.name].join(''),{
+mongoose.connect([Config.db.host, '/', Config.db.name].join(''), {
     //eventually it's a good idea to make this secure
     user: Config.db.user,
     pass: Config.db.pass
@@ -30,7 +30,8 @@ var app = express();
 
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb',
+app.use(bodyParser.urlencoded({
+    limit: '50mb',
     extended: true
 }));
 
@@ -40,10 +41,10 @@ app.use('/trip', express.static(__dirname + '/frontend'));
 app.use('/search', express.static(__dirname + '/frontend'));
 
 /*
-app.use('/*', function(req, res){
-  res.sendFile(__dirname + '/frontend/index.html');
-});
-*/
+ app.use('/*', function(req, res){
+ res.sendFile(__dirname + '/frontend/index.html');
+ });
+ */
 //passport
 
 var passport = require('passport');

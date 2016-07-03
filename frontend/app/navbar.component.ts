@@ -3,7 +3,7 @@
  */
 //These first 3 lines will be deprecated by the final release
 import {Component, OnInit, Input} from "@angular/core";
-
+import {DROPDOWN_DIRECTIVES, MODAL_DIRECTVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ROUTER_DIRECTIVES, Router} from "@angular/router-deprecated";
 import {Location} from "@angular/common";
 import {AuthService} from './auth.service';
@@ -12,14 +12,18 @@ import {TravisUser} from "./auth_user";
 
 @Component({
     selector: 'header',
-    directives: [ROUTER_DIRECTIVES, LoginComponent],
+    directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES, MODAL_DIRECTVES, LoginComponent],
     pipes: [],
+    viewProviders:[BS_VIEW_PROVIDERS],
     templateUrl: 'app/navbar.component.html',
-
+    styleUrls:  ['app/poll/poll.component.css', 'app/navbar.component.css', 'app/login.component.css'],
 })
+
 export class Navbar implements OnInit{
     user:any;
     _subscription:any;
+
+    public status:{isopen:boolean} = {isopen: false};
 
     constructor(private location:Location, private router:Router, private authService:AuthService) {
         //this.newUser = authService.authMsg;
@@ -57,5 +61,18 @@ export class Navbar implements OnInit{
         }
         );
     }
+    public toggled(open:boolean):void {
+        console.log('Dropdown is now: ', open);
+    }
 
+    public toggleDropdown($event:any):void {
+        console.log($event);
+        this.status.isopen = !this.status.isopen;
+    }
+
+    private dropdownUserMenu($event:any):void {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
+    }
 }

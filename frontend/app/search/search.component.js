@@ -17,6 +17,7 @@ var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var trip_component_1 = require("../trip/trip.component");
 var router_deprecated_1 = require("@angular/router-deprecated");
+var rating_component_1 = require('../rating/rating.component');
 var SearchComponent = (function () {
     function SearchComponent(tripService, params) {
         this.tripService = tripService;
@@ -113,7 +114,47 @@ var SearchComponent = (function () {
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
                 tmpTrip.pictures = trip['pictures'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
                 _this.trips.push(tmpTrip);
+            });
+        });
+        this.searchModel.searchTerm = terms.replace(", ", /\s/g);
+    };
+    SearchComponent.prototype.ratingComponetClick = function (clickObj, trip) {
+        var _this = this;
+        trip.rating = clickObj.rating;
+        var rating = this.tripService.rateTrip(trip).then(function (rating) {
+            trip.rating = rating.value;
+            _this.resultTripModel.rating = trip.rating;
+            _this.ratingLabel = rating.numRates;
+        });
+    };
+    SearchComponent.prototype.loadMoreTrips = function () {
+        var _this = this;
+        var searchModel = this.searchModel;
+        var terms = "";
+        if (searchModel.searchTerm && typeof searchModel.searchTerm == 'string') {
+            terms = searchModel.searchTerm;
+            searchModel.searchTerm = terms.replace(/\s/g, ", ");
+        }
+        var searchResultTrips = this.tripService.searchForMoreTrips(searchModel).then(function (trips) {
+            trips.map(function (trip) {
+                var tmpTrip = new trip_component_1.Trip();
+                tmpTrip.owner = trip['owner'];
+                tmpTrip.title = trip['title'];
+                tmpTrip.tags = trip['tags'];
+                tmpTrip.budget = trip['budget'];
+                tmpTrip.comments = trip['comments'];
+                tmpTrip.cities = trip['cities'];
+                tmpTrip.countries = trip['countries'];
+                tmpTrip.dateFrom = trip['dateFrom'];
+                tmpTrip.dateTo = trip['dateTo'];
+                tmpTrip.route = trip['route'];
+                tmpTrip.description = trip['description'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
+                    > _this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ", /\s/g);
@@ -124,7 +165,7 @@ var SearchComponent = (function () {
             templateUrl: 'app/search/search.component.html',
             styleUrls: ['app/search/search.component.css', 'ng2-select/components/css/ng2-select.css'],
             viewProviders: [ng2_bootstrap_1.BS_VIEW_PROVIDERS],
-            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES],
+            directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, common_1.CORE_DIRECTIVES, rating_component_1.RatingComponent],
         }), 
         __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);

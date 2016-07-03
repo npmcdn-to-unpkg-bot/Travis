@@ -18,6 +18,8 @@ function tripRoutes(passport) {
     // router.get('/{ID}'       , tripController.getById(ID));
     router.post('/' , tripController.create);
     router.get('/search' , tripController.getTrips);
+    router.get('/searchMore' , tripController.getMoreTrips);
+    router.put('/rate' , tripController.rateTrip);
 
     // router.delete('/Remove' , tripController.remove);
     router.post('/comment', tripController.comment);
