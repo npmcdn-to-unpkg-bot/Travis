@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -133,7 +132,7 @@ var PollService = (function () {
         console.log(token);
         var headers = new http_1.Headers();
         headers.append('token', token);
-        return this.http.get("http://localhost:3000/rest/poll/", { 'headers': headers })
+        return this.http.get("/rest/poll/", { 'headers': headers })
             .timeout(8000, new Error('server timeout exceeded! could not get the polls'))
             .toPromise().then(function (res) {
             if (res) {
@@ -256,6 +255,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-}());
+})();
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map

@@ -49,6 +49,7 @@
     margin-bottom: 20px;
     overflow: hidden;
     background-color: #FFF;
+    color:grey;
 }
 
 .route {
@@ -129,10 +130,14 @@
 }
 
 .trip-card .trip-card-details .trip-card-header h3 {
-    color: #0F6660;
+    /*color: #0F6660;*/
     font-size: 15px;
     font-weight: 400;
     margin-top: 5px;
+}
+
+.trip-card .trip-card-details .trip-card-header h4 {
+    color: #FF6485;
 }
 
 .trip-card .trip-card-details .trip-card-header h4 {
@@ -148,6 +153,23 @@
     font-weight: 200;
     margin-top: 5px;
 }
+
+.trip-card-detail h4 {
+    color: #FF6485;
+
+}
+
+.trip-card-detail span{
+    font-weight: 500;
+    color: grey;
+}
+
+.trip-card-detail span:hover{
+    font-weight: 500;
+    color: #FF6485;
+}
+
+
 
 .route {
     padding: 20px;
@@ -188,6 +210,12 @@
     margin-bottom: 5px;
 }
 
+.seperatorSection{
+    margin-bottom: 15px;
+    border-bottom: 1px dotted gray;
+    padding-bottom: 10px;
+}
+
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
     width: 70%;
@@ -213,8 +241,34 @@
 }
 
 .carousel-control .glyphicon-chevron-left:before {
-    margin-left: 0;
+    margin-left:0;
 }
+
+
+.modal-body {
+    padding: 20px;
+    bottom:0;
+    width: inherit;
+}
+#pictureModal .modal-content {
+    width: 50% auto;
+}
+
+#pictureModal .modal-body {
+    padding: 20px;
+    margin-top: 0px;
+    bottom: 0px;
+    width: inherit;
+    height: auto;
+}
+#pictureModal {
+    height: auto;
+    min-height: 500px;
+    top: 60px;
+}
+/*
+    margin-left: 0;
+}*/
 
 .row {
     width: auto;

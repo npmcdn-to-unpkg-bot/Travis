@@ -19,8 +19,6 @@
                         <span class="sub-text">{{poll.owner?.firstName}}</span><br>
                         <span class=" sub-text date-text">{{poll.date}}</span>
                     </div>
-
-
                     <div class="row inner-bottom-xs">
                         <div class="colmn-sm-8">
                         <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll(pollCreationForm, createPollModal)">
@@ -86,7 +84,6 @@
                     <div [hidden]="pollOptions.valid || pollOptions.pristine" class="alert alert-danger">
                         Minimum one Option is required
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-block"
                             [disabled]="!pollCreationForm.form.valid" name="submit" value="Submit">Submit
                     </button>

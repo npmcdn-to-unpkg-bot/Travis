@@ -16,11 +16,13 @@ export class RatingComponent {
     ngOnInit() {
         this.inputName = this.itemId + '_rating';
     }
+    
     onClick(rating:number):void{
         this.rating = rating;
         this.ratingClick.emit({
             itemId: this.itemId,
             rating: rating
         });
+        $(this).attr('disabled', 'disabled');
     }
 }

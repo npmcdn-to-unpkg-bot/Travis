@@ -20,7 +20,6 @@ export class RegForm {
 export class LoginForm {
     public loginEmail: string;
     public loginPassword: string;
-
 }
 
 @Component({

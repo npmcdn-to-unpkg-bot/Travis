@@ -80,7 +80,8 @@
                                 <button type="button" id="remove-button" (click)="removePic(i)" class="btn btn-default btn-xs">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
-                                <img src="{{picture.src}}" alt="{{picture.name}}" style="width:100px;height: 100px;" class="img-thumbnail"/>
+                                <img src="{{picture.src}}" alt="{{picture.name}}" style="max-width: 100%;
+                                    max-height: 100%" class="img-thumbnail image-center"/>
                             </div>
                         </div>
                     </div>

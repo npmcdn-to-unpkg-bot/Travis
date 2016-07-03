@@ -39,6 +39,7 @@ app.use('/', express.static(__dirname + '/frontend'));
 app.use('/poll', express.static(__dirname + '/frontend'));
 app.use('/trip', express.static(__dirname + '/frontend'));
 app.use('/search', express.static(__dirname + '/frontend'));
+app.use('/myTrips', express.static(__dirname + '/frontend'));
 
 /*
  app.use('/*', function(req, res){

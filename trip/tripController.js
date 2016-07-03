@@ -2,15 +2,16 @@ var Config = require('../config/config.js');
 var jwt = require('jwt-simple');
 var url = require('url');
 var passportManager = require('../passport/auth.js');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Trip = require('./tripSchema');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var seenIds;
 
 module.exports.getAll = function (req, res) {
-
     console.log("Get all trips");
-
     Trip.find().sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
@@ -23,7 +24,6 @@ module.exports.getAll = function (req, res) {
 function createTrip(req,res,user_id){
 
     console.log("Create a trip");
-
     var tmpTrip = new Trip();
     tmpTrip.title = req.body.title;
     tmpTrip.budget = req.body.budget;
@@ -47,6 +47,12 @@ function createTrip(req,res,user_id){
     tmpTrip.description = req.body.description;
     tmpTrip.pictures = req.body.pictures;
 
+    /*
+    tmpTrip.pictures.map(pic =>{
+        pic.src = new Buffer(pic.src, "base64");
+    });
+    */
+
     tmpTrip.save(function (err, success) {
         if (err) {
             res.status(500).send(err);
@@ -58,7 +64,6 @@ function createTrip(req,res,user_id){
 }
 
 module.exports.create = function (req, res) {
-
     if(!req.body.token){
         res.status(401).send('Unauthorized! token is required');
         return;
@@ -66,12 +71,21 @@ module.exports.create = function (req, res) {
     var token = req.body.token;
     // user should send his token for each request
     passportManager.verifyToken(token,req,res,createTrip);
+};
 
+module.exports.delete = function (req, res) {
+    console.log("CALLED DELETE");
+    if(!req.headers.token){
+        res.status(401).send('Unauthorized! token is required');
+        return;
+    }
+    var token = req.headers.token;
+    // user should send his token for each request
+    passportManager.verifyToken(token,req,res,deleteTrip);
 };
 
 module.exports.getTrips = function (req, res) {
-
-    console.log(req.query);
+    seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
     Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
         if (err) {
@@ -79,8 +93,57 @@ module.exports.getTrips = function (req, res) {
             res.status(500).send("Server error!");
             return;
         }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
         res.status(201).json(trip);
     });
+};
+
+function getTrips(req, res, user_id) {
+    seenIds = [];
+    var mongoQuery = getMongoQuery(req.query);
+    mongoQuery.owner = {$in: user_id};
+    Trip.find(mongoQuery).sort('-date').exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
+    });
+}
+
+module.exports.getMoreTrips = function (req, res) {
+    var mongoQuery = getMongoQuery(req.query);
+
+    mongoQuery._id = {$nin: seenIds};
+
+    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        trip.forEach(function(item) {
+            seenIds.push(item.id);
+        });
+        res.status(201).json(trip);
+    });
+};
+
+
+module.exports.getTripsFromUser = function (req, res) {
+    if(!req.headers.token){
+        res.status(401).send('Unauthorized! token is required');
+        return;
+    }
+    var token = req.headers.token;
+    // user should send his token for each request
+    passportManager.verifyToken(token,req,res,getTrips);
 };
 
 function getMongoQuery(query) {
@@ -90,7 +153,6 @@ function getMongoQuery(query) {
         if (typeof query.searchTerm == 'string') {
             query.searchTerm = stringToArray(query.searchTerm);
         }
-        mongoQuery.tags = {$in: query.searchTerm};
     }
     if (query.countries) {
         if (typeof query.countries == 'string') {
@@ -107,7 +169,6 @@ function getMongoQuery(query) {
         mongoQuery.budget = {$lte: parseFloat(query.budget)};
     if (query.tags)
         mongoQuery.tags = {$in: query.tags};
-
     if (query.from) {
         var tempDate = new Date(query.from);
         if (!isNaN(tempDate.getTime()))
@@ -120,7 +181,6 @@ function getMongoQuery(query) {
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
-    console.log(mongoQuery);
     return mongoQuery;
 }
 
@@ -152,6 +212,18 @@ module.exports.rateTrip = function (req, res) {
 
         doc.save();
         res.status(201).json(doc);
+    });
+};
+
+function deleteTrip (req, res, user_id) {
+    var ObjectId = mongoose.Types.ObjectId;
+    Trip.find({_id: new ObjectId(req.query.id)}).remove().exec( function (err, success) {
+        if (err) {
+            console.log(err);
+            res.status(500).send("Server error!");
+            return;
+        }
+        res.status(201).json("Trip was deleted");
     });
 };
 
