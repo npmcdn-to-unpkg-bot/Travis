@@ -4,7 +4,7 @@
             <div class="column-sm-10">
                 <ul class="format-filter text-center">
                     <!--<li><a class="active icon-th" title="All"></a></li>-->
-                    <li><a (click)="createPollModal.show()" class="icon-edit" title="Create Poll"></a>
+                    <li><a (click)="crea tePollModal.show()" class="icon-edit" title="Create Poll"></a>
                         <!-- <li><a class="icon-quote"></a></li>-->
                 </ul><!-- /.format-filter -->
             </div><!-- /.col -->
@@ -23,6 +23,7 @@
 
                     <div class="row inner-bottom-xs">
                         <div class="colmn-sm-8">
+                        <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll(pollCreationForm, createPollModal)">
                             <fieldset>
                                 <legend>{{poll.title}}</legend>
                                 <div class="list-group">
@@ -49,6 +50,7 @@
                                 </div>
                                 <comment [comments]="poll.comments" [id]="poll._id"></comment>
                             </fieldset>
+                          </form>
                         </div>
                     </div>
                 </div>

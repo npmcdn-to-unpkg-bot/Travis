@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,7 +23,7 @@ var Option = (function () {
         this.vote = [];
     }
     return Option;
-})();
+}());
 exports.Option = Option;
 var Poll = (function () {
     function Poll() {
@@ -57,13 +58,13 @@ var Poll = (function () {
         return votes;
     };
     return Poll;
-})();
+}());
 exports.Poll = Poll;
 var pollForm = (function () {
     function pollForm() {
     }
     return pollForm;
-})();
+}());
 exports.pollForm = pollForm;
 var PollComponent = (function () {
     function PollComponent(authService, pollService, toastr) {
@@ -86,12 +87,12 @@ var PollComponent = (function () {
         try {
             // for creating a poll
             var options = this.pollModel.options.split('\n');
-            var validOptions = [];
+            var validOptions_1 = [];
             options.map(function (option) {
                 if (option != "" && option != null)
-                    validOptions.push(option);
+                    validOptions_1.push(option);
             });
-            var pollObj = { token: this.authService.getToken(), title: this.pollModel.title, options: validOptions };
+            var pollObj = { token: this.authService.getToken(), title: this.pollModel.title, options: validOptions_1 };
             this.pollService.postPoll(pollObj).then(function (response) {
                 if (response.warn)
                     _this.toastr.warning("warning! " + response.msg);
@@ -183,9 +184,10 @@ var PollComponent = (function () {
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, comment_component_1.CommentComponent, ng2_bootstrap_1.PROGRESSBAR_DIRECTIVES, common_1.CORE_DIRECTIVES],
             styleUrls: ['app/poll/poll.component.css'],
         }), 
-        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, (typeof (_a = typeof ng2_toastr_1.ToastsManager !== 'undefined' && ng2_toastr_1.ToastsManager) === 'function' && _a) || Object])
     ], PollComponent);
     return PollComponent;
-})();
+    var _a;
+}());
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map

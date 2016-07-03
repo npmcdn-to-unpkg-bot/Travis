@@ -196,5 +196,60 @@ export class PollService {
                 }).catch(res => this.handleError(res));
     }
 
+    public postPollVote(pollObj){
+        let body = JSON.stringify(pollObj);
+        console.log(pollObj);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post("/rest/poll/vote", body, {'headers':headers})
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(res => {
+                    if (res)
+                    {
+                        console.log(res);
+                        let serviceResponse = {};
+                        if(res.status <= 299){
+                            serviceResponse['msg'] = res.text();
+                            serviceResponse['success']=true;
+                        }
+                        else if(res.status >= 400){
+                            serviceResponse['error'] = true;
+                            serviceResponse['msg'] = res.text();
+                            console.log(serviceResponse);
+                        }
+                        return serviceResponse;
+                    }
+
+                    else return {warn:true, msg:"no Response from the server!"};
+                }).catch(res => this.handleError(res));
+    }
+
+    public postPollComment(pollObj){
+        let body = JSON.stringify(pollObj);
+        console.log(pollObj);
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post("/rest/poll/create", body, {'headers':headers})
+            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+            .toPromise().then(res => {
+                    if (res)
+                    {
+                        console.log(res);
+                        let serviceResponse = {};
+                        if(res.status <= 299){
+                            serviceResponse['msg'] = res.text();
+                            serviceResponse['success']=true;
+                        }
+                        else if(res.status >= 400){
+                            serviceResponse['error'] = true;
+                            serviceResponse['msg'] = res.text();
+                            console.log(serviceResponse);
+                        }
+                        return serviceResponse;
+                    }
+
+                    else return {warn:true, msg:"no Response from the server!"};
+                }).catch(res => this.handleError(res));
+    }
 
 }
