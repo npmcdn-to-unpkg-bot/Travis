@@ -20,7 +20,7 @@ function tripRoutes(passport) {
     router.get('/search' , tripController.getTrips);
 
     // router.delete('/Remove' , tripController.remove);
-    // router.post('/Comment', tripController.comment);
+    router.post('/comment', tripController.comment);
     
     return router;
 }
