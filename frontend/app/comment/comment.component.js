@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,28 +12,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Created by Nadine on 6/2/16.
  */
 var core_1 = require('@angular/core');
+var poll_service_1 = require('../poll/poll.service');
+var auth_service_1 = require('../auth.service');
+var ng2_toastr_1 = require('ng2-toastr/ng2-toastr');
 var Comment = (function () {
     function Comment() {
     }
     return Comment;
-})();
+}());
 exports.Comment = Comment;
 var CommentComponent = (function () {
-    function CommentComponent() {
+    function CommentComponent(authService, pollService, toastr) {
+        this.authService = authService;
+        this.pollService = pollService;
+        this.toastr = toastr;
     }
+    CommentComponent.prototype.postComment = function () {
+        console.log(this.commentText);
+        var commentObj = { token: this.authService.getToken(), text: this.commentText, pollId: this.poll_id };
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Array)
     ], CommentComponent.prototype, "comments", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], CommentComponent.prototype, "poll_id", void 0);
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'comment',
             templateUrl: 'app/comment/comment.component.html',
             styleUrls: ['app/comment/comment.component.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], CommentComponent);
     return CommentComponent;
-})();
+}());
 exports.CommentComponent = CommentComponent;
 //# sourceMappingURL=comment.component.js.map

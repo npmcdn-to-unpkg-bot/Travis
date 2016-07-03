@@ -1,9 +1,9 @@
 <div id='comment' class="comment">
     <form ng-controller="CommentsController">
         Post your Comment
-        <form ng-controller="CommentsController">
+        <form ng-controller="CommentsController" (ngSubmit)="postComment()">
             <div class="cmmnt-content">
-                <textarea ng-model="txtcomment" type="text" name="comment" placeholder="Share your thoughts"></textarea>
+                <textarea  [(ngModel)]="commentText" type="text" name="comment" placeholder="Share your thoughts"></textarea>
                 <button ng-click='btn_add();' class="btn btn-small" style='margin-top:10px;'>Post Comment</button>
             </div>
             <span *ngIf="comments.length > 0">Comments</span>

@@ -75,11 +75,10 @@ var PollComponent = (function () {
         this.polls = [];
         this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
     }
-    PollComponent.prototype.getBarType = function (name) {
-        var len = name.length;
-        len = len % 4;
+    PollComponent.prototype.getBarType = function (id) {
+        var type = id % 4;
         var states = ["success", "info", "warning", "danger"];
-        return states[len];
+        return states[type];
     };
     PollComponent.prototype.submitPoll = function (submitedForm, pollModal) {
         var _this = this;
@@ -185,10 +184,9 @@ var PollComponent = (function () {
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, comment_component_1.CommentComponent, ng2_bootstrap_1.PROGRESSBAR_DIRECTIVES, common_1.CORE_DIRECTIVES],
             styleUrls: ['app/poll/poll.component.css'],
         }), 
-        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, (typeof (_a = typeof ng2_toastr_1.ToastsManager !== 'undefined' && ng2_toastr_1.ToastsManager) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], PollComponent);
     return PollComponent;
-    var _a;
 }());
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map

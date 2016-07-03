@@ -1,6 +1,7 @@
 var Config = require('../config/config.js');
 var jwt = require('jwt-simple');
 var url = require('url');
+var passportManager = require('../passport/auth.js');
 
 var Trip = require('./tripSchema');
 var mongoose = require('mongoose');
@@ -19,7 +20,7 @@ module.exports.getAll = function (req, res) {
     });
 };
 
-module.exports.create = function (req, res) {
+function createTrip(req,res,user_id){
 
     console.log("Create a trip");
 
@@ -32,6 +33,7 @@ module.exports.create = function (req, res) {
     tmpTrip.cities = req.body.cities;
     tmpTrip.countries = req.body.countries;
     tmpTrip.tags = req.body.tags;
+    tmpTrip.owner = user_id;
 
     if (typeof  tmpTrip.cities == 'string')
         tmpTrip.cities = [tmpTrip.cities];
@@ -50,8 +52,21 @@ module.exports.create = function (req, res) {
             res.status(500).send(err);
             return;
         }
-        res.status(201).json("successfully added trip: " + success.title);
+        res.status(201).send("successfully added trip: " + success.title);
     });
+
+}
+
+module.exports.create = function (req, res) {
+
+    if(!req.body.token){
+        res.status(401).send('Unauthorized! token is required');
+        return;
+    }
+    var token = req.body.token;
+    // user should send his token for each request
+    passportManager.verifyToken(token,req,res,createTrip);
+
 };
 
 module.exports.getTrips = function (req, res) {

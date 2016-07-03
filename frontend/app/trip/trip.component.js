@@ -17,10 +17,14 @@ var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var ng2_select_1 = require('ng2-select/ng2-select');
 var tag_input_component_1 = require('../tag-input/tag-input.component');
 var imageService_service_1 = require('../imageService.service');
+var ng2_toastr_1 = require('ng2-toastr/ng2-toastr');
+var auth_service_1 = require('../auth.service');
 var TripComponent = (function () {
-    function TripComponent(tripService, imageService) {
+    function TripComponent(tripService, authService, imageService, toastr) {
         this.tripService = tripService;
+        this.authService = authService;
         this.imageService = imageService;
+        this.toastr = toastr;
         this.countriesArray = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla',
             'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas',
             'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan',
@@ -69,9 +73,6 @@ var TripComponent = (function () {
             return;
         }
         this.tripModel.pictures = this.picturesToUpload;
-        this.tripService.createTrip(this.tripModel);
-        // reset form
-        // TODO: somehow the tags & countries do not reset themselves ...
         this.tripModel = new Trip();
         // location.reload();
     };
@@ -199,7 +200,7 @@ var TripComponent = (function () {
             directives: [ng2_bootstrap_1.MODAL_DIRECTVES, ng2_select_1.SELECT_DIRECTIVES, tag_input_component_1.TagInputComponent],
             providers: [imageService_service_1.ImageService]
         }), 
-        __metadata('design:paramtypes', [trip_service_1.TripService, imageService_service_1.ImageService])
+        __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, imageService_service_1.ImageService, ng2_toastr_1.ToastsManager])
     ], TripComponent);
     return TripComponent;
 }());

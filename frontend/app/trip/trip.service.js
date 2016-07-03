@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14,23 +15,53 @@ var TripService = (function () {
         this.http = http;
     }
     TripService.prototype.createTrip = function (trip) {
+        var _this = this;
         var body = JSON.stringify(trip);
         console.log(trip);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        this.http.post("/rest/trip", body, { 'headers': headers })
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            alert(response);
+        return this.http.post("/rest/trip", body, { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not create a new Trip'))
+            .toPromise().then(function (res) {
+            if (res) {
+                var serviceResponse = {};
+                if (res.status <= 299) {
+                    serviceResponse['success'] = true;
+                    serviceResponse['msg'] = res.text();
+                }
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return {};
         })
-            .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to post a trip:", err);
-        });
+            .catch(function (res) { return _this.handleError(res); });
+    };
+    TripService.prototype.handleError = function (res) {
+        if (res.status >= 400) {
+            var serviceResponse = {};
+            serviceResponse['error'] = true;
+            serviceResponse['msg'] = res.text();
+            console.log(serviceResponse);
+            return serviceResponse;
+        }
+        else {
+            var error = res;
+            var errMsg = (error.message) ? error.message :
+                error.status ? error.status + " - " + error.statusText : 'Server error';
+            console.error(errMsg); // log to console instead
+            return {
+                error: true,
+                msg: "server did not respond!"
+            };
+        }
     };
     TripService.prototype.searchForTrip = function (searchTerm) {
+        var _this = this;
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
         var query = "/rest/trip/search?";
@@ -47,11 +78,20 @@ var TripService = (function () {
         console.log("Searching for trips, query: " + query);
         return this.http.get(query, { 'headers': headers })
             .toPromise().then(function (res) {
-            if (res)
-                return res.json();
+            if (res) {
+                var serviceResponse = {};
+                if (res.status <= 299)
+                    serviceResponse = res.json();
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
             else
                 return {};
-        }).catch(this.handleError);
+        }).catch(function (res) { return _this.handleError(res); });
     };
     TripService.prototype.rateTrip = function (trip) {
         var headers = new http_1.Headers();
@@ -75,6 +115,6 @@ var TripService = (function () {
         __metadata('design:paramtypes', [http_1.Http])
     ], TripService);
     return TripService;
-})();
+}());
 exports.TripService = TripService;
 //# sourceMappingURL=trip.service.js.map

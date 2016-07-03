@@ -86,11 +86,10 @@ export class PollComponent implements OnInit{
         this.userId = localStorage.getItem('user') != undefined ? localStorage.getItem('user')['_id'] : "";
     }
 
-    getBarType(name:string){
-        let len = name.length;
-        len = len % 4;
+    getBarType(id:number){
+        let type = id % 4;
         let states = ["success","info", "warning", "danger"];
-        return states[len];
+        return states[type];
     }
 
 

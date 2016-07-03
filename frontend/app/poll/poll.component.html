@@ -4,7 +4,7 @@
             <div class="column-sm-10">
                 <ul class="format-filter text-center">
                     <!--<li><a class="active icon-th" title="All"></a></li>-->
-                    <li><a (click)="createPollModal.show()" class="icon-edit" title="Create Poll"></a>
+                    <li><a (click)="crea tePollModal.show()" class="icon-edit" title="Create Poll"></a>
                         <!-- <li><a class="icon-quote"></a></li>-->
                 </ul><!-- /.format-filter -->
             </div><!-- /.col -->
@@ -23,10 +23,11 @@
 
                     <div class="row inner-bottom-xs">
                         <div class="colmn-sm-8">
+                        <form  #pollCreationForm="ngForm" (ngSubmit)="submitPoll(pollCreationForm, createPollModal)">
                             <fieldset>
                                 <legend>{{poll.title}}</legend>
                                 <div class="list-group">
-                                    <li class="list-group-item" *ngFor="let option of poll.options">
+                                    <li class="list-group-item" *ngFor="let option of poll.options; let i=index">
                                         <div class="option-choose">
                                         <div class="radio">
                                             <label>
@@ -38,7 +39,7 @@
                                         <div class="percentage">
                                         <progressbar class="progress-striped"
                                                      value={{poll.getVotesPercentage(option.text)}}
-                                                     type={{getBarType(option.text)}}><i>
+                                                     type={{getBarType(i)}}><i>
                                             {{poll.getVotes(option.text)}} / {{poll.getNumOfVotes()}}</i>
                                         </progressbar>
                                         </div>
@@ -47,8 +48,9 @@
                                            value="Vote"/>
                                     <input type="hidden" name="id" value="form1"/>
                                 </div>
-                                <comment [comments]="poll.comments"></comment>
+                                <comment [comments]="poll.comments" [id]="poll._id"></comment>
                             </fieldset>
+                          </form>
                         </div>
                     </div>
                 </div>
