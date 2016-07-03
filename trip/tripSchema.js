@@ -17,7 +17,7 @@ var Trip = mongoose.Schema({
         user : { type : Schema.Types.ObjectId, ref: 'user' },
         date : { type: Date, default: Date.now },
     }],
-    pictures: [{name :{type:String}, src:{type:Buffer}}],
+    pictures: [{name:{type:String}, src:{type:String}}],
     rating : { value : Number, numRates : Number }
 });
 

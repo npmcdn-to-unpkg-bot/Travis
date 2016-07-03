@@ -50,14 +50,15 @@
             </div>
             <div class="container center-block text-center">
                 <div class="row">
-                    <div class=" col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips">
+
+                    <div class="col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips;let i=index">
                         <div class="trip-card">
                             <img class="route"
                                  src="https://blog.gerbenjacobs.nl/img/blog/scandinavia/scandinavian-roadtrip-route.png"/>
                             <div class="trip-card-details">
-                                <div class="trip-card-header">
+                                <div class="trip-card-header seperatorSection">
                                     <h1> {{trip.title}} </h1>
-                                    <h3> {{trip.tags.join(', ')}} </h3>
+                                    <h3> #{{trip.tags.join('# ')}}# </h3>
                                 </div>
                                 <div class="trip-card-detail">
                                     <div id="tripDurationDate">
@@ -70,51 +71,53 @@
                                     <div *ngIf="trip.cities" id="tripCities">
                                         <p>Cities:&emsp;<b>{{trip.cities.join(', ')}}</b></p>
                                     </div>
-                                    <div *ngIf="trip.countries" id="tripCountries">
+                                    <div *ngIf="trip.countries" id="tripCountries" class="seperatorSection">
                                         <p>Countries:&emsp;<b>{{trip.countries.join(', ')}}</b></p>
                                     </div>
-                                    <div id="tripDescription">
-                                        <h4>Details</h4>
+                                    <div id="tripDescription" class="seperatorSection">
+                                        <h4>Summary</h4>
                                         <p>{{trip.description}}</p>
                                     </div>
-                                    <div id="imageCarousel" class="carousel slide" data-ride="carousel"
-                                         *ngIf="trip.pictures">
-                                        <ol class="carousel-indicators">
-                                            <li data-target="#imageCarousel" data-slide-to="0" class="active"></li>
-                                            <li data-target="#imageCarousel" data-slide-to="1"></li>
-                                        </ol>
-                                        <div class="carousel-inner" role="listbox">
-                                            <div class="item" *ngFor="let img of trip.pictures">
-                                                <img src={{img.src}} width="460"
-                                                     height="345">
+
+                                    <div *ngIf="trip.pictures?.length > 0" style="height: auto">
+                                        <span>Check Pictures of the Trip  </span>
+                                        <button type="button" class="btn-link"(click)="pictureModal.show()" title="show pics">
+                                            <span class="glyphicon glyphicon-picture show-pic-button"></span>
+                                        </button>
+                                        <div bsModal #pictureModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog center-block" id="pictureModal">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" (click)="pictureModal.hide()" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <h4 class="modal-title">Pics of the Trip {{trip.title}}!</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="imageContainer" *ngFor="let pic of trip.pictures" >
+                                                            <img src="{{pic.src}}" alt="{{pic.name}}" style="width:100%;height: 100%;" class="img-thumbnail"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <a class="left carousel-control" role="button" data-slide="prev">
-                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="right carousel-control" role="button" data-slide="next">
-                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
                                     </div>
-
-                                </div>
-                                <trip-rating [rating]='trip.rating'
+                                        <trip-rating [rating]='trip.rating'
                                              [itemId]='trip.id'
                                              (ratingClick)='ratingComponetClick($event, trip)'>
                                 </trip-rating>
                                 <div *ngIf="trip.rating" id="tripRating" style="float: inherit">
                                     <p>{{ratingLabel}} users voted, average: {{trip.rating}} stars</p>
                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <button id="loadMoreTripsButton" type="button" class="btn btn-primary" (click)="loadMoreTrips()">
                     load more trips ...
                 </button>
+                </div>
+                </div>
             </div>
         </div>
-    </div>
 </section>

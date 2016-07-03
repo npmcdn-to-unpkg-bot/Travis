@@ -2,6 +2,8 @@ var Config = require('../config/config.js');
 var jwt = require('jwt-simple');
 var url = require('url');
 var passportManager = require('../passport/auth.js');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var Trip = require('./tripSchema');
 var mongoose = require('mongoose');
@@ -44,6 +46,12 @@ function createTrip(req, res, user_id) {
     }
     tmpTrip.description = req.body.description;
     tmpTrip.pictures = req.body.pictures;
+
+    /*
+    tmpTrip.pictures.map(pic =>{
+        pic.src = new Buffer(pic.src, "base64");
+    });
+    */
 
     tmpTrip.save(function (err, success) {
         if (err) {
