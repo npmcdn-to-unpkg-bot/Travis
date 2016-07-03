@@ -136,8 +136,10 @@
     margin-top: 5px;
 }
 
-.trip-card .trip-card-details .trip-card-header h4{
+.trip-card .trip-card-details .trip-card-header h4 {
     color: #FF6485;
+}
+
 .trip-card .trip-card-details .trip-card-header h4 {
     color: #0F6660;
     font-size: 15px;

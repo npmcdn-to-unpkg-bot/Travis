@@ -163,7 +163,7 @@ export class SearchComponent {
                 tmpTrip.description = trip['description'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
->               this.trips.push(tmpTrip);
+                this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);
