@@ -61,17 +61,15 @@ var TripService = (function () {
         var body = JSON.stringify(trip);
         console.log("trip");
         console.log(body);
-        this.http.put(query, body, { 'headers': headers })
-            .map(function (res) {
-            console.log(res);
-            var response = res.json();
-            console.log(response);
-            alert(response);
-        })
-            .subscribe(function (info) {
-        }, function (err) {
-            console.error("Failed to post a trip:", err);
-        });
+        return this.http.put(query, body, { 'headers': headers })
+            .toPromise().then(function (res) {
+            if (res) {
+                var response = JSON.parse(res._body);
+                return response.rating;
+            }
+            else
+                return {};
+        }).catch(this.handleError);
     };
     TripService = __decorate([
         core_1.Injectable(), 

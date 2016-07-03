@@ -114,15 +114,21 @@ var SearchComponent = (function () {
                 tmpTrip.dateTo = trip['dateTo'];
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
-                tmpTrip.rating = trip['rating'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
                 _this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ", /\s/g);
     };
     SearchComponent.prototype.ratingComponetClick = function (clickObj, trip) {
+        var _this = this;
         trip.rating = clickObj.rating;
-        this.tripService.rateTrip(trip);
+        var rating = this.tripService.rateTrip(trip).then(function (rating) {
+            trip.rating = rating.value;
+            _this.resultTripModel.rating = trip.rating;
+            _this.ratingLabel = rating.numRates;
+        });
     };
     SearchComponent = __decorate([
         core_1.Component({

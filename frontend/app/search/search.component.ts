@@ -25,6 +25,7 @@ export class SearchComponent {
     searchModel:SearchTerm;
     resultTripModel:Trip;
     trips:Trip[];
+    ratingLabel:string;
 
     constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
@@ -122,7 +123,8 @@ export class SearchComponent {
                 tmpTrip.dateTo = trip['dateTo'];
                 tmpTrip.route = trip['route'];
                 tmpTrip.description = trip['description'];
-                tmpTrip.rating = trip['rating'];
+                tmpTrip.rating = trip['rating.value'];
+                tmpTrip._id = trip['_id'];
                 this.trips.push(tmpTrip);
             });
         });
@@ -130,7 +132,11 @@ export class SearchComponent {
     }
     ratingComponetClick(clickObj: any, trip:Trip): void {
         trip.rating = clickObj.rating;
-        this.tripService.rateTrip(trip);
+        var rating = this.tripService.rateTrip(trip).then(rating => {
+            trip.rating = rating.value;
+            this.resultTripModel.rating = trip.rating;
+            this.ratingLabel = rating.numRates;
+        });
     }
 }
 

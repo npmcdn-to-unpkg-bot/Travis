@@ -3,6 +3,8 @@ var jwt = require('jwt-simple');
 var url = require('url');
 
 var Trip = require('./tripSchema');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 module.exports.getAll = function (req, res) {
 
@@ -112,26 +114,28 @@ function stringToArray(string) {
 }
 
 module.exports.rateTrip = function (req, res) {
-    console.log("RATE TRIP");
-
-    console.log(req.body);
-    console.log(req.body._id);
-    var mongoQuery = getTrip(req.query);
-    console.log(mongoQuery);
-    Trip.findOneAndUpdate(mongoQuery, req.body.rating).exec(function (err, trip) {
+    var ObjectId = mongoose.Types.ObjectId;
+    Trip.findOne({_id: new ObjectId(req.body._id)}, function (err, doc) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
             return;
         }
-        res.status(201).json(trip);
+
+        // check if rating already exists
+        doc.rating.value || (doc.rating.value = 1);
+        doc.rating.numRates || (doc.rating.numRates = 0);
+
+        doc.rating.numRates++;
+
+        // calculate new average
+        var avg = doc.rating.value;
+        var numValues = doc.rating.numRates;
+        avg = (avg + ((req.body.rating - avg) / numValues));
+
+        doc.rating.value = Math.round(avg);
+
+        doc.save();
+        res.status(201).json(doc);
     });
 };
-
-function getTrip(query) {
-    var mongoQuery = {};
-
-    mongoQuery.id =  {owner: query.owner};
-    console.log(mongoQuery);
-    return mongoQuery;
-}

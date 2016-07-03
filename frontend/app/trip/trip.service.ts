@@ -57,16 +57,33 @@ export class TripService {
         let body = JSON.stringify(trip);
         console.log("trip");
         console.log(body);
-        this.http.put(query, body, {'headers': headers})
-            .map(res => {
-                console.log(res);
-                let response = res.json();
-                console.log(response);
-                alert(response);
-            })
-            .subscribe(info => {
-            }, err => {
-                console.error("Failed to post a trip:", err);
-            });
+        return this.http.put(query, body, {'headers': headers})
+        .toPromise().then(res => {
+                if (res) {
+                    let response = JSON.parse(res._body);
+                    return response.rating;
+                } else return {};
+            }).catch(this.handleError);
+        }
+            // .map(res => {
+            //     console.log(res);
+            //     let response = res.json();
+            //     console.log("response.body.rating.ratingValue");
+            //     console.log(response.body);
+            //     // trip.rating = response.body.rating;
+            // })
+            // .subscribe(info => {
+            // }, err => {
+            //     console.error("Failed to rate a trip:", err);
+            // });
+    // .toPromise().then(res => {
+    //         if (res) {
+    //             console.log("rateTrip\n");
+    //             console.log(res.body.rating);
+    //             let response = res.json();
+    //             return response.body.rating;
+    //         } else return {};
+    //     }).catch(this.handleError);
+    // }
     }
 }

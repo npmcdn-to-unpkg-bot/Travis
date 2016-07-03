@@ -218,23 +218,23 @@ export class TripComponent {
 }
 
 export class Trip {
-    _id:number;
-    owner:Object;
-    title:string;
-    dateFrom:string;
-    dateTo:string;
-    budget:number;
-    route:string;
-    cities:[string];
-    countries:[string];
-    tags:[string];
-    description:string;
-    comments:Object[];
-    pictures:Picture[];
-    rating: number;
+    _id: string;
+    owner: Object;
+    title: string;
+    dateFrom: string;
+    dateTo: string;
+    budget: number;
+    route: string;
+    cities: string[];
+    countries: string[];
+    tags: string[];
+    description: string;
+    comments: Object[];
+    pictures: Picture[];
+    rating: number[];
 }
 
 export class Picture{
-    name:string;
-    src:any;
+    name: string;
+    src: any;
 }

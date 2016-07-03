@@ -76,12 +76,13 @@
                                         <h4>Details</h4>
                                         <p>{{trip.description}}</p>
                                     </div>
-                                    <div id="imageCarousel" class="carousel slide" data-ride="carousel" *ngIf="trip.pictures">
+                                    <div id="imageCarousel" class="carousel slide" data-ride="carousel"
+                                         *ngIf="trip.pictures">
                                         <ol class="carousel-indicators">
                                             <li data-target="#imageCarousel" data-slide-to="0" class="active"></li>
                                             <li data-target="#imageCarousel" data-slide-to="1"></li>
                                         </ol>
-                                        <div class="carousel-inner" role="listbox" >
+                                        <div class="carousel-inner" role="listbox">
                                             <div class="item" *ngFor="let img of trip.pictures">
                                                 <img src={{img.src}} width="460"
                                                      height="345">
@@ -99,9 +100,12 @@
 
                                 </div>
                                 <trip-rating [rating]='trip.rating'
-                                            [itemId]='trip.id'
-                                            (ratingClick)='ratingComponetClick($event, trip)'>
+                                             [itemId]='trip.id'
+                                             (ratingClick)='ratingComponetClick($event, trip)'>
                                 </trip-rating>
+                                <div *ngIf="trip.rating" id="tripRating" style="float: right">
+                                    <p>{{ratingLabel}} users voted, average: {{trip.rating}} stars</p>
+                                </div>
                             </div>
                         </div>
                     </div>

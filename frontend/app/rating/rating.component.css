@@ -15,7 +15,7 @@ Default stars style
 .rating:not(:checked) > label {
     float:right;
     width:1em;
-    padding:0 .1em;
+    padding:0;
     overflow:hidden;
     white-space:nowrap;
     cursor:pointer;

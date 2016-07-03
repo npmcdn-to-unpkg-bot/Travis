@@ -4,7 +4,7 @@
   "description": "Movie backend as a service",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon ./server.js"
   },
   "repository": {
     "type": "git",

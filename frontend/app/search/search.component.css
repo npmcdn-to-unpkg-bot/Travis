@@ -82,7 +82,7 @@
 }
 .trip-card:hover .trip-card-details {
     bottom: 0px;
-    overflow: auto;
+    overflow-x: hidden;
     padding-bottom: 25px;
 }
 .trip-card:hover .trip-card-details .trip-card-header {

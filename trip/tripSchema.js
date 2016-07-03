@@ -17,8 +17,8 @@ var Trip = mongoose.Schema({
         user : { type : Schema.Types.ObjectId, ref: 'user' },
         date : { type: Date, default: Date.now },
     }],
-    pictures: [{name:{type:String}, src:{type:Buffer}}],
-    rating : {type: Number, required: false}
+    pictures: [{name :{type:String}, src:{type:Buffer}}],
+    rating : { value : Number, numRates : Number }
 });
 
 module.exports = mongoose.model('Trip', Trip);
