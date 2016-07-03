@@ -224,13 +224,13 @@ export class PollService {
                 }).catch(res => this.handleError(res));
     }
 
-    public postPollComment(pollObj){
-        let body = JSON.stringify(pollObj);
-        console.log(pollObj);
+    public postPollComment(pollCommentObj){
+        let body = JSON.stringify(pollCommentObj);
+        console.log(pollCommentObj);
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.post("/rest/poll/create", body, {'headers':headers})
-            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+        return this.http.post("rest/poll/Comment", body, {'headers':headers})
+            .timeout(8000, new Error('server timeout exceeded! could not save the comment'))
             .toPromise().then(res => {
                     if (res)
                     {

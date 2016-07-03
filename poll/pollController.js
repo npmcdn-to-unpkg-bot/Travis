@@ -118,7 +118,7 @@ module.exports.vote = function(req, res){
 		    {safe: true, upsert: true},
 		    function(err, model) {
 		        
-		        console.log(model);
+		       // console.log(model);
 		        res.status(200).send('ok');
 		        return;
 		    })
@@ -127,6 +127,7 @@ module.exports.vote = function(req, res){
 
 module.exports.comment = function(req, res){
 	
+	console.log(req.body);
 	// user should send his token for each request
 	if(!req.body.token){
         res.status(400).send('token required');
@@ -166,7 +167,7 @@ function getAllthePolls (req,res){
 			return;
 		}else if (polls){
 			polls.map( (poll) => {
-				console.log(poll);
+			//	console.log(poll);
 			var temp = {};
 			temp.firstName = poll.owner.firstName;
 			temp.imageURL = poll.owner.imageURL;

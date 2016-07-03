@@ -35,8 +35,14 @@ export class CommentComponent{
     }
 
     public postComment(){
-        console.log(this.commentText);
-        let commentObj = {token: this.authService.getToken(), text:this.commentText, pollId:this.poll_id};
-
+    
+    console.log("koko");
+    console.log(this);
+    console.log("koko");
+    
+        let commentObj = {token: this.authService.getToken(), text:this.commentText, pollId: this.poll_id};
+            	
+        	this.pollService.postPollComment(commentObj);
+        	
     }
 }

@@ -160,6 +160,7 @@ export class PollComponent implements OnInit{
                         tempPoll.options = poll['options'];
                         tempPoll.date =  this.formatDate(poll['date']);
                         tempPoll.comments = poll['comments'];
+                        tempPoll._id = poll['_id'];
                         if (tempPoll.comments){
                             tempPoll.comments.map(comment =>{
                                 comment.date = this.formatDate(comment.date);
@@ -167,6 +168,7 @@ export class PollComponent implements OnInit{
                         }
 
                         this.polls.push(tempPoll);
+console.log(this.polls);
                     });
                 }else{
                     this.toastr.error("Getting the polls failed " + response.msg);
