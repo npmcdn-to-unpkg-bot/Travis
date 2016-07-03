@@ -76,7 +76,7 @@ var TripComponent = (function () {
         this.tripModel.pictures = this.picturesToUpload;
         // reset form
         // TODO: somehow the tags & countries do not reset themselves ...
-        this.tripModel = new Trip();
+        // this.tripModel = new Trip();
         // location.reload();
         var token = this.authService.getToken();
         this.tripModel['token'] = token;
