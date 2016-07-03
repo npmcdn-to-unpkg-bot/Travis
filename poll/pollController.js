@@ -2,6 +2,7 @@ var Config = require('../config/config.js');
 var jwt = require('jwt-simple');
 var Poll = require('./pollSchema');
 var passportManager = require('../passport/auth.js');
+var Comment = require('../comment/commentSchema');
 
 //var Strategy = require('passport-facebook').Strategy;
 
@@ -100,10 +101,61 @@ module.exports.getPoll = function(req, res){
 
 
 module.exports.vote = function(req, res){
+	// user should send his token for each request
+	if(!req.body.token){
+        res.status(400).send('token required');
+        return;
+    }
+
+	// get the token 
+	var token = req.body.token;
+	var decoded =  jwt.decode(token, Config.auth.jwtSecret);
+	var user_id = decoded.user._id;
+	
+	Poll.findOneAndUpdate(
+			{ _id : req.body.poll_id, 'options._id' : req.body.option_id },
+		    {$push: {"options.$.vote": user_id}},
+		    {safe: true, upsert: true},
+		    function(err, model) {
+		        
+		        console.log(model);
+		        res.status(200).send('ok');
+		        return;
+		    })
 };
 
 
 module.exports.comment = function(req, res){
+	
+	// user should send his token for each request
+	if(!req.body.token){
+        res.status(400).send('token required');
+        return;
+    }
+
+	// get the token 
+	var token = req.body.token;
+	var decoded =  jwt.decode(token, Config.auth.jwtSecret);
+	var user_id = decoded.user._id;
+	
+	var comment = new Comment();
+	
+	comment.text= req.body.text;
+	comment.user= user_id;
+	//comment.user= req.body.userID;
+	
+	Poll.findByIdAndUpdate(
+		    req.body.poll_id,
+		    {$push: {"comments": comment}},
+		    {safe: true, upsert: true},
+		    function(err, model) {
+		        
+		        
+		        res.status(200).send('ok');
+		        return;
+		    }
+		);
+	
 };
 
 function getAllthePolls (req,res){
