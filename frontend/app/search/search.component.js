@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -128,12 +129,12 @@ var SearchComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map
