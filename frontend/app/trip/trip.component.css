@@ -30,6 +30,13 @@
     font-size: 10px;
 }
 
+#remove-button-1{
+    padding: 3px;
+    background-color: red;
+    z-index: 1;
+    font-size: 10px;
+}
+
 
 div.polaroid {
     position: relative;

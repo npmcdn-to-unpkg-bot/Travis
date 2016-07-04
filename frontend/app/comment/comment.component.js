@@ -27,8 +27,8 @@ var CommentComponent = (function () {
         this.toastr = toastr;
     }
     CommentComponent.prototype.postComment = function () {
-        console.log(this.commentText);
-        var commentObj = { token: this.authService.getToken(), text: this.commentText, pollId: this.poll_id };
+        var commentObj = { token: this.authService.getToken(), text: this.commentText, pollid: this.pollid };
+        this.pollService.postPollComment(commentObj);
     };
     __decorate([
         core_1.Input(), 
@@ -37,7 +37,7 @@ var CommentComponent = (function () {
     __decorate([
         core_1.Input(), 
         __metadata('design:type', String)
-    ], CommentComponent.prototype, "poll_id", void 0);
+    ], CommentComponent.prototype, "pollid", void 0);
     CommentComponent = __decorate([
         core_1.Component({
             selector: 'comment',

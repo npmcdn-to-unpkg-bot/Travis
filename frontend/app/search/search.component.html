@@ -53,8 +53,10 @@
 
                     <div class="col-md-5 center-block" style="float: inherit;" *ngFor="let trip of trips;let i=index">
                         <div class="trip-card">
-                            <img class="route"
+                            <img class="route" *ngIf="isRouteString(trip.route)"
                                  src="https://blog.gerbenjacobs.nl/img/blog/scandinavia/scandinavian-roadtrip-route.png"/>
+                            <img class="route" *ngIf="!isRouteString(trip.route)"
+                                 src="{{trip.route.src}}"/>
                             <div class="trip-card-details">
                                 <div class="trip-card-header seperatorSection">
                                     <h1> {{trip.title}} </h1>
@@ -104,7 +106,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                        <trip-rating [rating]='trip.rating'
+
+                                    <trip-rating [rating]='trip.rating'
                                              [itemId]='trip.id'
                                              (ratingClick)='ratingComponetClick($event, trip)'>
                                 </trip-rating>

@@ -22,11 +22,29 @@
                     <script type="text/javascript">
                         $(".js-example-basic-multiple").select2();
                     </script>
+
+                    <!--
                     <fieldset class="form-group">
                         <label for="route">Route</label>
                         <input [(ngModel)]="tripModel.route" type="url" name="route" id="route" ngControl="route" #route="ngForm" required
                                placeholder="Paste the link to your route in here"/>
                     </fieldset>
+                    !-->
+                    <div class="form-group" style="font-size: 12px">
+                        <label for="routeInput">Upload a picture of your route map</label>
+                        <input type="file" id="routeInput" (change)="uploadTripPic(inputPic)" #inputPic placeholder="Upload Route Pic" />
+                        <div class="imagePreview" *ngIf="routePic">
+                                <div class="imageContainer">
+                                    <button type="button" id="remove-button-1" (click)="removeTripPic()" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                    <img src="{{routePic.src}}" alt="{{routePic.name}}" style="max-width: 100%;
+                                    max-height: 100%" class="img-thumbnail image-center"/>
+                                </div>
+                        </div>
+                    </div>
+
+
 
                     <fieldset class="form-group">
                         <label for="tags">Tags</label>

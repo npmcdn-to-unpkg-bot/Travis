@@ -162,10 +162,22 @@ export class SearchComponent {
                 tmpTrip.description = trip['description'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                tmpTrip.pictures = trip['pictures'];
+
                 this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ",/\s/g);
+    }
+
+    public isRouteString(routeStr){
+        if(routeStr){
+            if (routeStr[0] == 'h' && routeStr[1] == 't' && routeStr[2] == 't' && routeStr[3] == 'p')
+                return true;
+            else
+                return false;
+        }else
+            return true;
     }
 
 }

@@ -79,12 +79,21 @@ export class Navbar implements OnInit{
 
     public navigateToSearchPage(){
         console.log(this.router.lastNavigationAttempt);
-        if (this.router.lastNavigationAttempt && this.router.lastNavigationAttempt.indexOf('search') >=0){
-            this.router.navigate(['Home']);
-            this.router.navigate(['Search']);
+
+        if(this.router.lastNavigationAttempt != undefined){
+            if ( this.router.lastNavigationAttempt.indexOf('search') >=0){
+                console.log("navigating");
+                this.router.navigate(['Home']);
+                this.router.navigate(['Search']);
+                console.log("navigating");
+            }
+        else{
+                console.log("navigating to search");
+                this.router.navigate(['Search']);
+            }
         }
 
-        else
-            this.router.navigate(['Search']);
+
     }
+
 }

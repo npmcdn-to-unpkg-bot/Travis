@@ -41,6 +41,7 @@ var TripService = (function () {
             .catch(function (res) { return _this.handleError(res); });
     };
     TripService.prototype.handleError = function (res) {
+        console.log(res);
         if (res.status >= 400) {
             var serviceResponse = {};
             serviceResponse['error'] = true;

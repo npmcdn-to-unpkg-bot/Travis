@@ -141,6 +141,7 @@ var PollComponent = (function () {
                         tempPoll.options = poll['options'];
                         tempPoll.date = _this.formatDate(poll['date']);
                         tempPoll.comments = poll['comments'];
+                        tempPoll._id = poll['_id'];
                         if (tempPoll.comments) {
                             tempPoll.comments.map(function (comment) {
                                 comment.date = _this.formatDate(comment.date);

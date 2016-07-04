@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -155,10 +154,21 @@ var SearchComponent = (function () {
                 tmpTrip.description = trip['description'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                tmpTrip.pictures = trip['pictures'];
                 _this.trips.push(tmpTrip);
             });
         });
         this.searchModel.searchTerm = terms.replace(", ", /\s/g);
+    };
+    SearchComponent.prototype.isRouteString = function (routeStr) {
+        if (routeStr) {
+            if (routeStr[0] == 'h' && routeStr[1] == 't' && routeStr[2] == 't' && routeStr[3] == 'p')
+                return true;
+            else
+                return false;
+        }
+        else
+            return true;
     };
     SearchComponent = __decorate([
         core_1.Component({
@@ -171,12 +181,12 @@ var SearchComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);
     return SearchComponent;
-}());
+})();
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-}());
+})();
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map

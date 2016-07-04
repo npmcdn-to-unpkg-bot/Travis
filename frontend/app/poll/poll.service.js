@@ -223,14 +223,14 @@ var PollService = (function () {
                 return { warn: true, msg: "no Response from the server!" };
         }).catch(function (res) { return _this.handleError(res); });
     };
-    PollService.prototype.postPollComment = function (pollObj) {
+    PollService.prototype.postPollComment = function (pollCommentObj) {
         var _this = this;
-        var body = JSON.stringify(pollObj);
-        console.log(pollObj);
+        var body = JSON.stringify(pollCommentObj);
+        console.log(pollCommentObj);
         var headers = new http_1.Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.post("/rest/poll/create", body, { 'headers': headers })
-            .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
+        return this.http.post("rest/poll/Comment", body, { 'headers': headers })
+            .timeout(8000, new Error('server timeout exceeded! could not save the comment'))
             .toPromise().then(function (res) {
             if (res) {
                 console.log(res);

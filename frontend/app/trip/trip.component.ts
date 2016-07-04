@@ -25,6 +25,8 @@ export class TripComponent {
     filesToUpload: File[];
     pictures:Picture[];
     imageInput:HTMLInputElement[];
+    routePicInput:HTMLInputElement[];
+    routePic:Picture;
 
     constructor(private tripService:TripService,private authService: AuthService,  public toastr: ToastsManager) {
         this.tripModel = new Trip();
@@ -46,6 +48,7 @@ export class TripComponent {
             return;
         }
         this.tripModel.pictures = this.pictures;
+        this.tripModel.route = this.routePic;
 
         let token = this.authService.getToken();
         this.tripModel['token'] = token;
@@ -63,6 +66,7 @@ export class TripComponent {
                 this.tripModel = new Trip();
                 this.pictures = [];
                 this.imageInput.value = "";
+                this.routePicInput.value ="";
             }
             else{
                 this.toastr.error("Creating trip failed !" + response.msg);
@@ -145,6 +149,47 @@ export class TripComponent {
         return str.split(', ');
     }
 
+    public removeTripPic(){
+        this.routePic = null;
+        this.routePicInput.values = "";
+    }
+
+    public uploadTripPic(fileInput: any){
+        this.routePicInput = fileInput;
+        let recentFile = fileInput.files[0];
+        console.log(fileInput);
+        if(recentFile){
+            if(!recentFile.type.match(/image.*/)){
+                console.log('This is  not an image! ' + recentFile.name);
+                alert('You can only upload an image file! Choose an image please' + recentFile.name);
+                return;
+            }
+            if(recentFile.size > 1024 * 1024 * 8){
+                alert("The file is too big! maximum size is 8 MB");
+                return;
+            }
+            let pic = new Picture();
+            // Create a FileReader
+            let reader = new FileReader();
+
+            // Add an event listener to deal with the file when the reader is complete
+            reader.addEventListener("load", (event) => {
+                // Get the event.target.result from the reader (base64 of the image)
+                pic.src = event.target.result;
+
+                pic.name = recentFile.name;
+                this.routePic = pic;
+                // Resize the image
+                //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
+
+            }, false);
+
+            reader.readAsDataURL(recentFile);
+
+
+        }
+    }
+
     public uploadfile(fileInput: any){
         try{
             this.imageInput = fileInput;
@@ -183,7 +228,7 @@ export class TripComponent {
                     // Get the event.target.result from the reader (base64 of the image)
                     pic.src = event.target.result;
 
-                    pic.name = toBeSentPic.name;
+                    pic.name = recentFile.name;
                     // Resize the image
                     //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
 
@@ -218,7 +263,7 @@ export class Trip {
     dateFrom: string;
     dateTo: string;
     budget: number;
-    route: string;
+    route: Picture;
     cities: string[];
     countries: string[];
     tags: string[];

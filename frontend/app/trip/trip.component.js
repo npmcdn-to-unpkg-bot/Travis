@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -71,6 +70,7 @@ var TripComponent = (function () {
             return;
         }
         this.tripModel.pictures = this.pictures;
+        this.tripModel.route = this.routePic;
         var token = this.authService.getToken();
         this.tripModel['token'] = token;
         console.log(this.tripModel);
@@ -85,6 +85,7 @@ var TripComponent = (function () {
                 _this.tripModel = new Trip();
                 _this.pictures = [];
                 _this.imageInput.value = "";
+                _this.routePicInput.value = "";
             }
             else {
                 _this.toastr.error("Creating trip failed !" + response.msg);
@@ -133,6 +134,40 @@ var TripComponent = (function () {
         }).join(', ');
         return str.split(', ');
     };
+    TripComponent.prototype.removeTripPic = function () {
+        this.routePic = null;
+        this.routePicInput.values = "";
+    };
+    TripComponent.prototype.uploadTripPic = function (fileInput) {
+        var _this = this;
+        this.routePicInput = fileInput;
+        var recentFile = fileInput.files[0];
+        console.log(fileInput);
+        if (recentFile) {
+            if (!recentFile.type.match(/image.*/)) {
+                console.log('This is  not an image! ' + recentFile.name);
+                alert('You can only upload an image file! Choose an image please' + recentFile.name);
+                return;
+            }
+            if (recentFile.size > 1024 * 1024 * 8) {
+                alert("The file is too big! maximum size is 8 MB");
+                return;
+            }
+            var pic = new Picture();
+            // Create a FileReader
+            var reader = new FileReader();
+            // Add an event listener to deal with the file when the reader is complete
+            reader.addEventListener("load", function (event) {
+                // Get the event.target.result from the reader (base64 of the image)
+                pic.src = event.target.result;
+                pic.name = recentFile.name;
+                _this.routePic = pic;
+                // Resize the image
+                //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
+            }, false);
+            reader.readAsDataURL(recentFile);
+        }
+    };
     TripComponent.prototype.uploadfile = function (fileInput) {
         try {
             this.imageInput = fileInput;
@@ -148,28 +183,28 @@ var TripComponent = (function () {
                     alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
-                var sumSize_1 = 0;
+                var sumSize = 0;
                 this.filesToUpload.map(function (file) {
                     if (file)
-                        sumSize_1 += file.size;
+                        sumSize += file.size;
                 });
-                if (sumSize_1 + recentFile.size > 1024 * 1024 * 50) {
+                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
                     return;
                 }
-                var pic_1 = new Picture();
+                var pic = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
-                    pic_1.src = event.target.result;
-                    pic_1.name = toBeSentPic.name;
+                    pic.src = event.target.result;
+                    pic.name = recentFile.name;
                     // Resize the image
                     //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
                 }, false);
                 reader.readAsDataURL(recentFile);
-                this.pictures.push(pic_1);
+                this.pictures.push(pic);
             }
             else
                 return;
@@ -197,18 +232,18 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, ng2_toastr_1.ToastsManager])
     ], TripComponent);
     return TripComponent;
-}());
+})();
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-}());
+})();
 exports.Trip = Trip;
 var Picture = (function () {
     function Picture() {
     }
     return Picture;
-}());
+})();
 exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map

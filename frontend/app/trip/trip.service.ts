@@ -35,6 +35,7 @@ export class TripService {
     }
 
     private handleError(res:any) {
+        console.log(res);
         if (res.status >= 400) {
             let serviceResponse = {};
             serviceResponse['error'] = true;

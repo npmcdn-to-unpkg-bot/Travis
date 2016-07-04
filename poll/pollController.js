@@ -3,6 +3,8 @@ var jwt = require('jwt-simple');
 var Poll = require('./pollSchema');
 var passportManager = require('../passport/auth.js');
 var Comment = require('../comment/commentSchema');
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 
 //var Strategy = require('passport-facebook').Strategy;
 
@@ -146,7 +148,7 @@ module.exports.comment = function(req, res){
 	//comment.user= req.body.userID;
 	
 	Poll.findByIdAndUpdate(
-		    req.body.poll_id,
+		new ObjectId(req.body.poll_id),
 		    {$push: {"comments": comment}},
 		    {safe: true, upsert: true},
 		    function(err, model) {

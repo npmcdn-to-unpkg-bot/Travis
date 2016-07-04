@@ -121,7 +121,9 @@ function getTrips(req, res, user_id) {
             return;
         }
         trip.forEach(function (item) {
-            seenIds.push(item.id);
+            //
+            if(seenIds)
+                seenIds.push(item.id);
         });
         res.status(201).json(trip);
     });
@@ -139,7 +141,9 @@ module.exports.getMoreTrips = function (req, res) {
             return;
         }
         trip.forEach(function (item) {
-            seenIds.push(item.id);
+            //
+            if(seenIds)
+                seenIds.push(item.id);
         });
         res.status(201).json(trip);
     });
