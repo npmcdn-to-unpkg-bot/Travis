@@ -124,7 +124,7 @@ export class AuthService {
         this.expires = 0;
         this.user.accessToken = null;
         console.log('Session has been cleared');
-        window.location.reload();
+        //window.location.reload();
     }
 
     private googleValidateOAuthToken(accessToken:string){
@@ -195,7 +195,7 @@ export class AuthService {
                 this.user.authenticated = true;
                 this.authenticated = true;
                 // or navigate to home
-                window.location.reload();
+                //window.location.reload();
             })
             .subscribe(info => {
             }, err => {
@@ -331,7 +331,7 @@ export class AuthService {
     }
 
 
-    public facebookLogin(facebookResponse:Object){
+    public facebookLogin(facebookResponse:Object, callBackfunction){
         console.log(facebookResponse);
         let travisUser = new TravisUser();
         travisUser['type'] = 'Facebook';
@@ -354,5 +354,11 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(this.user));
         this.notify(travisUser.firstName,travisUser.imageURL);
         this.sendTOServer(travisUser);
+        console.log(callBackfunction);
+        /*
+        if (callBackfunction)
+            callBackfunction();
+        else console.log("no call back functiion");
+        */
     }
 }

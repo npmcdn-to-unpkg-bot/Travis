@@ -132,12 +132,12 @@ export class LoginComponent{
                 FB.api('/me', {fields: "id,first_name,last_name ,picture,gender,birthday"},
                     function(response){
                         try{
-                            a_Service.facebookLogin(response);
+                            a_Service.facebookLogin(response,this.navigateToSearchPage);
                         }catch (err){
                             console.log(err);
                             if (! temp_facebook_obj['id'])
                                 alert('Facebook authentication failed! try again');
-                            else a_Service.facebookLogin(temp_facebook_obj);
+                            else a_Service.facebookLogin(temp_facebook_obj, this.navigateToSearchPage);
                         }
                     });
             } else if (response.status === 'not_authorized') {
@@ -159,12 +159,12 @@ export class LoginComponent{
                                     temp_facebook_obj['gender'] = response['gender'];
                                     temp_facebook_obj['firstName'] = response['first_name'];
                                     temp_facebook_obj['lastName'] = response['last_name'];
-                                    a_Service.facebookLogin(temp_facebook_obj);
+                                    a_Service.facebookLogin(temp_facebook_obj,this.navigateToSearchPage);
                                 }catch (err){
                                     console.log(err);
                                     if (! temp_facebook_obj['id'])
                                         alert('Facebook authentication failed! try again');
-                                    else a_Service.facebookLogin(temp_facebook_obj);
+                                    else a_Service.facebookLogin(temp_facebook_obj,this.navigateToSearchPage);
                                 }
                             });
                     }
@@ -189,6 +189,8 @@ export class LoginComponent{
 
     doLogout() {
         this.authService.doLogout();
+        this.navigateToSearchPage();
+
     }
 
     get userName() {
@@ -207,4 +209,9 @@ export class LoginComponent{
         $event.stopPropagation();
         this.status.isopen = !this.status.isopen;
     }
+
+    public navigateToSearchPage(){
+        this._router.navigate(['Search']);
+    }
+
 }
