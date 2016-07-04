@@ -191,6 +191,34 @@ var TripService = (function () {
         })
             .catch(function (res) { return _this.handleError(res); });
     };
+    TripService.prototype.updateTrip = function (trip, token) {
+        var _this = this;
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('token', token);
+        var body = JSON.stringify(trip);
+        console.log(body);
+        var query = "/rest/trip?" + "id=" + trip._id;
+        return this.http.put(query, body, { 'headers': headers })
+            .toPromise().then(function (res) {
+            if (res) {
+                var serviceResponse = {};
+                if (res.status <= 299) {
+                    serviceResponse['success'] = true;
+                    serviceResponse['msg'] = res.text();
+                }
+                else if (res.status >= 400) {
+                    serviceResponse['error'] = true;
+                    serviceResponse['msg'] = res.text();
+                    console.log(serviceResponse);
+                }
+                return serviceResponse;
+            }
+            else
+                return {};
+        })
+            .catch(function (res) { return _this.handleError(res); });
+    };
     TripService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])

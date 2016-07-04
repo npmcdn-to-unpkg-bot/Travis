@@ -119,7 +119,7 @@ var AuthService = (function () {
         this.expires = 0;
         this.user.accessToken = null;
         console.log('Session has been cleared');
-        window.location.reload();
+        //window.location.reload();
     };
     AuthService.prototype.googleValidateOAuthToken = function (accessToken) {
         var _this = this;
@@ -183,7 +183,7 @@ var AuthService = (function () {
             _this.user.authenticated = true;
             _this.authenticated = true;
             // or navigate to home
-            window.location.reload();
+            //window.location.reload();
         })
             .subscribe(function (info) {
         }, function (err) {
@@ -302,7 +302,7 @@ var AuthService = (function () {
         else
             this.doLogout();
     };
-    AuthService.prototype.facebookLogin = function (facebookResponse) {
+    AuthService.prototype.facebookLogin = function (facebookResponse, callBackfunction) {
         console.log(facebookResponse);
         var travisUser = new auth_user_1.TravisUser();
         travisUser['type'] = 'Facebook';
@@ -320,6 +320,12 @@ var AuthService = (function () {
         localStorage.setItem('user', JSON.stringify(this.user));
         this.notify(travisUser.firstName, travisUser.imageURL);
         this.sendTOServer(travisUser);
+        console.log(callBackfunction);
+        /*
+        if (callBackfunction)
+            callBackfunction();
+        else console.log("no call back functiion");
+        */
     };
     AuthService = __decorate([
         core_1.Injectable(), 
