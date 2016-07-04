@@ -27,7 +27,6 @@ export class SearchComponent {
     trips:Trip[];
     ratingLabel:string;
 
-
     constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
         this.searchModel.searchTerm = params.get('searchTerm');

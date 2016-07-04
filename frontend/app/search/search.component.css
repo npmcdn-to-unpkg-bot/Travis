@@ -114,8 +114,7 @@
 .trip-card .trip-card-details .trip-card-header h1 {
     color: #052421;
     font-size: 22px;
-    font-weight: 900;
-    text-transform: uppercase;
+    trip-card-detail    text-transform: uppercase;
     margin: 0 !important;
     padding: 0 !important;
 }

@@ -1,3 +1,8 @@
+#pollItem {
+    background-image: url("/UI/assets/images/art/bg6.jpg");
+    background-repeat: repeat;
+}
+
 div.container.inner-top-sm {
     width: 750px;
 }

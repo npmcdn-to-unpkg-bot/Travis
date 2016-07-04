@@ -12,16 +12,16 @@
                         <div class="trip-card-details">
                             <div class="trip-card-header">
                                 <fieldset class="form-group">
-                                    <label for="title">Title</label>
+                                    <label style="font-size: 24px;">Title</label>
                                     <input [(ngModel)]="trip.title" ngControl="title" #title="ngForm" required
                                            type="text" class="form-control" id="title"
                                            placeholder="Enter a title">
                                 </fieldset>
                                 <fieldset class="form-group">
-                                    <h3> {{trip.tags.join(', ')}} </h3>
+                                    <label style="font-size: 20px;">Tags</label>
+                                    <h3>#{{trip.tags.join(', ')}}#</h3>
                                 </fieldset>
                             </div>
-                            <br/>
                             <div class="trip-card-detail">
                                 <div class="form-group center-block">
                                     <label>Duration</label>
@@ -42,12 +42,26 @@
                                            placeholder="How much did you spend?">
                                 </fieldset>
                                 <div *ngIf="trip.cities" id="tripCities">
-                                    <p>Cities:&emsp;<b>{{trip.cities.join(', ')}}</b></p>
+                                    <label>Cities</label>
+                                    <p><b>{{trip.cities.join(', ')}}</b></p>
                                 </div>
                                 <br/>
-                                <div *ngIf="trip.countries" id="tripCountries">
-                                    <p>Countries:&emsp;<b>{{trip.countries.join(', ')}}</b></p>
-                                </div>
+                                <fieldset class="form-group">
+                                    <label for="countries">Countries</label>
+                                    <div *ngIf="trip.countries" id="tripCountries">
+                                        <p><b>{{trip.countries.join(', ')}}</b></p>
+                                    </div>
+                                    <div id="countries" name="countries" id="countries"  style="margin-bottom: 20px;">
+                                        <ng-select [data]="countriesValue"
+                                                   [multiple]="true"
+                                                   [items]="countriesArray"
+                                                   [disabled]="disabled"
+                                                   (data)="refreshCountries($event)"
+                                                   (selected)="selectedCountry($event)"
+                                                   (removed)="removedCountry($event)"
+                                                   placeholder="choose new countries" required></ng-select>
+                                    </div>
+                                </fieldset>
                                 <br/>
                                 <fieldset class="form-group">
                                     <label for="description">Description</label>

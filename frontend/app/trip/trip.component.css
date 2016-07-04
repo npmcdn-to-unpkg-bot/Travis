@@ -1,7 +1,11 @@
 #trip {
     background-image: url("/UI/assets/images/art/bg6.jpg");
     background-repeat: repeat;
-    height: 1100px;
+    height: 1200px;
+}
+
+.modal-dialog {
+    top:80px;
 }
 
 #trip .modal-content {
