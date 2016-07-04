@@ -16,6 +16,8 @@ function tripRoutes(passport) {
     router.get('/', tripController.getAll);
     router.post('/' , tripController.create);
     router.delete('/' , tripController.delete);
+    router.put('/' , tripController.updateTrip);
+
     router.get('/search' , tripController.getTrips);
     router.get('/searchMore' , tripController.getMoreTrips);
     router.get('/getUserTrips' , tripController.getTripsFromUser);

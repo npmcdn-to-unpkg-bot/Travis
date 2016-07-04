@@ -62,15 +62,6 @@ export class MyTripsComponent {
         });
     }
 
-    ratingComponetClick(clickObj: any, trip:Trip): void {
-        trip.rating = clickObj.rating;
-        var rating = this.tripService.rateTrip(trip).then(rating => {
-            trip.rating = rating.value;
-            this.resultTripModel.rating = trip.rating;
-            this.ratingLabel = rating.numRates;
-        });
-    }
-
     public deleteTrip(trip){
         this.tripService.deleteTrip(trip, this.token).then(response =>{
             if (response.success){
@@ -79,6 +70,25 @@ export class MyTripsComponent {
             }
             else {
                 this.toastr.error("Deleting trip failed !" + response.msg);
+                let msg = response.msg.toLowerCase();
+                if (msg && msg.indexOf('token') >=0) {
+                    setTimeout(()=>{
+                        this.toastr.error("Token is not valid! Logging Out....");
+                        setTimeout(()=>{
+                            this.authService.doLogout();
+                        },1000);
+                    },2000);
+                }
+            }
+        });
+    }
+    public updateTrip(trip){
+        this.tripService.updateTrip(trip, this.token).then(response =>{
+            if (response.success){
+                this.toastr.success(response.msg);
+            }
+            else {
+                this.toastr.error("Updating trip failed !" + response.msg);
                 let msg = response.msg.toLowerCase();
                 if (msg && msg.indexOf('token') >=0) {
                     setTimeout(()=>{

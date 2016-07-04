@@ -53,15 +53,6 @@ var MyTripsComponent = (function () {
             });
         });
     };
-    MyTripsComponent.prototype.ratingComponetClick = function (clickObj, trip) {
-        var _this = this;
-        trip.rating = clickObj.rating;
-        var rating = this.tripService.rateTrip(trip).then(function (rating) {
-            trip.rating = rating.value;
-            _this.resultTripModel.rating = trip.rating;
-            _this.ratingLabel = rating.numRates;
-        });
-    };
     MyTripsComponent.prototype.deleteTrip = function (trip) {
         var _this = this;
         this.tripService.deleteTrip(trip, this.token).then(function (response) {
@@ -71,6 +62,26 @@ var MyTripsComponent = (function () {
             }
             else {
                 _this.toastr.error("Deleting trip failed !" + response.msg);
+                var msg = response.msg.toLowerCase();
+                if (msg && msg.indexOf('token') >= 0) {
+                    setTimeout(function () {
+                        _this.toastr.error("Token is not valid! Logging Out....");
+                        setTimeout(function () {
+                            _this.authService.doLogout();
+                        }, 1000);
+                    }, 2000);
+                }
+            }
+        });
+    };
+    MyTripsComponent.prototype.updateTrip = function (trip) {
+        var _this = this;
+        this.tripService.updateTrip(trip, this.token).then(function (response) {
+            if (response.success) {
+                _this.toastr.success(response.msg);
+            }
+            else {
+                _this.toastr.error("Updating trip failed !" + response.msg);
                 var msg = response.msg.toLowerCase();
                 if (msg && msg.indexOf('token') >= 0) {
                     setTimeout(function () {
