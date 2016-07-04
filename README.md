@@ -1,4 +1,4 @@
 # Travis
 SEBA 2016
 
-TBD
+This is a project for the SEBA Web Application Engineering course at TUM, Summer 2016.
