@@ -27,7 +27,7 @@ export class CommentComponent{
     @Input()
     comments: Comment[];
     @Input()
-    poll_id:String;
+    pollid:String;
 
     commentText:String;
 
@@ -35,13 +35,8 @@ export class CommentComponent{
     }
 
     public postComment(){
-    
-    console.log("koko");
-    console.log(this);
-    console.log("koko");
-    
-        let commentObj = {token: this.authService.getToken(), text:this.commentText, pollId: this.poll_id};
-            	
+
+        let commentObj = {token: this.authService.getToken(), text:this.commentText, pollid: this.pollid};
         	this.pollService.postPollComment(commentObj);
         	
     }

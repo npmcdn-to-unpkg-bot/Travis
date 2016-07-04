@@ -168,7 +168,7 @@ export class PollComponent implements OnInit{
                         }
 
                         this.polls.push(tempPoll);
-console.log(this.polls);
+
                     });
                 }else{
                     this.toastr.error("Getting the polls failed " + response.msg);
