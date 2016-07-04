@@ -35,6 +35,7 @@ export class Navbar implements OnInit{
             this.user.firstName = tempUser.firstName;
             this.user.imageURL = tempUser.imageURL;
             this.authenticated();
+            this.navigateToSearchPage();
         });
     }
 
@@ -74,5 +75,16 @@ export class Navbar implements OnInit{
         $event.preventDefault();
         $event.stopPropagation();
         this.status.isopen = !this.status.isopen;
+    }
+
+    public navigateToSearchPage(){
+        console.log(this.router.lastNavigationAttempt);
+        if (this.router.lastNavigationAttempt && this.router.lastNavigationAttempt.indexOf('search') >=0){
+            this.router.navigate(['Home']);
+            this.router.navigate(['Search']);
+        }
+
+        else
+            this.router.navigate(['Search']);
     }
 }
