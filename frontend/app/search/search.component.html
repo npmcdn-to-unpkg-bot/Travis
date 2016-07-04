@@ -84,7 +84,7 @@
                                     </div>
 
                                     <div *ngIf="trip.pictures?.length > 0" style="height: auto">
-                                        <span>Check Pictures of the Trip  </span>
+                                        <span>checkout pictures of the trip&emsp;</span>
                                         <button type="button" class="btn-link"(click)="pictureModal.show()" title="show pics">
                                             <span class="glyphicon glyphicon-picture show-pic-button"></span>
                                         </button>
@@ -95,7 +95,7 @@
                                                         <button type="button" class="close" (click)="pictureModal.hide()" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
-                                                        <h4 class="modal-title">Pics of the Trip {{trip.title}}!</h4>
+                                                        <h4 class="modal-title">pictures of {{trip.title}}</h4>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="imageContainer" *ngFor="let pic of trip.pictures" >
