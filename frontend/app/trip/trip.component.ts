@@ -23,7 +23,6 @@ export class TripComponent {
     trips:Trip[];
     tripModel:Trip;
     filesToUpload: File[];
-
     pictures:Picture[];
     imageInput:HTMLInputElement[];
 

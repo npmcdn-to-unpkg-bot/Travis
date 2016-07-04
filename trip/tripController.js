@@ -240,7 +240,8 @@ function updateMyTrip(req, res, user_id) {
         doc.dateTo = req.body.dateTo;
         doc.tags = req.body.tags;
         doc.budget = req.body.budget;
-
+        doc.countries = req.body.countries;
+        
         doc.save();
         res.status(201).json("Trip was successfully updated.");
     });

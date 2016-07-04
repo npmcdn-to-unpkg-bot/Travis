@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -147,28 +148,28 @@ var TripComponent = (function () {
                     alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
-                var sumSize = 0;
+                var sumSize_1 = 0;
                 this.filesToUpload.map(function (file) {
                     if (file)
-                        sumSize += file.size;
+                        sumSize_1 += file.size;
                 });
-                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
+                if (sumSize_1 + recentFile.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
                     return;
                 }
-                var pic = new Picture();
+                var pic_1 = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
-                    pic.src = event.target.result;
-                    pic.name = toBeSentPic.name;
+                    pic_1.src = event.target.result;
+                    pic_1.name = toBeSentPic.name;
                     // Resize the image
                     //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
                 }, false);
                 reader.readAsDataURL(recentFile);
-                this.pictures.push(pic);
+                this.pictures.push(pic_1);
             }
             else
                 return;
@@ -196,18 +197,18 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, ng2_toastr_1.ToastsManager])
     ], TripComponent);
     return TripComponent;
-})();
+}());
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-})();
+}());
 exports.Trip = Trip;
 var Picture = (function () {
     function Picture() {
     }
     return Picture;
-})();
+}());
 exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map
