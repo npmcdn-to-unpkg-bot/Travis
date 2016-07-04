@@ -1,6 +1,7 @@
 #pollItem {
     background-image: url("/UI/assets/images/art/bg6.jpg");
     background-repeat: repeat;
+    min-height: 800px;
 }
 
 div.container.inner-top-sm {
@@ -306,7 +307,6 @@ li { list-style: none; }
 }
 
 #createPollModal {
-    height: auto;
-    min-height: 500px;
+    height: 500px;
     top: 60px;
 }
