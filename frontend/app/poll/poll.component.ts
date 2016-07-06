@@ -124,7 +124,7 @@ export class PollComponent implements OnInit{
 
                     pollModal.hide();
 
-                    this.toastr.success("success! " + response.msg);
+                    this.toastr.success("Successfully created a new poll!");
 
 
                     let tempPoll = new response.poll;
@@ -155,6 +155,7 @@ export class PollComponent implements OnInit{
             console.log(err);
             this.toastr.error("posting the polls failed!");
         }
+        this.getPolls();
     }
 
     ngOnInit() {
@@ -163,6 +164,7 @@ export class PollComponent implements OnInit{
     }
 
     private getPolls(){
+        this.polls = [];
         try{
             let token = this.authService.getToken();
             this.pollService.getLatestPolls(token).then(response => {

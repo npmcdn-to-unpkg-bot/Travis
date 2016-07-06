@@ -67,6 +67,7 @@ export class TripComponent {
                 this.pictures = [];
                 this.imageInput.value = "";
                 this.routePicInput.value ="";
+                this.removeTripPic();
             }
             else{
                 this.toastr.error("Creating trip failed !" + response.msg);
@@ -108,7 +109,7 @@ export class TripComponent {
         'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland',
         'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga',
         'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
-        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
+        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'USA', 'Uzbekistan', 'Venezuela', 'Vietnam',
         'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
 
     private countriesValue:any = [];
@@ -147,6 +148,12 @@ export class TripComponent {
                 return item.text;
             }).join(', ');
         return str.split(', ');
+    }
+
+    public clearTags() {
+        if (this.tripModel.tags.length > 0) {
+            this.tripModel.tags = [];
+        }
     }
 
     public removeTripPic(){
