@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,7 +23,7 @@ var Option = (function () {
         this.vote = [];
     }
     return Option;
-})();
+}());
 exports.Option = Option;
 var Poll = (function () {
     function Poll() {
@@ -67,13 +68,13 @@ var Poll = (function () {
         return votes;
     };
     return Poll;
-})();
+}());
 exports.Poll = Poll;
 var pollForm = (function () {
     function pollForm() {
     }
     return pollForm;
-})();
+}());
 exports.pollForm = pollForm;
 var PollComponent = (function () {
     function PollComponent(authService, pollService, toastr) {
@@ -96,18 +97,18 @@ var PollComponent = (function () {
         try {
             // for creating a poll
             var options = this.pollModel.options.split('\n');
-            var validOptions = [];
+            var validOptions_1 = [];
             options.map(function (option) {
                 if (option != "" && option != null)
-                    validOptions.push(option);
+                    validOptions_1.push(option);
             });
-            var pollObj = { token: this.authService.getToken(), title: this.pollModel.title, options: validOptions };
+            var pollObj = { token: this.authService.getToken(), title: this.pollModel.title, options: validOptions_1 };
             this.pollService.postPoll(pollObj).then(function (response) {
                 if (response.warn)
                     _this.toastr.warning("warning! " + response.msg);
                 else if (response.success) {
                     pollModal.hide();
-                    _this.toastr.success("success! " + response.msg);
+                    _this.toastr.success("Successfully created a new poll!");
                     var tempPoll = new response.poll;
                     _this.polls.push(tempPoll);
                     // clearing form
@@ -134,6 +135,7 @@ var PollComponent = (function () {
             console.log(err);
             this.toastr.error("posting the polls failed!");
         }
+        this.getPolls();
     };
     PollComponent.prototype.ngOnInit = function () {
         console.log("OnInit poll component");
@@ -141,6 +143,7 @@ var PollComponent = (function () {
     };
     PollComponent.prototype.getPolls = function () {
         var _this = this;
+        this.polls = [];
         try {
             var token = this.authService.getToken();
             this.pollService.getLatestPolls(token).then(function (response) {
@@ -247,6 +250,6 @@ var PollComponent = (function () {
         __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], PollComponent);
     return PollComponent;
-})();
+}());
 exports.PollComponent = PollComponent;
 //# sourceMappingURL=poll.component.js.map

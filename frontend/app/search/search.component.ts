@@ -60,7 +60,7 @@ export class SearchComponent {
         'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland',
         'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga',
         'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
-        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
+        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'USA', 'Venezuela', 'Vietnam',
         'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
 
     // private countriesValue
@@ -185,7 +185,8 @@ export class SearchComponent {
 export class SearchTerm {
     _id:number;
     owner:Object;
-    month:string;
+    dateFrom: string;
+    dateTo: string;
     budget:number;
     countries:[string];
     cities:[string];

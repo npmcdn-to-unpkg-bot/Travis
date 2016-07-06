@@ -181,17 +181,23 @@ function getMongoQuery(query) {
     }
     if (query.budget)
         mongoQuery.budget = {$lte: parseFloat(query.budget)};
-    if (query.tags)
+    if (query.tags) {
+
+        if (typeof query.tags == 'string')
+            query.tags = [query.tag];
+
         mongoQuery.tags = {$in: query.tags};
-    if (query.from) {
-        var tempDate = new Date(query.from);
-        if (!isNaN(tempDate.getTime()))
+    }
+    if (query.dateFrom) {
+        console.log(query.dateFrom);
+        var tempDate = query.dateFrom;
+        if (!isNaN(tempDate))
         // date is valid
             mongoQuery.dateFrom = {"$gte": tempDate};
     }
-    if (query.to) {
-        var tempDate = new Date(query.to);
-        if (!isNaN(tempDate.getTime()))
+    if (query.dateTo) {
+        var tempDate = new Date(query.dateTo);
+        if (!isNaN(tempDate))
         // date is valid
             mongoQuery.dateTo = {"$lte": tempDate};
     }
