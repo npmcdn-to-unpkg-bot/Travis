@@ -236,7 +236,9 @@ var PollService = (function () {
                 console.log(res);
                 var serviceResponse = {};
                 if (res.status <= 299) {
-                    serviceResponse['msg'] = res.text();
+                    var message = res.json();
+                    serviceResponse['msg'] = message['msg'];
+                    serviceResponse['comments'] = message['comments'];
                     serviceResponse['success'] = true;
                 }
                 else if (res.status >= 400) {

@@ -98,6 +98,8 @@ var PollComponent = (function () {
                 else if (response.success) {
                     pollModal.hide();
                     _this.toastr.success("success! " + response.msg);
+                    var tempPoll = new response.poll;
+                    _this.polls.push(tempPoll);
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;

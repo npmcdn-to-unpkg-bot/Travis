@@ -115,6 +115,11 @@ export class PollComponent implements OnInit{
                     pollModal.hide();
 
                     this.toastr.success("success! " + response.msg);
+
+
+                    let tempPoll = new response.poll;
+                    this.polls.push(tempPoll);
+
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
