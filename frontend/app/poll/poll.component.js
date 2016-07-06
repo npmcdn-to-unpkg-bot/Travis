@@ -29,15 +29,16 @@ var Poll = (function () {
     function Poll() {
     }
     Poll.prototype.isUserVoted = function (userId) {
+        var found = false;
         this.options.map(function (option) {
             option.vote.map(function (v) {
                 console.log(v);
                 console.log(userId);
                 if (userId == v)
-                    return option.text;
+                    found = option.text;
             });
         });
-        return false;
+        return found;
     };
     Poll.prototype.getVotes = function (currentOp) {
         var votes = 0;
@@ -50,9 +51,10 @@ var Poll = (function () {
     };
     //front end only
     Poll.prototype.upVoteOption = function (text) {
+        var userId = JSON.parse(localStorage.getItem('user'))["_id"];
         this.options.map(function (tempOp) {
             if (tempOp.text == text) {
-                tempOp.vote.push("temporaryvote");
+                tempOp.vote.push(userId);
             }
         });
     };

@@ -27,15 +27,17 @@ export class Poll {
     selectedOption: string;
 
     public isUserVoted(userId:string){
+        let found = false;
         this.options.map(option =>{
             option.vote.map( v =>{
                 console.log(v);
                 console.log(userId);
                 if(userId == v)
-                    return option.text;
+                    found =  option.text;
             });
         });
-        return false;
+
+        return found;
     }
 
     public getVotes(currentOp:string){
@@ -50,9 +52,11 @@ export class Poll {
 
     //front end only
     public upVoteOption(text:string){
+        let userId = JSON.parse(localStorage.getItem('user'))["_id"];
+
         this.options.map(tempOp =>{
             if (tempOp.text == text){
-                tempOp.vote.push("temporaryvote");
+                tempOp.vote.push(userId);
             }
         });
     }
