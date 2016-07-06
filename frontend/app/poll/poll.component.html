@@ -11,7 +11,7 @@
                 </ul><!-- /.format-filter -->
             </div><!-- /.col -->
         </div><!-- /.row -->
-        <div class="row" *ngFor="let poll of polls">
+        <div class="row" *ngFor="let poll of polls; let j=index">
             <div class="posts sidemeta">
                 <div class="post format-gallery">
 
@@ -31,7 +31,8 @@
                                         <div class="option-choose">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="Poll" value={{option.text}}/>
+                                                <input type="radio" name="Poll" value={{option.text}}
+                                                (click)="setPollVote(j, i)"/>
                                                 {{option.text}}
                                             </label>
                                         </div>
@@ -44,8 +45,8 @@
                                         </progressbar>
                                         </div>
                                     </li>
-                                    <input type="submit" class="btn btn-default btn-submit" name="submit" id="submit"
-                                           value="Vote"/>
+                                    <input  class="btn btn-default btn-submit" name="submit" id="submit"
+                                           value="Vote" (click)="submitVote(poll, j)"/>
                                     <input type="hidden" name="id" value="form1"/>
                                     
                                 </div>

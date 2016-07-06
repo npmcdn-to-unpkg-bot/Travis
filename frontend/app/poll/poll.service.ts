@@ -124,7 +124,6 @@ export class PollService {
     }
 
     public getLatestPolls(token) :Promise<Object> {
-        console.log(token);
         var headers = new Headers();
         headers.append('token', token);
         return this.http.get("/rest/poll/",{'headers':headers})
@@ -140,6 +139,8 @@ export class PollService {
                         serviceResponse['msg'] = res.text();
                         console.log(serviceResponse);
                     }
+
+                    console.log(serviceResponse);
                     return serviceResponse;
                 }
                 else return {};

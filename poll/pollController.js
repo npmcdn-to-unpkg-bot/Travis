@@ -101,11 +101,10 @@ module.exports.vote = function(req, res){
 	var user_id = decoded.user._id;
 	
 	Poll.findOneAndUpdate(
-			{ _id : req.body.poll_id, 'options._id' : req.body.option_id },
+			{ _id : req.body.poll_id, 'options.text' : req.body.option },
 		    {$push: {"options.$.vote": user_id}},
 		    {safe: true, upsert: true},
 		    function(err, model) {
-		        
 		       // console.log(model);
 		        res.status(200).send('ok');
 		        return;
@@ -192,6 +191,7 @@ function getAllthePolls (req,res){
 			}
 
 		});
+			console.log(JSON.stringify(polls));
 			return res.status(200).json(polls);
 		}
 	});

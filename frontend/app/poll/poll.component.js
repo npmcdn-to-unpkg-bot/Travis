@@ -45,6 +45,14 @@ var Poll = (function () {
         });
         return votes;
     };
+    //front end only
+    Poll.prototype.upVoteOption = function (text) {
+        this.options.map(function (tempOp) {
+            if (tempOp.text == text) {
+                tempOp.vote.push("temporaryvote");
+            }
+        });
+    };
     Poll.prototype.getVotesPercentage = function (option) {
         var votes = this.getVotes(option);
         return 100 * votes / this.getNumOfVotes();
@@ -151,6 +159,7 @@ var PollComponent = (function () {
                         }
                         _this.polls.push(tempPoll);
                     });
+                    console.log(polls);
                 }
                 else {
                     _this.toastr.error("Getting the polls failed " + response.msg);
@@ -177,6 +186,43 @@ var PollComponent = (function () {
         };
         var temp_date = new Date(dateStr);
         return temp_date.toLocaleTimeString("en-us", options);
+    };
+    PollComponent.prototype.setPollVote = function (pollIndex, voteIndex) {
+        this.polls[pollIndex].selectedOption = this.polls[pollIndex].options[voteIndex].text;
+        console.log("selected " + this.polls[pollIndex].options[voteIndex].text);
+    };
+    PollComponent.prototype.submitVote = function (poll, pollIndex) {
+        var _this = this;
+        var votingPoll = this.polls[pollIndex];
+        try {
+            // for creating a poll
+            var voteObj = { token: this.authService.getToken(), poll_id: votingPoll._id,
+                option: votingPoll.selectedOption };
+            this.pollService.postPollVote(voteObj).then(function (response) {
+                if (response.warn)
+                    _this.toastr.warning("warning! " + response.msg);
+                else if (response.success) {
+                    _this.toastr.success("success! " + response.msg);
+                    _this.polls[pollIndex].upVoteOption(_this.polls[pollIndex].selectedOption);
+                }
+                else {
+                    _this.toastr.error("voting to poll failed !" + response.msg);
+                    var msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >= 0) {
+                        setTimeout(function () {
+                            _this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(function () {
+                                _this.authService.doLogout();
+                            }, 1000);
+                        }, 2000);
+                    }
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+            this.toastr.error("posting the polls failed!");
+        }
     };
     PollComponent = __decorate([
         core_1.Component({

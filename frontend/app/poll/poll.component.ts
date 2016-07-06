@@ -24,6 +24,7 @@ export class Poll {
     options: Option[];
     date: string;
     comments: Object[];
+    selectedOption: string;
 
     public isUserVoted(userId:string){
         this.options.map(option =>{
@@ -43,6 +44,15 @@ export class Poll {
            }
         });
         return votes;
+    }
+
+    //front end only
+    public upVoteOption(text:string){
+        this.options.map(tempOp =>{
+            if (tempOp.text == text){
+                tempOp.vote.push("temporaryvote");
+            }
+        });
     }
 
     public getVotesPercentage(option:string){
@@ -175,6 +185,7 @@ export class PollComponent implements OnInit{
                         this.polls.push(tempPoll);
 
                     });
+                    console.log(polls);
                 }else{
                     this.toastr.error("Getting the polls failed " + response.msg);
                     let msg = response.msg.toLowerCase();
@@ -204,5 +215,48 @@ export class PollComponent implements OnInit{
         var temp_date = new Date(dateStr);
         return temp_date.toLocaleTimeString("en-us", options);
     }
+
+    public setPollVote(pollIndex, voteIndex){
+        this.polls[pollIndex].selectedOption = this.polls[pollIndex].options[voteIndex].text;
+        console.log("selected " + this.polls[pollIndex].options[voteIndex].text);
+    }
+
+    public submitVote(poll,  pollIndex){
+        let votingPoll = this.polls[pollIndex];
+
+        try{
+            // for creating a poll
+            let voteObj = {token: this.authService.getToken(), poll_id:votingPoll._id,
+                option:votingPoll.selectedOption};
+
+            this.pollService.postPollVote(voteObj).then(response=>{
+                if(response.warn)
+                    this.toastr.warning("warning! " + response.msg);
+                else if (response.success){
+
+                    this.toastr.success("success! " + response.msg);
+
+                    this.polls[pollIndex].upVoteOption(this.polls[pollIndex].selectedOption);
+                }
+                else{
+                    this.toastr.error("voting to poll failed !" + response.msg);
+                    let msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >=0) {
+                        setTimeout(()=>{
+                            this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(()=>{
+                                this.authService.doLogout();
+                            },1000);
+                        },2000);
+                    }
+                }
+            });
+
+        } catch (err){
+            console.log(err);
+            this.toastr.error("posting the polls failed!");
+        }
+    }
+
 
 }

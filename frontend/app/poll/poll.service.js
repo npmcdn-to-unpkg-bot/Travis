@@ -129,7 +129,6 @@ var PollService = (function () {
     }
     PollService.prototype.getLatestPolls = function (token) {
         var _this = this;
-        console.log(token);
         var headers = new http_1.Headers();
         headers.append('token', token);
         return this.http.get("/rest/poll/", { 'headers': headers })
@@ -144,6 +143,7 @@ var PollService = (function () {
                     serviceResponse['msg'] = res.text();
                     console.log(serviceResponse);
                 }
+                console.log(serviceResponse);
                 return serviceResponse;
             }
             else
