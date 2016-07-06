@@ -118,6 +118,8 @@ export class AuthService {
         this.user.authenticated = false;
         sessionStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
         this.authenticated = false;
 
         this.expiresTimerId = null;

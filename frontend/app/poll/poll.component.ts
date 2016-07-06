@@ -29,6 +29,8 @@ export class Poll {
     public isUserVoted(userId:string){
         this.options.map(option =>{
             option.vote.map( v =>{
+                console.log(v);
+                console.log(userId);
                 if(userId == v)
                     return option.text;
             });
@@ -223,6 +225,19 @@ export class PollComponent implements OnInit{
 
     public submitVote(poll,  pollIndex){
         let votingPoll = this.polls[pollIndex];
+
+        let userId = JSON.parse(localStorage.getItem('user'))["_id"];
+        let preVote = this.polls[pollIndex].isUserVoted(userId);
+        if(preVote){
+
+            alert("You can't vote twice! you already voted for " + preVote);
+            return;
+        }
+
+        if(! this.polls[pollIndex].selectedOption){
+            alert("You should choose an option before voting");
+            return;
+        }
 
         try{
             // for creating a poll

@@ -73,7 +73,7 @@ if(user.type !== "Travis")
         if (foundUser) {
 			console.log("user found!");
 			console.log(foundUser);
-        	res.status(200).json({token: createToken(foundUser),_id:user._id});
+        	res.status(200).json({token: createToken(foundUser),_id:foundUser._id});
         	return;
         } else
         {
