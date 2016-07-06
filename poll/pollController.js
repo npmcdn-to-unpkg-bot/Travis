@@ -191,7 +191,6 @@ function getAllthePolls (req,res){
 			}
 
 		});
-			console.log(JSON.stringify(polls));
 			return res.status(200).json(polls);
 		}
 	});

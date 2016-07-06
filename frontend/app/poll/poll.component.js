@@ -30,6 +30,8 @@ var Poll = (function () {
     Poll.prototype.isUserVoted = function (userId) {
         this.options.map(function (option) {
             option.vote.map(function (v) {
+                console.log(v);
+                console.log(userId);
                 if (userId == v)
                     return option.text;
             });
@@ -194,6 +196,16 @@ var PollComponent = (function () {
     PollComponent.prototype.submitVote = function (poll, pollIndex) {
         var _this = this;
         var votingPoll = this.polls[pollIndex];
+        var userId = JSON.parse(localStorage.getItem('user'))["_id"];
+        var preVote = this.polls[pollIndex].isUserVoted(userId);
+        if (preVote) {
+            alert("You can't vote twice! you already voted for " + preVote);
+            return;
+        }
+        if (!this.polls[pollIndex].selectedOption) {
+            alert("You should choose an option before voting");
+            return;
+        }
         try {
             // for creating a poll
             var voteObj = { token: this.authService.getToken(), poll_id: votingPoll._id,

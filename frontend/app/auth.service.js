@@ -114,6 +114,7 @@ var AuthService = (function () {
         this.user.authenticated = false;
         sessionStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         this.authenticated = false;
         this.expiresTimerId = null;
         this.expires = 0;
