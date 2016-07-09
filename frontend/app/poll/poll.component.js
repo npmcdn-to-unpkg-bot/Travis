@@ -111,8 +111,6 @@ var PollComponent = (function () {
                 else if (response.success) {
                     pollModal.hide();
                     _this.toastr.success("Successfully created a new poll!");
-                    var tempPoll = new response.poll;
-                    _this.polls.push(tempPoll);
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
@@ -131,13 +129,16 @@ var PollComponent = (function () {
                         }, 2000);
                     }
                 }
+                var tempPoll = new response.poll;
+                _this.polls.push(tempPoll);
+                _this.pollModel = new pollForm();
+                _this.getPolls();
             });
         }
         catch (err) {
             console.log(err);
             this.toastr.error("posting the polls failed!");
         }
-        this.getPolls();
     };
     PollComponent.prototype.ngOnInit = function () {
         console.log("OnInit poll component");

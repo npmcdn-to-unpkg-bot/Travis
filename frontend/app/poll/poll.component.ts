@@ -133,15 +133,11 @@ export class PollComponent implements OnInit{
                     this.toastr.success("Successfully created a new poll!");
 
 
-                    let tempPoll = new response.poll;
-                    this.polls.push(tempPoll);
-
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
                     ngForm.form.controls["pollOptions"].updateValue("");
                     ngForm.form.controls["pollOptions"]['_pristine'] = true;
-
                 }
                 else{
                     this.toastr.error("Creating poll failed !" + response.msg);
@@ -155,13 +151,17 @@ export class PollComponent implements OnInit{
                         },2000);
                     }
                 }
+                let tempPoll = new response.poll;
+
+                this.polls.push(tempPoll);
+                this.pollModel = new pollForm();
+                this.getPolls();
             });
 
-        } catch (err){
+        } catch (err) {
             console.log(err);
             this.toastr.error("posting the polls failed!");
         }
-        this.getPolls();
     }
 
     ngOnInit() {

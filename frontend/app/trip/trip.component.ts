@@ -278,6 +278,7 @@ export class Trip {
     comments: Object[];
     pictures: Picture[];
     rating: number[];
+    options:
 }
 
 export class Picture{

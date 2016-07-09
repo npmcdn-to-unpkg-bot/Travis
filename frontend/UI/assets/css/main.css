@@ -55,7 +55,7 @@ html:not(.no-csstransitions) main [class*="col-"] {
 }
 body {
     font-family: 'Source Sans Pro', sans-serif;
-    background-color: #083330;
+    background-color: #fff;
     color: #0F6660;
     font-size: 18px;
 	line-height: 100%;
@@ -291,7 +291,7 @@ main header + * {
 	padding-top: 100px;
 }
 .inner-top-sm {
-	padding-top: 80px;
+	padding-top: 20px;
 }
 .inner-top-xs {
 	padding-top: 40px;
@@ -3702,7 +3702,7 @@ input:focus:-ms-input-placeholder {
 .post {
     position: relative;
 	background: #FFF;
-    padding-bottom: 60px;
+    padding-bottom: 0px;
 	border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	border-radius: 3px;
