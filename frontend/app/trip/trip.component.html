@@ -17,8 +17,11 @@
                     <fieldset class="form-group">
                         <label for="budget">Budget</label>
                         <br/>
-                        <input [(ngModel)]="tripModel.budget" ngControl="budget" type="number" class="form-control" id="budget"
-                               placeholder="How much did you spend?"style="width: 80%"><span>EUR</span>
+                        <div class="input-group">
+                            <div class="input-group-addon currency-div" style="border-left: 1px solid #19A69C;">€</div>
+                            <input [(ngModel)]="tripModel.budget" ngControl="budget" type="number" class="form-control" id="budget"
+                                   placeholder="How much did you spend?"style="width: 80%">
+                        </div>
                     </fieldset>
                     <script type="text/javascript">
                         $(".js-example-basic-multiple").select2();

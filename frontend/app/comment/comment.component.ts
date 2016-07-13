@@ -48,8 +48,7 @@ export class CommentComponent{
                     console.log("we got the comments");
                     this.comments.push(tempComments.pop());
                 }
-
-
+                
                 console.log(ngForm);
                 // clearing form
                 ngForm.form.controls["comment"].updateValue("");

@@ -7,8 +7,11 @@
                     <form #searchForm="ngForm" id="searchForm" class="navbar-form" role="search" (ngSubmit)="search()">
                         <input type="text" [(ngModel)]="searchModel.searchTerm" id="searchTerm"
                                placeholder="type in keyword(s)"/>
-                        <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget"
+                        <div class="input-group">
+                            <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget"
                                placeholder="maximum budget" style="width: 200px">
+                            <div class="input-group-addon currency-div" style="border-left: 1px solid #19A69C;">€</div>
+                        </div>
                         <fieldset class="form-group">
                             <input [(ngModel)]="searchModel.dateFrom" type="date" id="dateFrom" ngControl="dateFrom" #dateFrom="ngForm"  style="width: 200px">
                             <input [(ngModel)]="searchModel.dateTo" type="date" id="dateTo" ngControl="dateTo" #dateTo="ngForm"  style="width: 200px">
@@ -50,14 +53,17 @@
                                     <h3> #{{trip.tags.join('# ')}}# </h3>
                                 </div>
                                 <div class="trip-card-detail">
-
-                                        <span class="text">{{trip.owner?.firstName}}</span><br>
+                                    <div class="userInfo" style="margin-bottom: 4px;">
+                                        <img src="{{trip.owner.imageURL}}" class="cropcircle"/>
+                                        <br>
+                                        <span class="sub-text" style="font-size: 14px;">by {{trip.owner.firstName}}</span><br>
+                                    </div>
                                     <div id="tripDurationDate">
                                         <p><b>{{trip.dateFrom | date:'dd/MM/yyyy'}}</b>&emsp;&mdash;&emsp;<b>{{trip.dateTo
                                             | date:'dd/MM/yyyy'}}</b></p>
                                     </div>
                                     <div *ngIf="trip.budget" id="tripBudget">
-                                        <p>Budget:&emsp;<b>{{trip.budget}}</b></p>
+                                        <p>Budget:&emsp;<b>{{trip.budget}}</b>&emsp;EUR</p>
                                     </div>
                                     <div *ngIf="trip.cities" id="tripCities">
                                         <p>Cities:&emsp;<b>{{trip.cities.join(', ')}}</b></p>

@@ -101,6 +101,7 @@ var SearchComponent = (function () {
         }
         this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(searchModel).then(function (trips) {
+            console.log(trips);
             trips.map(function (trip) {
                 var tmpTrip = new trip_component_1.Trip();
                 tmpTrip.owner = trip['owner'];
@@ -117,6 +118,9 @@ var SearchComponent = (function () {
                 tmpTrip.pictures = trip['pictures'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                console.log("######");
+                console.log(trip);
+                console.log(tmpTrip);
                 _this.trips.push(tmpTrip);
             });
         });

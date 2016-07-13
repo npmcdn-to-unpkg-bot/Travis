@@ -12,7 +12,7 @@ var seenIds;
 
 module.exports.getAll = function (req, res) {
     console.log("Get all trips");
-    Trip.find().sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find().sort({creationDate: 'descending'}).limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -90,7 +90,7 @@ module.exports.updateTrip = function (req, res) {
 module.exports.getTrips = function (req, res) {
     seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
-    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).populate("owner").limit(10).exec(function (err, trip) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
@@ -107,8 +107,9 @@ function getTrips(req, res, user_id) {
     seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
     mongoQuery.owner = {$in: user_id};
-    Trip.find(mongoQuery).sort('-date').exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).populate("owner").exec(function (err, trip) {
         if (err) {
+            console.log(trip);
             console.log(err);
             res.status(500).send("Server error!");
             return;
@@ -127,7 +128,7 @@ module.exports.getMoreTrips = function (req, res) {
 
     mongoQuery._id = {$nin: seenIds};
 
-    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).limit(10).populate("owner").exec(function (err, trip) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
@@ -182,17 +183,19 @@ function getMongoQuery(query) {
 
     if (query.dateFrom) {
         console.log(query.dateFrom);
-        var tempDate = query.dateFrom;
-        if (!isNaN(tempDate))
-        // date is valid
-            mongoQuery.dateFrom = {"$gte": tempDate};
+        var tempDate = new Date(query.dateFrom);
+        if (!isNaN(tempDate)) {
+            console.log("#####");
+            console.log(tempDate);
+            mongoQuery.dateFrom = {$gte: tempDate};
+        }
     }
     if (query.dateTo) {
         var tempDate = new Date(query.dateTo);
         if (!isNaN(tempDate))
-        // date is valid
-            mongoQuery.dateTo = {"$lte": tempDate};
+            mongoQuery.dateTo = {$lte : tempDate};
     }
+    console.log(mongoQuery);
     return mongoQuery;
 }
 

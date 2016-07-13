@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -179,11 +180,16 @@ var PollService = (function () {
             .timeout(8000, new Error('server timeout exceeded! could not save the poll'))
             .toPromise().then(function (res) {
             if (res) {
+                var response = res.json();
                 console.log(res);
                 var serviceResponse = {};
                 if (res.status <= 299) {
-                    serviceResponse['msg'] = res.text();
+                    serviceResponse['msg'] = response['msg'];
                     serviceResponse['success'] = true;
+                    serviceResponse['poll'] = response['poll'];
+                    console.log("######");
+                    console.log(serviceResponse);
+                    console.log(response);
                 }
                 else if (res.status >= 400) {
                     serviceResponse['error'] = true;
@@ -257,6 +263,6 @@ var PollService = (function () {
         __metadata('design:paramtypes', [http_1.Http, router_deprecated_1.Router])
     ], PollService);
     return PollService;
-})();
+}());
 exports.PollService = PollService;
 //# sourceMappingURL=poll.service.js.map

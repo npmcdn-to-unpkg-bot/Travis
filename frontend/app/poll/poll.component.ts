@@ -133,6 +133,24 @@ export class PollComponent implements OnInit{
                     this.toastr.success("Successfully created a new poll!");
 
 
+                    console.log("\n RESPONSE \n");
+                    console.log(response.poll);
+
+                    let tempPoll = new Poll();
+                    let poll = response.poll;
+
+                    tempPoll.owner =  poll['owner'];
+                    console.log(tempPoll.owner);
+                    tempPoll.title = poll['title'];
+                    tempPoll.options = poll['options'];
+                    tempPoll.date =  this.formatDate(poll['date']);
+                    tempPoll.comments = poll['comments'];
+                    tempPoll._id = poll['_id'];
+
+                    this.polls.unshift(tempPoll);
+
+                    this.pollModel = new pollForm();
+
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
@@ -151,11 +169,7 @@ export class PollComponent implements OnInit{
                         },2000);
                     }
                 }
-                let tempPoll = new response.poll;
 
-                this.polls.push(tempPoll);
-                this.pollModel = new pollForm();
-                this.getPolls();
             });
 
         } catch (err) {

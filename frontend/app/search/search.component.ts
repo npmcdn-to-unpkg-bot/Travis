@@ -26,6 +26,7 @@ export class SearchComponent {
     resultTripModel:Trip;
     trips:Trip[];
     ratingLabel:string;
+    tripOwnerName: string;
 
     constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
@@ -110,6 +111,7 @@ export class SearchComponent {
         }
         this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(searchModel).then(trips => {
+            console.log(trips);
             trips.map(trip => {
                 let tmpTrip = new Trip();
                 tmpTrip.owner = trip['owner'];
@@ -126,6 +128,9 @@ export class SearchComponent {
                 tmpTrip.pictures = trip['pictures'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                console.log("######");
+                console.log(trip);
+                console.log(tmpTrip);
                 this.trips.push(tmpTrip);
             });
         });

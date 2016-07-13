@@ -5,12 +5,10 @@
         <div class="row inner-bottom-xs">
             <div class="column-sm-10">
                 <ul class="format-filter text-center">
-                    <!--<li><a class="active icon-th" title="All"></a></li>-->
                     <li><a (click)="createPollModal.show()" class="icon-edit" title="Create Poll"></a>
-                        <!-- <li><a class="icon-quote"></a></li>-->
-                </ul><!-- /.format-filter -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
+                </ul>
+            </div>
+        </div>
         <div class="row" *ngFor="let poll of polls; let j=index">
             <div class="posts sidemeta">
                 <div class="post format-gallery">

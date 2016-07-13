@@ -177,11 +177,17 @@ export class PollService {
             .toPromise().then(res => {
                     if (res)
                     {
+                        var response = res.json();
                         console.log(res);
                         let serviceResponse = {};
                         if(res.status <= 299){
-                            serviceResponse['msg'] = res.text();
-                            serviceResponse['success']=true;
+                            serviceResponse['msg'] = response['msg'];
+                            serviceResponse['success'] = true;
+                            serviceResponse['poll'] = response['poll'];
+                            console.log("######");
+                            console.log(serviceResponse);
+
+                            console.log(response);
                         }
                         else if(res.status >= 400){
                             serviceResponse['error'] = true;

@@ -38,8 +38,18 @@ function saveThePoll(req, res,user_id){
 			return;
 		}
 
-		var response = { msg: "Poll created Successfully! poll title: " + p.title, poll: p};
-		res.status(201).json(response);
+		Poll.findOne({_id :new ObjectId(p._id)}).populate("owner")
+			.exec(function(err, pollObj) {
+				if (err) {
+					res.status(500).send("Server Error! Could get the Comments!");
+					return;
+				}
+				var response = { msg: "Poll created Successfully! poll title: " + pollObj.title, poll: pollObj};
+				res.status(201).json(response);
+			});
+
+		// var response = { msg: "Poll created Successfully! poll title: " + p.title, poll: p};
+		// res.status(201).json(response);
 	});
 }
 
@@ -165,7 +175,7 @@ module.exports.comment = function(req, res){
 };
 
 function getAllthePolls (req,res){
-	Poll.find({}).populate("owner").populate("comments.user").exec(function(err, polls) {
+	Poll.find({}).sort('-date').populate("owner").populate("comments.user").exec(function(err, polls) {
 		if (err) {
 			console.log(err);
 			res.status(500).send("Request failed: Could not get the Polls!");

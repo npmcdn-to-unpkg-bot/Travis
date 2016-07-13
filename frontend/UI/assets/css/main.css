@@ -2612,7 +2612,7 @@ blockquote:before {
 .format-filter li {
     display: inline;
 	position: relative;
-	background: #FFF;
+	background: transparent;
 	font-size: 15px;
     font-weight: 700;
 	line-height: 150%;
@@ -2621,7 +2621,7 @@ blockquote:before {
 	margin: 0 -2px;
 }
 .light-bg .format-filter li {
-	background: #F2F5F7;
+	background: transparent;
 }
 .filter li:after,
 .format-filter li:after {
@@ -2633,7 +2633,8 @@ blockquote:before {
 }
 .filter li a,
 .format-filter li a {
-    padding: 0 15px;
+    padding: 0;
+	border-bottom: 0px;
 }
 .light-bg .filter:before {
 	border-color: #BCC7D1;
@@ -3321,6 +3322,7 @@ textarea,
 .navbar-form .form-control {
     width: 100%;
 }
+
 select,
 textarea,
 textarea.form-control,
@@ -3338,7 +3340,7 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
-.uneditable-input {
+.uneditable-input, .currency-div {
     display: inline-block;
     -webkit-font-smoothing: antialiased;
     height: 40px;

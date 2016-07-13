@@ -111,6 +111,19 @@ var PollComponent = (function () {
                 else if (response.success) {
                     pollModal.hide();
                     _this.toastr.success("Successfully created a new poll!");
+                    console.log("\n RESPONSE \n");
+                    console.log(response.poll);
+                    var tempPoll = new Poll();
+                    var poll = response.poll;
+                    tempPoll.owner = poll['owner'];
+                    console.log(tempPoll.owner);
+                    tempPoll.title = poll['title'];
+                    tempPoll.options = poll['options'];
+                    tempPoll.date = _this.formatDate(poll['date']);
+                    tempPoll.comments = poll['comments'];
+                    tempPoll._id = poll['_id'];
+                    _this.polls.unshift(tempPoll);
+                    _this.pollModel = new pollForm();
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
@@ -129,10 +142,6 @@ var PollComponent = (function () {
                         }, 2000);
                     }
                 }
-                var tempPoll = new response.poll;
-                _this.polls.push(tempPoll);
-                _this.pollModel = new pollForm();
-                _this.getPolls();
             });
         }
         catch (err) {
