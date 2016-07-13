@@ -7,25 +7,15 @@
                     <form #searchForm="ngForm" id="searchForm" class="navbar-form" role="search" (ngSubmit)="search()">
                         <input type="text" [(ngModel)]="searchModel.searchTerm" id="searchTerm"
                                placeholder="type in keyword(s)"/>
-                        <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget"
+                        <div class="input-group">
+                            <input [(ngModel)]="searchModel.budget" type="number" id="searchBudget"
                                placeholder="maximum budget" style="width: 200px">
-                        <select class="selectableList" [(ngModel)]="searchModel.month" id="searchMonth"
-                                style="width: 200px">
-                            <option disabled selected>Select a month ...</option>
-                            <option value="01">January</option>
-                            <option value="02">February</option>
-                            <option value="03">March</option>
-                            <option value="04">April</option>
-                            <option value="05">May</option>
-                            <option value="06">June</option>
-                            <option value="07">July</option>
-                            <option value="08">August</option>
-                            <option value="09">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                            <option></option>
-                        </select>
+                            <div class="input-group-addon currency-div" style="border-left: 1px solid #19A69C;">€</div>
+                        </div>
+                        <fieldset class="form-group">
+                            <input [(ngModel)]="searchModel.dateFrom" type="date" id="dateFrom" ngControl="dateFrom" #dateFrom="ngForm"  style="width: 200px">
+                            <input [(ngModel)]="searchModel.dateTo" type="date" id="dateTo" ngControl="dateTo" #dateTo="ngForm"  style="width: 200px">
+                        </fieldset>
                         <div style="display: table;" align="center" class="center-block text-center">
                             <div id="searchCountries" class="searchCountries"
                                  style="width: 300px; margin-bottom: 20px; display: table-cell;">
@@ -63,14 +53,17 @@
                                     <h3> #{{trip.tags.join('# ')}}# </h3>
                                 </div>
                                 <div class="trip-card-detail">
-                                    <img src="{{trip.owner?.imageURL}}" class="cropcircle"/>
-
+                                    <div class="userInfo" style="margin-bottom: 4px;">
+                                        <img src="{{trip.owner.imageURL}}" class="cropcircle"/>
+                                        <br>
+                                        <span class="sub-text" style="font-size: 14px;">by {{trip.owner.firstName}}</span><br>
+                                    </div>
                                     <div id="tripDurationDate">
                                         <p><b>{{trip.dateFrom | date:'dd/MM/yyyy'}}</b>&emsp;&mdash;&emsp;<b>{{trip.dateTo
                                             | date:'dd/MM/yyyy'}}</b></p>
                                     </div>
                                     <div *ngIf="trip.budget" id="tripBudget">
-                                        <p>Budget:&emsp;<b>{{trip.budget}}</b></p>
+                                        <p>Budget:&emsp;<b>{{trip.budget}}</b>&emsp;EUR</p>
                                     </div>
                                     <div *ngIf="trip.cities" id="tripCities">
                                         <p>Cities:&emsp;<b>{{trip.cities.join(', ')}}</b></p>

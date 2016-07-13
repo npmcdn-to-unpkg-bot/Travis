@@ -55,7 +55,7 @@ html:not(.no-csstransitions) main [class*="col-"] {
 }
 body {
     font-family: 'Source Sans Pro', sans-serif;
-    background-color: #083330;
+    background-color: #fff;
     color: #0F6660;
     font-size: 18px;
 	line-height: 100%;
@@ -291,7 +291,7 @@ main header + * {
 	padding-top: 100px;
 }
 .inner-top-sm {
-	padding-top: 80px;
+	padding-top: 20px;
 }
 .inner-top-xs {
 	padding-top: 40px;
@@ -2612,7 +2612,7 @@ blockquote:before {
 .format-filter li {
     display: inline;
 	position: relative;
-	background: #FFF;
+	background: transparent;
 	font-size: 15px;
     font-weight: 700;
 	line-height: 150%;
@@ -2621,7 +2621,7 @@ blockquote:before {
 	margin: 0 -2px;
 }
 .light-bg .format-filter li {
-	background: #F2F5F7;
+	background: transparent;
 }
 .filter li:after,
 .format-filter li:after {
@@ -2633,7 +2633,8 @@ blockquote:before {
 }
 .filter li a,
 .format-filter li a {
-    padding: 0 15px;
+    padding: 0;
+	border-bottom: 0px;
 }
 .light-bg .filter:before {
 	border-color: #BCC7D1;
@@ -3321,6 +3322,7 @@ textarea,
 .navbar-form .form-control {
     width: 100%;
 }
+
 select,
 textarea,
 textarea.form-control,
@@ -3338,7 +3340,7 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
-.uneditable-input {
+.uneditable-input, .currency-div {
     display: inline-block;
     -webkit-font-smoothing: antialiased;
     height: 40px;
@@ -3702,7 +3704,7 @@ input:focus:-ms-input-placeholder {
 .post {
     position: relative;
 	background: #FFF;
-    padding-bottom: 60px;
+    padding-bottom: 0px;
 	border: 1px solid #eff2f5;
 	border-bottom-width: 2px;
 	border-radius: 3px;

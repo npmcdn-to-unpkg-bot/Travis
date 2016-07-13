@@ -124,7 +124,6 @@ export class PollService {
     }
 
     public getLatestPolls(token) :Promise<Object> {
-        console.log(token);
         var headers = new Headers();
         headers.append('token', token);
         return this.http.get("/rest/poll/",{'headers':headers})
@@ -140,6 +139,8 @@ export class PollService {
                         serviceResponse['msg'] = res.text();
                         console.log(serviceResponse);
                     }
+
+                    console.log(serviceResponse);
                     return serviceResponse;
                 }
                 else return {};
@@ -176,11 +177,17 @@ export class PollService {
             .toPromise().then(res => {
                     if (res)
                     {
+                        var response = res.json();
                         console.log(res);
                         let serviceResponse = {};
                         if(res.status <= 299){
-                            serviceResponse['msg'] = res.text();
-                            serviceResponse['success']=true;
+                            serviceResponse['msg'] = response['msg'];
+                            serviceResponse['success'] = true;
+                            serviceResponse['poll'] = response['poll'];
+                            console.log("######");
+                            console.log(serviceResponse);
+
+                            console.log(response);
                         }
                         else if(res.status >= 400){
                             serviceResponse['error'] = true;
@@ -235,7 +242,9 @@ export class PollService {
                         console.log(res);
                         let serviceResponse = {};
                         if(res.status <= 299){
-                            serviceResponse['msg'] = res.text();
+                            let message = res.json();
+                            serviceResponse['msg'] = message['msg'];
+                            serviceResponse['comments'] = message['comments'];
                             serviceResponse['success']=true;
                         }
                         else if(res.status >= 400){

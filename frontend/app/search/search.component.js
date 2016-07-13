@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -46,7 +47,7 @@ var SearchComponent = (function () {
             'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland',
             'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga',
             'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
-            'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
+            'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'USA', 'Venezuela', 'Vietnam',
             'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
         // private countriesValue
         // :any = [];
@@ -100,6 +101,7 @@ var SearchComponent = (function () {
         }
         this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(searchModel).then(function (trips) {
+            console.log(trips);
             trips.map(function (trip) {
                 var tmpTrip = new trip_component_1.Trip();
                 tmpTrip.owner = trip['owner'];
@@ -116,6 +118,9 @@ var SearchComponent = (function () {
                 tmpTrip.pictures = trip['pictures'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                console.log("######");
+                console.log(trip);
+                console.log(tmpTrip);
                 _this.trips.push(tmpTrip);
             });
         });
@@ -181,12 +186,12 @@ var SearchComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, router_deprecated_1.RouteParams])
     ], SearchComponent);
     return SearchComponent;
-})();
+}());
 exports.SearchComponent = SearchComponent;
 var SearchTerm = (function () {
     function SearchTerm() {
     }
     return SearchTerm;
-})();
+}());
 exports.SearchTerm = SearchTerm;
 //# sourceMappingURL=search.component.js.map

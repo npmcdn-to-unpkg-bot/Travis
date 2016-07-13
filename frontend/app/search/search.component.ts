@@ -26,6 +26,7 @@ export class SearchComponent {
     resultTripModel:Trip;
     trips:Trip[];
     ratingLabel:string;
+    tripOwnerName: string;
 
     constructor(private tripService:TripService, params: RouteParams) {
         this.searchModel = new SearchTerm();
@@ -60,7 +61,7 @@ export class SearchComponent {
         'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland',
         'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga',
         'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
-        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
+        'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'USA', 'Venezuela', 'Vietnam',
         'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
 
     // private countriesValue
@@ -110,6 +111,7 @@ export class SearchComponent {
         }
         this.trips = [];
         var searchResultTrips = this.tripService.searchForTrip(searchModel).then(trips => {
+            console.log(trips);
             trips.map(trip => {
                 let tmpTrip = new Trip();
                 tmpTrip.owner = trip['owner'];
@@ -126,6 +128,9 @@ export class SearchComponent {
                 tmpTrip.pictures = trip['pictures'];
                 tmpTrip.rating = trip['rating.value'];
                 tmpTrip._id = trip['_id'];
+                console.log("######");
+                console.log(trip);
+                console.log(tmpTrip);
                 this.trips.push(tmpTrip);
             });
         });
@@ -185,7 +190,8 @@ export class SearchComponent {
 export class SearchTerm {
     _id:number;
     owner:Object;
-    month:string;
+    dateFrom: string;
+    dateTo: string;
     budget:number;
     countries:[string];
     cities:[string];

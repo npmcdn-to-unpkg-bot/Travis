@@ -38,7 +38,18 @@ function saveThePoll(req, res,user_id){
 			return;
 		}
 
-		res.status(201).send("Poll created Successfully! poll title: " + p.title);
+		Poll.findOne({_id :new ObjectId(p._id)}).populate("owner")
+			.exec(function(err, pollObj) {
+				if (err) {
+					res.status(500).send("Server Error! Could get the Comments!");
+					return;
+				}
+				var response = { msg: "Poll created Successfully! poll title: " + pollObj.title, poll: pollObj};
+				res.status(201).json(response);
+			});
+
+		// var response = { msg: "Poll created Successfully! poll title: " + p.title, poll: p};
+		// res.status(201).json(response);
 	});
 }
 
@@ -82,21 +93,6 @@ module.exports.getPoll = function(req, res){
 	}
 	var token = req.get('token');
 	passportManager.verifyToken(token,req,res,getAllthePolls);
-	/*
-	 Poll.aggregate(
-	 [ {$unwind: "$comments"},
-	 { $limit : 3 },
-	 {$project: {"_id": 1, "owner": 1, "options":1,"comments": 1}}]
-	 ,function (err, result) {
-	 if (err) {
-	 console.log(err);
-	 res.status(500).send("internal server error");
-	 return;
-	 }
-	 console.log(result);
-	 res.status(200).json({'polls': result});
-	 });
-	 */
 };
 
 
@@ -115,11 +111,10 @@ module.exports.vote = function(req, res){
 	var user_id = decoded.user._id;
 	
 	Poll.findOneAndUpdate(
-			{ _id : req.body.poll_id, 'options._id' : req.body.option_id },
+			{ _id : req.body.poll_id, 'options.text' : req.body.option },
 		    {$push: {"options.$.vote": user_id}},
 		    {safe: true, upsert: true},
 		    function(err, model) {
-		        
 		       // console.log(model);
 		        res.status(200).send('ok');
 		        return;
@@ -146,23 +141,41 @@ module.exports.comment = function(req, res){
 	comment.text= req.body.text;
 	comment.user= user_id;
 	//comment.user= req.body.userID;
-	
+	console.log(req.body);
+
 	Poll.findByIdAndUpdate(
-		new ObjectId(req.body.poll_id),
+		new ObjectId(req.body.pollId),
 		    {$push: {"comments": comment}},
 		    {safe: true, upsert: true},
 		    function(err, model) {
-		        
-		        
-		        res.status(200).send('ok');
-		        return;
+				if (err) {
+					res.status(500).send("Server Error! Could not add the Comment!");
+					return;
+				}
+
+				Poll.find({_id :new ObjectId(req.body.pollId)}).populate("owner").populate("comments.user")
+					.exec(function(err, pollObj) {
+					if (err) {
+						res.status(500).send("Server Error! Could get the Comments!");
+						return;
+					}
+					console.log("///////////////////////////////////");
+						console.log(pollObj[0]);
+
+					var comments;
+						if (pollObj[0])
+							comments = pollObj[0].comments;
+					var response = { msg: "Comment added Successfully!", comments: comments};
+					res.status(201).json(response);
+					return;
+				});
 		    }
 		);
 	
 };
 
 function getAllthePolls (req,res){
-	Poll.find({}).populate("owner").populate("comments.user").exec(function(err, polls) {
+	Poll.find({}).sort('-date').populate("owner").populate("comments.user").exec(function(err, polls) {
 		if (err) {
 			console.log(err);
 			res.status(500).send("Request failed: Could not get the Polls!");

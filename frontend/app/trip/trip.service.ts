@@ -66,8 +66,10 @@ export class TripService {
             query = query + "cities=" + searchTerm.cities + "&";
         if (searchTerm.countries)
             query = query + "countries=" + searchTerm.countries + "&";
-        if (searchTerm.month)
-            query = query + "month=" + searchTerm.month + "&";
+        if (searchTerm.dateFrom)
+            query = query + "dateFrom=" + searchTerm.dateFrom + "&";
+        if (searchTerm.dateTo)
+            query = query + "dateTo=" + searchTerm.dateTo + "&";
         if (searchTerm.searchTerm)
             query = query + "searchTerm=" + searchTerm.searchTerm;
         if (searchTerm.owner)

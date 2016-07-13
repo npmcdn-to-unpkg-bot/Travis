@@ -12,7 +12,7 @@ var seenIds;
 
 module.exports.getAll = function (req, res) {
     console.log("Get all trips");
-    Trip.find().sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find().sort({creationDate: 'descending'}).limit(10).exec(function (err, trip) {
         if (err) {
             res.status(500).send(err);
             return;
@@ -34,24 +34,17 @@ function createTrip(req, res, user_id) {
     tmpTrip.countries = req.body.countries;
     tmpTrip.tags = req.body.tags;
     tmpTrip.owner = user_id;
-
-    if (typeof  tmpTrip.cities == 'string')
-        tmpTrip.cities = [tmpTrip.cities];
-
-    if (typeof  tmpTrip.countries == 'string')
-        tmpTrip.countries = [tmpTrip.countries];
-
-    if (typeof  tmpTrip.tags == 'string') {
-        tmpTrip.tags = [tmpTrip.tags];
-    }
+    tmpTrip.cities = [tmpTrip.cities];
+    tmpTrip.countries = [tmpTrip.countries];
+    tmpTrip.tags = [tmpTrip.tags];
     tmpTrip.description = req.body.description;
     tmpTrip.pictures = req.body.pictures;
 
     /*
-    tmpTrip.pictures.map(pic =>{
-        pic.src = new Buffer(pic.src, "base64");
-    });
-    */
+     tmpTrip.pictures.map(pic =>{
+     pic.src = new Buffer(pic.src, "base64");
+     });
+     */
 
     tmpTrip.save(function (err, success) {
         if (err) {
@@ -97,7 +90,7 @@ module.exports.updateTrip = function (req, res) {
 module.exports.getTrips = function (req, res) {
     seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
-    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).populate("owner").limit(10).exec(function (err, trip) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
@@ -114,15 +107,16 @@ function getTrips(req, res, user_id) {
     seenIds = [];
     var mongoQuery = getMongoQuery(req.query);
     mongoQuery.owner = {$in: user_id};
-    Trip.find(mongoQuery).sort('-date').exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).populate("owner").exec(function (err, trip) {
         if (err) {
+            console.log(trip);
             console.log(err);
             res.status(500).send("Server error!");
             return;
         }
         trip.forEach(function (item) {
             //
-            if(seenIds)
+            if (seenIds)
                 seenIds.push(item.id);
         });
         res.status(201).json(trip);
@@ -134,7 +128,7 @@ module.exports.getMoreTrips = function (req, res) {
 
     mongoQuery._id = {$nin: seenIds};
 
-    Trip.find(mongoQuery).sort('-date').limit(10).exec(function (err, trip) {
+    Trip.find(mongoQuery).sort({creationDate: "descending"}).limit(10).populate("owner").exec(function (err, trip) {
         if (err) {
             console.log(err);
             res.status(500).send("Server error!");
@@ -142,7 +136,7 @@ module.exports.getMoreTrips = function (req, res) {
         }
         trip.forEach(function (item) {
             //
-            if(seenIds)
+            if (seenIds)
                 seenIds.push(item.id);
         });
         res.status(201).json(trip);
@@ -164,10 +158,15 @@ function getMongoQuery(query) {
     var mongoQuery = {};
 
     if (query.searchTerm) {
+        console.log(query.searchTerm)
         if (typeof query.searchTerm == 'string') {
-            query.searchTerm = stringToArray(query.searchTerm);
+            query.searchTerm = stringToArray(query.searchTerm.capitalizeFirstLetter())
         }
+        console.log(query.searchTerm)
+
+        mongoQuery.tags = {$in: query.searchTerm};
     }
+
     if (query.countries) {
         if (typeof query.countries == 'string') {
             query.countries = stringToArray(query.countries);
@@ -181,20 +180,22 @@ function getMongoQuery(query) {
     }
     if (query.budget)
         mongoQuery.budget = {$lte: parseFloat(query.budget)};
-    if (query.tags)
-        mongoQuery.tags = {$in: query.tags};
-    if (query.from) {
-        var tempDate = new Date(query.from);
-        if (!isNaN(tempDate.getTime()))
-        // date is valid
-            mongoQuery.dateFrom = {"$gte": tempDate};
+
+    if (query.dateFrom) {
+        console.log(query.dateFrom);
+        var tempDate = new Date(query.dateFrom);
+        if (!isNaN(tempDate)) {
+            console.log("#####");
+            console.log(tempDate);
+            mongoQuery.dateFrom = {$gte: tempDate};
+        }
     }
-    if (query.to) {
-        var tempDate = new Date(query.to);
-        if (!isNaN(tempDate.getTime()))
-        // date is valid
-            mongoQuery.dateTo = {"$lte": tempDate};
+    if (query.dateTo) {
+        var tempDate = new Date(query.dateTo);
+        if (!isNaN(tempDate))
+            mongoQuery.dateTo = {$lte : tempDate};
     }
+    console.log(mongoQuery);
     return mongoQuery;
 }
 
@@ -229,6 +230,10 @@ module.exports.rateTrip = function (req, res) {
     });
 };
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 function updateMyTrip(req, res, user_id) {
     var ObjectId = mongoose.Types.ObjectId;
     Trip.findOne({_id: new ObjectId(req.body._id)}, function (err, doc) {
@@ -245,7 +250,7 @@ function updateMyTrip(req, res, user_id) {
         doc.tags = req.body.tags;
         doc.budget = req.body.budget;
         doc.countries = req.body.countries;
-        
+
         doc.save();
         res.status(201).json("Trip was successfully updated.");
     });
@@ -264,18 +269,7 @@ function deleteTrip(req, res, user_id) {
 };
 
 module.exports.comment = function (req, res) {
-    console.log('sdklj');
-    // user should send his token for each request
-    /*if(!req.body.token){
-     res.status(400).send('token required');
-     return;
-     }
 
-     // get the token
-     var token = req.body.token;
-     var decoded =  jwt.decode(token, Config.auth.jwtSecret);
-     var user_id = decoded.user._id;
-     */
     var comment = new Comment();
 
     comment.text = req.body.text;
@@ -287,7 +281,6 @@ module.exports.comment = function (req, res) {
         {$push: {"comments": comment}},
         {safe: true, upsert: true},
         function (err, model) {
-
 
             res.status(200).send('ok');
             return;

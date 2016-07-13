@@ -78,8 +78,7 @@ export class LoginComponent{
             isValid: false
         };
     }
-
-
+    
     travisRegister() {
         let regObj = {};
             regObj['imageURL'] = "/UI/assets/images/user.jpg";

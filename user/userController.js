@@ -73,7 +73,7 @@ if(user.type !== "Travis")
         if (foundUser) {
 			console.log("user found!");
 			console.log(foundUser);
-        	res.status(200).json({token: createToken(foundUser),_id:user._id});
+        	res.status(200).json({token: createToken(foundUser),_id:foundUser._id});
         	return;
         } else
         {
@@ -135,8 +135,7 @@ module.exports.update = function(req, res){
     userProfile.city = req.body.city;
 
     User.findOne({email: req.body.email}, function(err, user){
- 
-    	
+
     	user.type = req.body.type;
     	user.userID = req.body.userID;
     	user.firstName = req.body.firstName;

@@ -24,15 +24,20 @@ export class Poll {
     options: Option[];
     date: string;
     comments: Object[];
+    selectedOption: string;
 
     public isUserVoted(userId:string){
+        let found = false;
         this.options.map(option =>{
             option.vote.map( v =>{
+                console.log(v);
+                console.log(userId);
                 if(userId == v)
-                    return option.text;
+                    found =  option.text;
             });
         });
-        return false;
+
+        return found;
     }
 
     public getVotes(currentOp:string){
@@ -43,6 +48,17 @@ export class Poll {
            }
         });
         return votes;
+    }
+
+    //front end only
+    public upVoteOption(text:string){
+        let userId = JSON.parse(localStorage.getItem('user'))["_id"];
+
+        this.options.map(tempOp =>{
+            if (tempOp.text == text){
+                tempOp.vote.push(userId);
+            }
+        });
     }
 
     public getVotesPercentage(option:string){
@@ -114,13 +130,32 @@ export class PollComponent implements OnInit{
 
                     pollModal.hide();
 
-                    this.toastr.success("success! " + response.msg);
+                    this.toastr.success("Successfully created a new poll!");
+
+
+                    console.log("\n RESPONSE \n");
+                    console.log(response.poll);
+
+                    let tempPoll = new Poll();
+                    let poll = response.poll;
+
+                    tempPoll.owner =  poll['owner'];
+                    console.log(tempPoll.owner);
+                    tempPoll.title = poll['title'];
+                    tempPoll.options = poll['options'];
+                    tempPoll.date =  this.formatDate(poll['date']);
+                    tempPoll.comments = poll['comments'];
+                    tempPoll._id = poll['_id'];
+
+                    this.polls.unshift(tempPoll);
+
+                    this.pollModel = new pollForm();
+
                     // clearing form
                     ngForm.form.controls["title"].updateValue("");
                     ngForm.form.controls["title"]['_pristine'] = true;
                     ngForm.form.controls["pollOptions"].updateValue("");
                     ngForm.form.controls["pollOptions"]['_pristine'] = true;
-
                 }
                 else{
                     this.toastr.error("Creating poll failed !" + response.msg);
@@ -134,9 +169,10 @@ export class PollComponent implements OnInit{
                         },2000);
                     }
                 }
+
             });
 
-        } catch (err){
+        } catch (err) {
             console.log(err);
             this.toastr.error("posting the polls failed!");
         }
@@ -148,6 +184,7 @@ export class PollComponent implements OnInit{
     }
 
     private getPolls(){
+        this.polls = [];
         try{
             let token = this.authService.getToken();
             this.pollService.getLatestPolls(token).then(response => {
@@ -170,6 +207,7 @@ export class PollComponent implements OnInit{
                         this.polls.push(tempPoll);
 
                     });
+                    console.log(polls);
                 }else{
                     this.toastr.error("Getting the polls failed " + response.msg);
                     let msg = response.msg.toLowerCase();
@@ -199,5 +237,61 @@ export class PollComponent implements OnInit{
         var temp_date = new Date(dateStr);
         return temp_date.toLocaleTimeString("en-us", options);
     }
+
+    public setPollVote(pollIndex, voteIndex){
+        this.polls[pollIndex].selectedOption = this.polls[pollIndex].options[voteIndex].text;
+        console.log("selected " + this.polls[pollIndex].options[voteIndex].text);
+    }
+
+    public submitVote(poll,  pollIndex){
+        let votingPoll = this.polls[pollIndex];
+
+        let userId = JSON.parse(localStorage.getItem('user'))["_id"];
+        let preVote = this.polls[pollIndex].isUserVoted(userId);
+        if(preVote){
+
+            alert("You can't vote twice! you already voted for " + preVote);
+            return;
+        }
+
+        if(! this.polls[pollIndex].selectedOption){
+            alert("You should choose an option before voting");
+            return;
+        }
+
+        try{
+            // for creating a poll
+            let voteObj = {token: this.authService.getToken(), poll_id:votingPoll._id,
+                option:votingPoll.selectedOption};
+
+            this.pollService.postPollVote(voteObj).then(response=>{
+                if(response.warn)
+                    this.toastr.warning("warning! " + response.msg);
+                else if (response.success){
+
+                    this.toastr.success("success! " + response.msg);
+
+                    this.polls[pollIndex].upVoteOption(this.polls[pollIndex].selectedOption);
+                }
+                else{
+                    this.toastr.error("voting to poll failed !" + response.msg);
+                    let msg = response.msg.toLowerCase();
+                    if (msg && msg.indexOf('token') >=0) {
+                        setTimeout(()=>{
+                            this.toastr.error("Token is not valid! Logging Out....");
+                            setTimeout(()=>{
+                                this.authService.doLogout();
+                            },1000);
+                        },2000);
+                    }
+                }
+            });
+
+        } catch (err){
+            console.log(err);
+            this.toastr.error("posting the polls failed!");
+        }
+    }
+
 
 }

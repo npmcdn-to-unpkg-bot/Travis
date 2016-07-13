@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -47,7 +48,7 @@ var TripComponent = (function () {
             'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland',
             'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga',
             'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine',
-            'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
+            'United Arab Emirates', 'United Kingdom', 'Uruguay', 'USA', 'Uzbekistan', 'Venezuela', 'Vietnam',
             'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'];
         this.countriesValue = [];
         this._disabledV = '0';
@@ -86,6 +87,7 @@ var TripComponent = (function () {
                 _this.pictures = [];
                 _this.imageInput.value = "";
                 _this.routePicInput.value = "";
+                _this.removeTripPic();
             }
             else {
                 _this.toastr.error("Creating trip failed !" + response.msg);
@@ -134,6 +136,11 @@ var TripComponent = (function () {
         }).join(', ');
         return str.split(', ');
     };
+    TripComponent.prototype.clearTags = function () {
+        if (this.tripModel.tags.length > 0) {
+            this.tripModel.tags = [];
+        }
+    };
     TripComponent.prototype.removeTripPic = function () {
         this.routePic = null;
         this.routePicInput.values = "";
@@ -153,15 +160,15 @@ var TripComponent = (function () {
                 alert("The file is too big! maximum size is 8 MB");
                 return;
             }
-            var pic = new Picture();
+            var pic_1 = new Picture();
             // Create a FileReader
             var reader = new FileReader();
             // Add an event listener to deal with the file when the reader is complete
             reader.addEventListener("load", function (event) {
                 // Get the event.target.result from the reader (base64 of the image)
-                pic.src = event.target.result;
-                pic.name = recentFile.name;
-                _this.routePic = pic;
+                pic_1.src = event.target.result;
+                pic_1.name = recentFile.name;
+                _this.routePic = pic_1;
                 // Resize the image
                 //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
             }, false);
@@ -171,40 +178,40 @@ var TripComponent = (function () {
     TripComponent.prototype.uploadfile = function (fileInput) {
         try {
             this.imageInput = fileInput;
-            var recentFile = fileInput.files[0];
-            this.filesToUpload.push(recentFile);
-            if (recentFile) {
-                if (!recentFile.type.match(/image.*/)) {
-                    console.log('This is  not an image! ' + recentFile.name);
-                    alert('You can only upload an image file! Choose an image please' + recentFile.name);
+            var recentFile_1 = fileInput.files[0];
+            this.filesToUpload.push(recentFile_1);
+            if (recentFile_1) {
+                if (!recentFile_1.type.match(/image.*/)) {
+                    console.log('This is  not an image! ' + recentFile_1.name);
+                    alert('You can only upload an image file! Choose an image please' + recentFile_1.name);
                     return;
                 }
-                if (recentFile.size > 1024 * 1024 * 8) {
+                if (recentFile_1.size > 1024 * 1024 * 8) {
                     alert("The file is too big! maximum size is 8 MB");
                     return;
                 }
-                var sumSize = 0;
+                var sumSize_1 = 0;
                 this.filesToUpload.map(function (file) {
                     if (file)
-                        sumSize += file.size;
+                        sumSize_1 += file.size;
                 });
-                if (sumSize + recentFile.size > 1024 * 1024 * 50) {
+                if (sumSize_1 + recentFile_1.size > 1024 * 1024 * 50) {
                     alert("You can't add more pics! The maximum size is 50 MB");
                     return;
                 }
-                var pic = new Picture();
+                var pic_2 = new Picture();
                 // Create a FileReader
                 var reader = new FileReader();
                 // Add an event listener to deal with the file when the reader is complete
                 reader.addEventListener("load", function (event) {
                     // Get the event.target.result from the reader (base64 of the image)
-                    pic.src = event.target.result;
-                    pic.name = recentFile.name;
+                    pic_2.src = event.target.result;
+                    pic_2.name = recentFile_1.name;
                     // Resize the image
                     //this.imageService.resizeImage(img).then(imageURL => previewPic.src = imageURL);
                 }, false);
-                reader.readAsDataURL(recentFile);
-                this.pictures.push(pic);
+                reader.readAsDataURL(recentFile_1);
+                this.pictures.push(pic_2);
             }
             else
                 return;
@@ -232,18 +239,18 @@ var TripComponent = (function () {
         __metadata('design:paramtypes', [trip_service_1.TripService, auth_service_1.AuthService, ng2_toastr_1.ToastsManager])
     ], TripComponent);
     return TripComponent;
-})();
+}());
 exports.TripComponent = TripComponent;
 var Trip = (function () {
     function Trip() {
     }
     return Trip;
-})();
+}());
 exports.Trip = Trip;
 var Picture = (function () {
     function Picture() {
     }
     return Picture;
-})();
+}());
 exports.Picture = Picture;
 //# sourceMappingURL=trip.component.js.map

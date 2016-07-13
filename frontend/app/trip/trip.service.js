@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -71,8 +72,10 @@ var TripService = (function () {
             query = query + "cities=" + searchTerm.cities + "&";
         if (searchTerm.countries)
             query = query + "countries=" + searchTerm.countries + "&";
-        if (searchTerm.month)
-            query = query + "month=" + searchTerm.month + "&";
+        if (searchTerm.dateFrom)
+            query = query + "dateFrom=" + searchTerm.dateFrom + "&";
+        if (searchTerm.dateTo)
+            query = query + "dateTo=" + searchTerm.dateTo + "&";
         if (searchTerm.searchTerm)
             query = query + "searchTerm=" + searchTerm.searchTerm;
         if (searchTerm.owner)
@@ -225,6 +228,6 @@ var TripService = (function () {
         __metadata('design:paramtypes', [http_1.Http])
     ], TripService);
     return TripService;
-})();
+}());
 exports.TripService = TripService;
 //# sourceMappingURL=trip.service.js.map

@@ -198,7 +198,6 @@ li { list-style: none; }
 .post {
     position: relative;
     background: #FFF;
-    padding-bottom: 60px;
     border: 1px solid #eff2f5;
     border-bottom-width: 2px;
     border-radius: 3px;

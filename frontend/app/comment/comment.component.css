@@ -66,6 +66,7 @@ textarea {
     list-style:none;
     max-height:200px;
     overflow:auto;
+    margin-top:10px;
 }
 .commentList li {
     margin:0;
@@ -94,4 +95,3 @@ textarea {
     font-family:verdana;
     font-size:11px;
 }
-

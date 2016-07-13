@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,7 +19,7 @@ var Comment = (function () {
     function Comment() {
     }
     return Comment;
-})();
+}());
 exports.Comment = Comment;
 var CommentComponent = (function () {
     function CommentComponent(authService, pollService, toastr) {
@@ -26,9 +27,37 @@ var CommentComponent = (function () {
         this.pollService = pollService;
         this.toastr = toastr;
     }
-    CommentComponent.prototype.postComment = function () {
-        var commentObj = { token: this.authService.getToken(), text: this.commentText, pollid: this.pollid };
-        this.pollService.postPollComment(commentObj);
+    CommentComponent.prototype.postComment = function (cmForm) {
+        var _this = this;
+        var ngForm = cmForm;
+        var commentObj = { token: this.authService.getToken(), text: this.commentText, pollId: this.pollid };
+        this.pollService.postPollComment(commentObj).then(function (response) {
+            if (response.warn)
+                _this.toastr.warning("warning! " + response.msg);
+            else if (response.success) {
+                _this.toastr.success("success! " + response.msg);
+                var tempComments = response.comments;
+                if (tempComments) {
+                    console.log("we got the comments");
+                    _this.comments.push(tempComments.pop());
+                }
+                console.log(ngForm);
+                // clearing form
+                ngForm.form.controls["comment"].updateValue("");
+            }
+            else {
+                _this.toastr.error("Creating comment failed !" + response.msg);
+                var msg = response.msg.toLowerCase();
+                if (msg && msg.indexOf('token') >= 0) {
+                    setTimeout(function () {
+                        _this.toastr.error("Token is not valid! Logging Out....");
+                        setTimeout(function () {
+                            _this.authService.doLogout();
+                        }, 1000);
+                    }, 2000);
+                }
+            }
+        });
     };
     __decorate([
         core_1.Input(), 
@@ -47,6 +76,6 @@ var CommentComponent = (function () {
         __metadata('design:paramtypes', [auth_service_1.AuthService, poll_service_1.PollService, ng2_toastr_1.ToastsManager])
     ], CommentComponent);
     return CommentComponent;
-})();
+}());
 exports.CommentComponent = CommentComponent;
 //# sourceMappingURL=comment.component.js.map
